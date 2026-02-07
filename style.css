@@ -29,6 +29,33 @@ body {
     margin-bottom: 40px;
 }
 
+.header-image-container {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.centered-logo {
+    max-width: 280px; /* Aligned with onepager logo scale */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    /* This blend mode removes white backgrounds from images on a white card */
+    mix-blend-mode: multiply; 
+}
+
+.title-set {
+    margin-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 25px;
+}
+
+.title-set h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #111;
+}
+
 .top-bar {
     display: flex;
     justify-content: flex-start;
