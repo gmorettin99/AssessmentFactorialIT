@@ -124,6 +124,38 @@ input, select {
     cursor: pointer;
 }
 
+.header-image-container {
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+.centered-hero {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    /* This ensures any remaining background on the image itself blends with the card */
+    mix-blend-mode: multiply; 
+}
+
+.title-set {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.title-set h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111;
+}
+
+.title-set .subtitle {
+    font-size: 16px;
+    color: #666;
+}
+
 /* PDF Styling */
 #pdf-template { padding: 40px; font-family: 'serif'; }
 .score-result-box { background: var(--factorial-mint); padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0; }
