@@ -10,30 +10,57 @@
 <body>
 
 <div class="calculator-card">
-    <div class="fixed-header">
-        <img src="Frame.png" alt="Factorial IT Hero" class="brand-hero-fixed">
+    <div class="header-container">
+        <img src="Frame.jpg" alt="Factorial IT Hero" class="brand-hero">
     </div>
 
     <form id="calcForm">
         <div class="section-title">I. Core Infrastructure</div>
         <div class="grid">
-            <div class="input-field"><label># Managed Devices</label><input type="number" id="devices" placeholder="e.g. 50"></div>
-            <div class="input-field"><label>IT Team Size</label><input type="number" id="it_team" placeholder="e.g. 2"></div>
-            <div class="input-field"><label>Annual Onboarding</label><input type="number" id="ob_year" placeholder="e.g. 15"></div>
+            <div class="input-field">
+                <label># Managed Devices</label>
+                <input type="number" id="devices" placeholder="e.g. 50">
+            </div>
+            <div class="input-field">
+                <label>IT Team Size</label>
+                <input type="number" id="it_team" placeholder="e.g. 2">
+            </div>
+            <div class="input-field">
+                <label>Annual Onboarding</label>
+                <input type="number" id="ob_year" placeholder="e.g. 15">
+            </div>
         </div>
 
         <div class="section-title">II. Compliance & Frameworks</div>
         <div class="grid">
-            <div class="input-field"><label>NIS2</label><select id="nis2"><option value="0">No</option><option value="2">Yes</option></select></div>
-            <div class="input-field"><label>ISO 27001</label><select id="iso"><option value="0">No</option><option value="2">Yes</option></select></div>
-            <div class="input-field"><label>SOC2</label><select id="soc2"><option value="0">No</option><option value="2">Yes</option></select></div>
-            <div class="input-field"><label>HIPAA</label><select id="hipaa"><option value="0">No</option><option value="2">Yes</option></select></div>
+            <div class="input-field">
+                <label>NIS2</label>
+                <select id="nis2"><option value="0">No</option><option value="2">Yes</option></select>
+            </div>
+            <div class="input-field">
+                <label>ISO 27001</label>
+                <select id="iso"><option value="0">No</option><option value="2">Yes</option></select>
+            </div>
+            <div class="input-field">
+                <label>SOC2</label>
+                <select id="soc2"><option value="0">No</option><option value="2">Yes</option></select>
+            </div>
+            <div class="input-field">
+                <label>HIPAA</label>
+                <select id="hipaa"><option value="0">No</option><option value="2">Yes</option></select>
+            </div>
         </div>
 
         <div class="section-title">III. Operations & Heterogeneity</div>
         <div class="grid">
-            <div class="input-field"><label>Remote/Hybrid</label><select id="remote"><option value="0">No</option><option value="2">Yes</option></select></div>
-            <div class="input-field"><label>Ticketing System</label><select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select></div>
+            <div class="input-field">
+                <label>Remote/Hybrid</label>
+                <select id="remote"><option value="0">No</option><option value="2">Yes</option></select>
+            </div>
+            <div class="input-field">
+                <label>Ticketing System</label>
+                <select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select>
+            </div>
         </div>
 
         <div class="grid" style="margin-top:20px;">
@@ -66,10 +93,10 @@
     <div id="recapArea" class="pdf-recap-grid"></div>
     <h3 class="pdf-sub">Scoring Methodology Recap</h3>
     <div class="methodology-content">
-        <p><strong>I. Scalable Infrastructure Penalty:</strong> +2.0 per every ten devices rounded to the nearest decile.</p>
+        <p><strong>I. Scalable Infrastructure Penalty:</strong> +2.0 per decile unit based on (round(n/10)) × 2.</p>
         <p><strong>II. Compliance:</strong> +2.0 per framework (NIS2, ISO27001, SOC2, HIPAA).</p>
         <p><strong>III. Operational Environment:</strong> +2.0 for Remote/Hybrid; +2.0 if IT Staff ≤ 2; +2.0 if OB > 12/yr.</p>
-        <p><strong>IV. Asset Heterogeneity:</strong> +2.0 if Hardware Set cardinality > 1; +2.0 if OS Set cardinality > 1.</p>
+        <p><strong>IV. Asset Heterogeneity:</strong> +2.0 if Hardware Set size > 1; +2.0 if OS Set size > 1.</p>
         <p><strong>V. Procedural Automation:</strong> +2.0 if Ticketing is absent.</p>
     </div>
 </div>
