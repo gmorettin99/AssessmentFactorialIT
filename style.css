@@ -19,7 +19,8 @@ body {
 
 .calculator-card {
     background: white;
-    max-width: 800px;
+    /* Increased width to match "Frame.png" ratio and fit 2 columns */
+    max-width: 900px; 
     width: 100%;
     border-radius: 24px;
     padding: 40px;
@@ -29,42 +30,61 @@ body {
     box-sizing: border-box; 
 }
 
-/* --- DYNAMIC HERO IMAGE FIX --- */
+/* --- HERO IMAGE FIX --- */
 .header-container {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    text-align: center;
     margin-bottom: 30px;
 }
 
 .brand-hero {
-    /* DYNAMIC SIZING */
-    width: 50%; /* Image will always be 50% of the card width */
-    min-width: 250px; /* Prevents it from getting too small on mobile */
-    max-width: 100%; /* Prevents it from overflowing */
-    height: auto;
+    width: 100%; /* Fills the container width */
+    height: auto; /* Maintains aspect ratio */
     display: block;
-    
-    /* REMOVES BACKGROUND ARTIFACTS */
+    /* REMOVES WHITE BACKGROUND */
     mix-blend-mode: multiply; 
 }
-/* ----------------------------- */
+/* ---------------------- */
+
+/* --- TWO COLUMN SPLIT LAYOUT --- */
+.split-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 40px; /* Space between the columns */
+    margin-bottom: 30px;
+}
+
+/* On mobile, stack them back to one column */
+@media (max-width: 700px) {
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
 
 .section-title {
     font-size: 13px;
     text-transform: uppercase;
     color: var(--factorial-coral);
     font-weight: 700;
-    margin: 30px 0 12px 0;
+    margin: 0 0 15px 0; /* Adjusted margins for column alignment */
     letter-spacing: 0.5px;
     border-bottom: 1px solid #f0f0f0;
     padding-bottom: 5px;
 }
 
+/* Standard grid for other sections */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
+}
+
+/* Single column grid for inside the split layout */
+.grid-single-col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .input-field { 
