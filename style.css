@@ -36,7 +36,7 @@ body {
 
 .brand-hero {
     width: 100%;           /* Responsive: fills space on small mobile screens */
-    max-width: 400px;      /* CAP THE SIZE: Never wider than 400px on desktop */
+    max-width: 100%;      /* CAP THE SIZE: Never wider than 400px on desktop */
     height: auto;          /* Maintains aspect ratio */
     display: block;
 }
