@@ -34,11 +34,11 @@ body {
 }
 
 .brand-hero {
-    width: 100%;        /* changed from 120% to 50% to make it smaller */
-    max-width: 200%;   /* prevents it from overflowing on small screens */
+    width: 80%;        /* Changed from 100% to 50% to make it smaller */
+    max-width: 100%;   /* Ensures it never overflows on mobile */
     height: auto;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto;    /* Centers the image */
 }
 
 /* --- LAYOUT GRID SYSTEM --- */
