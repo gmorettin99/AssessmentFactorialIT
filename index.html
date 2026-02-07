@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factorial IT Assessment</title>
+    <title>Factorial IT | Fit Assessment</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
 <div class="calculator-card">
-    <div class="header-image-container">
-        <img src="Frame.png" alt="Factorial IT Operations" class="centered-frame-hero">
+    <div class="fixed-header">
+        <img src="Frame.png" alt="Factorial IT Hero" class="brand-hero-fixed">
     </div>
 
     <form id="calcForm">
@@ -66,14 +66,15 @@
     <div id="recapArea" class="pdf-recap-grid"></div>
     <h3 class="pdf-sub">Scoring Methodology Recap</h3>
     <div class="methodology-content">
-        <p><strong>I. Scalable Infrastructure Penalty:</strong> +2.0 per every ten devices. </p>
+        <p><strong>I. Scalable Infrastructure Penalty:</strong> +2.0 per every ten devices rounded to the nearest decile.</p>
         <p><strong>II. Compliance:</strong> +2.0 per framework (NIS2, ISO27001, SOC2, HIPAA).</p>
         <p><strong>III. Operational Environment:</strong> +2.0 for Remote/Hybrid; +2.0 if IT Staff ≤ 2; +2.0 if OB > 12/yr.</p>
-        <p><strong>IV. Asset Heterogeneity:</strong> +2.0 if |Hardware Set| > 1; +2.0 if |OS Set| > 1.</p>
+        <p><strong>IV. Asset Heterogeneity:</strong> +2.0 if Hardware Set cardinality > 1; +2.0 if OS Set cardinality > 1.</p>
         <p><strong>V. Procedural Automation:</strong> +2.0 if Ticketing is absent.</p>
     </div>
 </div>
 
 <script src="script.js"></script>
+<script src="pdf-generator.js"></script>
 </body>
 </html>
