@@ -34,12 +34,11 @@ body {
 }
 
 .brand-hero {
-    width: 105%;  /* Increased width to make it bigger */
+    width: 200%;  /* Increased width to make it bigger */
     min-width: 400px;
     height: auto;
     display: block;
     margin: 0 auto;
-    mix-blend-mode: multiply; /* Keeps the background removal active */
 }
 
 /* --- LAYOUT GRID SYSTEM --- */
