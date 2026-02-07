@@ -40,7 +40,7 @@ body {
     width: 60%;              
     
     /* Responsiveness: Ensures it shrinks on mobile but stays centered */
-    max-width: 600px;        
+    max-width: 200%;        
     height: auto;            /* Maintains aspect ratio */
     display: block;
 }
