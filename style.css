@@ -37,7 +37,7 @@ body {
 
 .brand-hero {
     /* Resizability: Adjust the width % below to change size easily */
-    width: 100%;              
+    width: 120%;              
     
     /* Responsiveness: Ensures it shrinks on mobile but stays centered */
     max-width: 600px;        
