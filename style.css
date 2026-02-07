@@ -29,16 +29,20 @@ body {
 /* --- HEADER FIX --- */
 .header-container {
     width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;           /* Uses flexbox for easier centering */
+    justify-content: center; /* Horizontal centering */
+    margin-bottom: 30px;
+    padding: 0 10px;         /* Prevents touching edges on tiny screens */
 }
 
 .brand-hero {
-    width: 80%;        /* Changed from 100% to 50% to make it smaller */
-    max-width: 100%;   /* Ensures it never overflows on mobile */
-    height: auto;
+    /* Resizability: Adjust the width % below to change size easily */
+    width: 60%;              
+    
+    /* Responsiveness: Ensures it shrinks on mobile but stays centered */
+    max-width: 600px;        
+    height: auto;            /* Maintains aspect ratio */
     display: block;
-    margin: 0 auto;    /* Centers the image */
 }
 
 /* --- LAYOUT GRID SYSTEM --- */
