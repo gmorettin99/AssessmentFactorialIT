@@ -6,75 +6,99 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: linear-gradient(135deg, #74f9d4 0%, #a8ffea 100%);
     color: var(--dark-text);
     margin: 0;
     padding: 20px;
     display: flex;
     justify-content: center;
+    align-items: flex-start; /* Ensures card starts at top on mobile */
+    min-height: 100vh;
 }
 
 .calculator-card {
     background: white;
-    max-width: 800px;
+    max-width: 750px;
     width: 100%;
     border-radius: 24px;
     padding: 40px;
     box-shadow: var(--card-shadow);
     margin-top: 20px;
+    margin-bottom: 40px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
 }
 
-/* FIXED BRANDING HEADER - VERBOSE POTATO VERSION */
-.fixed-header {
-    text-align: center;
-    margin-bottom: 30px;
+/* --- HERO IMAGE FIX --- */
+.header-container {
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-bottom: 30px;
 }
 
-.brand-hero-fixed {
-    height: 120px; /* Aligned with verbose-potato scale */
-    width: auto;
+.brand-hero {
+    /* STRICT SIZING TO PREVENT HUGE IMAGES */
+    width: 100%;
+    max-width: 400px; /* Matches the potato screenshot scale */
+    height: auto;
     display: block;
-    mix-blend-mode: multiply; /* Removes white background from Frame.png */
+    
+    /* REMOVES WHITE BACKGROUND */
+    mix-blend-mode: multiply; 
 }
+/* ---------------------- */
 
 .section-title {
     font-size: 13px;
     text-transform: uppercase;
     color: var(--factorial-coral);
     font-weight: 700;
-    margin: 35px 0 12px 0;
+    margin: 30px 0 12px 0;
+    letter-spacing: 0.5px;
     border-bottom: 1px solid #f0f0f0;
     padding-bottom: 5px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
 }
 
-.input-field { display: flex; flex-direction: column; gap: 6px; }
-label { font-size: 12px; font-weight: 600; }
+.input-field { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+}
+
+label { 
+    font-size: 12px; 
+    font-weight: 600; 
+    color: #444; 
+}
 
 input, select {
     padding: 12px;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
     background: #fafafa;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+    box-sizing: border-box; /* Fixes input width overflow */
 }
 
 .checkbox-group {
     background: #f4fdfa;
-    padding: 20px 10px;
+    padding: 20px;
     border-radius: 16px;
     border: 1px solid #e0f2ed;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .submit-btn {
@@ -84,14 +108,20 @@ input, select {
     padding: 20px;
     border-radius: 14px;
     font-weight: 700;
+    font-size: 16px;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 35px;
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(255, 88, 93, 0.3);
+    transition: transform 0.2s;
 }
 
-/* PDF RECAP STYLING */
-#pdf-template { padding: 40px; }
+.submit-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* PDF Template Formatting */
+#pdf-template { padding: 40px; font-family: 'Times New Roman', serif; }
 .score-result-box { background: var(--factorial-mint); padding: 30px; border-radius: 20px; text-align: center; margin: 20px 0; }
 .score-value { font-size: 56px; font-weight: 900; color: var(--factorial-coral); }
 .methodology-content { font-size: 11px; background: #f9f9f9; padding: 20px; border-radius: 10px; line-height: 1.5; }
