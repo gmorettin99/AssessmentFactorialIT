@@ -18,7 +18,7 @@ body {
 
 .calculator-card {
     background: white;
-    max-width: 1100px; /* Wide format for the side-by-side layout */
+    max-width: 1000px;
     width: 100%;
     border-radius: 12px;
     padding: 40px;
@@ -29,19 +29,15 @@ body {
 /* --- HEADER FIX --- */
 .header-container {
     width: 100%;
-    display: flex;           /* Uses flexbox for easier centering */
-    justify-content: center; /* Horizontal centering */
-    margin-bottom: 30px;
-    padding: 0 10px;         /* Prevents touching edges on tiny screens */
+    display: flex;
+    justify-content: center; /* Centers the image horizontally */
+    margin-bottom: 20px;
 }
 
 .brand-hero {
-    /* Resizability: Adjust the width % below to change size easily */
-    width: 60%;              
-    
-    /* Responsiveness: Ensures it shrinks on mobile but stays centered */
-    max-width: 200%;        
-    height: auto;            /* Maintains aspect ratio */
+    width: 100%;           /* Responsive: fills space on small mobile screens */
+    max-width: 400px;      /* CAP THE SIZE: Never wider than 400px on desktop */
+    height: auto;          /* Maintains aspect ratio */
     display: block;
 }
 
@@ -87,7 +83,7 @@ body {
 label { font-size: 11px; font-weight: 700; color: #333; }
 
 input, select {
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #eee;
     background: #fafafa;
     border-radius: 8px;
@@ -98,7 +94,7 @@ input, select {
 
 /* Checkbox specific styling (Mint boxes) */
 .checkbox-box {
-    background: #f4fdfa; /* Light mint */
+    background: #f4fdfa;
     padding: 15px;
     border-radius: 12px;
     display: flex;
@@ -117,7 +113,7 @@ input, select {
 
 /* Button Styling */
 .submit-btn {
-    background: #EE6B6E; /* The specific coral/red from screenshot */
+    background: #EE6B6E;
     color: white;
     border: none;
     padding: 15px;
@@ -130,10 +126,10 @@ input, select {
     align-items: center;
     box-shadow: 0 4px 15px rgba(238, 107, 110, 0.3);
     transition: transform 0.2s;
+    font-weight: bold;
 }
 
 .submit-btn:hover { transform: scale(1.02); }
-
 
 /* PDF Styles */
 #pdf-template { padding: 40px; font-family: sans-serif; }
