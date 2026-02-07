@@ -1,0 +1,86 @@
+:root {
+    --factorial-mint: #74f9d4;
+    --factorial-coral: #ff585d;
+    --dark-text: #111111;
+    --card-shadow: 0 8px 30px rgba(0,0,0,0.05);
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: linear-gradient(135deg, #74f9d4 0%, #a8ffea 100%);
+    color: var(--dark-text);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.calculator-card {
+    background: white;
+    max-width: 850px;
+    width: 100%;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--card-shadow);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.logo-dot { width: 12px; height: 12px; background: var(--factorial-coral); border-radius: 2px; }
+.logo-text { font-weight: 800; font-size: 20px; }
+
+.section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--factorial-coral);
+    font-weight: 700;
+    margin: 25px 0 10px 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.input-field { display: flex; flex-direction: column; gap: 5px; }
+label { font-size: 12px; font-weight: 600; }
+
+input, select {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+.checkbox-group {
+    background: #f4fdfa;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e0f2ed;
+}
+
+.submit-btn {
+    background: var(--factorial-coral);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    width: 100%;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+/* PDF Styling */
+#pdf-template { padding: 40px; font-family: 'serif'; }
+.score-result-box { background: var(--factorial-mint); padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0; }
+.score-value { font-size: 50px; font-weight: 900; color: var(--factorial-coral); }
+.methodology-content { font-size: 11px; background: #f9f9f9; padding: 15px; border-radius: 8px; }
