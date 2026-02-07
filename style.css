@@ -34,7 +34,7 @@ body {
 }
 
 .brand-hero {
-    width: 80%;  /* Increased width to make it bigger */
+    width: 70%;  /* Increased width to make it bigger */
     min-width: 50%;
     height: auto;
     display: block;
@@ -130,11 +130,6 @@ input, select {
 
 .submit-btn:hover { transform: scale(1.02); }
 
-/* Mobile Responsiveness */
-@media (max-width: 900px) {
-    .layout-row { grid-template-columns: 1fr; gap: 30px; }
-    .grid-3-col, .grid-4-col { grid-template-columns: 1fr 1fr; }
-}
 
 /* PDF Styles */
 #pdf-template { padding: 40px; font-family: sans-serif; }
