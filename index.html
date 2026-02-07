@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial IT | Fit Assessment Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <div class="title-set">
+            <h1>Fit Assessment</h1>
+            <p class="subtitle">Strategic Infrastructure Audit Tool</p>
+        </div>
+        <div class="logo-area">
+            <div class="logo-dot"></div>
+            <span class="logo-text">factorial IT</span>
+        </div>
+    </div>
+
+    <form id="calcForm">
+        <div class="section-title">I. Core Infrastructure</div>
+        <div class="grid">
+            <div class="input-field"><label># Managed Devices</label><input type="number" id="devices" placeholder="e.g. 50"></div>
+            <div class="input-field"><label>IT Team Size</label><input type="number" id="it_team" placeholder="e.g. 2"></div>
+            <div class="input-field"><label>Annual Onboarding</label><input type="number" id="ob_year" placeholder="e.g. 15"></div>
+        </div>
+
+        <div class="section-title">II. Compliance & Frameworks</div>
+        <div class="grid">
+            <div class="input-field"><label>NIS2</label><select id="nis2"><option value="0">No</option><option value="2">Yes</option></select></div>
+            <div class="input-field"><label>ISO 27001</label><select id="iso"><option value="0">No</option><option value="2">Yes</option></select></div>
+            <div class="input-field"><label>SOC2</label><select id="soc2"><option value="0">No</option><option value="2">Yes</option></select></div>
+            <div class="input-field"><label>HIPAA</label><select id="hipaa"><option value="0">No</option><option value="2">Yes</option></select></div>
+        </div>
+
+        <div class="section-title">III. Operations & Heterogeneity</div>
+        <div class="grid">
+            <div class="input-field"><label>Remote/Hybrid</label><select id="remote"><option value="0">No</option><option value="2">Yes</option></select></div>
+            <div class="input-field"><label>Ticketing System</label><select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select></div>
+        </div>
+
+        <div class="grid" style="margin-top:20px;">
+            <div class="checkbox-group">
+                <label>Hardware Set |{Laptop, Phone, iPad}|</label><br>
+                <input type="checkbox" class="hw" value="1"> Laptop | 
+                <input type="checkbox" class="hw" value="1"> Phone | 
+                <input type="checkbox" class="hw" value="1"> iPad
+            </div>
+            <div class="checkbox-group">
+                <label>OS Set |{Win, iOS, Linux}|</label><br>
+                <input type="checkbox" class="os" value="1"> Windows | 
+                <input type="checkbox" class="os" value="1"> iOS | 
+                <input type="checkbox" class="os" value="1"> Linux
+            </div>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="processAssessment()">Generate Strategic PDF Report</button>
+    </form>
+</div>
+
+<div id="pdf-template" style="display:none;">
+    <div class="pdf-header">
+        <h1 style="color:#ff585d; margin:0;">Account Fit Report</h1>
+        <p style="margin:0; font-weight:700;">FACTORIAL IT STRATEGIC AUDIT 2026</p>
+    </div>
+
+    <div class="score-result-box">
+        <span class="score-label">Weighted Fit Score</span><br>
+        <span id="finalScore" class="score-value">0</span>
+    </div>
+
+    <h3 class="pdf-sub">Input Recap</h3>
+    <div id="recapArea" class="pdf-recap-grid"></div>
+
+    <h3 class="pdf-sub">Scoring Methodology Recap</h3>
+    <div class="methodology-content">
+        <p><strong>I. Scalable Infrastructure Penalty:</strong> Quantitative risk is adjusted based on asset volume. $Score = (round(n/10)) \times 2$.</p>
+        <p><strong>II. Compliance:</strong> +2.0 per verified framework (NIS2, ISO27001, SOC2, HIPAA).</p>
+        <p><strong>III. Operational Environment:</strong> +2.0 for Remote/Hybrid; +2.0 if IT Staff ≤ 2; +2.0 if OB > 12/yr.</p>
+        <p><strong>IV. Asset Heterogeneity:</strong> +2.0 if |Hardware Set| > 1; +2.0 if |OS Set| > 1.</p>
+        <p><strong>V. Procedural Automation:</strong> +2.0 if Ticketing is absent (Administrative Deficit).</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
