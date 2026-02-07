@@ -28,7 +28,7 @@ body {
 
 /* --- HEADER FIX --- */
 .header-container {
-    width: 150%;
+    width: 80%;
     display: flex;           /* Uses flexbox for easier centering */
     justify-content: center; /* Horizontal centering */
     margin-bottom: 30px;
