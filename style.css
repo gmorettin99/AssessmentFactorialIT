@@ -34,7 +34,7 @@ body {
 }
 
 .brand-hero {
-    width: 85%;  /* Increased width to make it bigger */
+    width: 105%;  /* Increased width to make it bigger */
     min-width: 400px;
     height: auto;
     display: block;
