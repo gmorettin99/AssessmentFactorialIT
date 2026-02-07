@@ -28,7 +28,7 @@ body {
 
 /* --- HEADER FIX --- */
 .header-container {
-    width: 150%;
+    width: 100%;
     display: flex;           /* Uses flexbox for easier centering */
     justify-content: center; /* Horizontal centering */
     margin-bottom: 30px;
@@ -37,10 +37,10 @@ body {
 
 .brand-hero {
     /* Resizability: Adjust the width % below to change size easily */
-    width: 120%;              
+    width: 60%;              
     
     /* Responsiveness: Ensures it shrinks on mobile but stays centered */
-    max-width: 200%;        
+    max-width: 600px;        
     height: auto;            /* Maintains aspect ratio */
     display: block;
 }
