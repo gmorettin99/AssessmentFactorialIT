@@ -6,150 +6,96 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     background: linear-gradient(135deg, #74f9d4 0%, #a8ffea 100%);
     color: var(--dark-text);
     margin: 0;
-    padding: 40px 20px;
+    padding: 20px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .calculator-card {
     background: white;
-    max-width: 850px;
+    max-width: 800px;
     width: 100%;
     border-radius: 24px;
-    padding: 40px;
+    padding: 30px;
     box-shadow: var(--card-shadow);
+    margin-top: 20px;
 }
 
-/* Header & Image Alignment */
+/* Updated Header Sizing */
 .header-image-container {
     text-align: center;
     margin-bottom: 30px;
+    width: 100%;
 }
 
 .centered-frame-hero {
-    max-width: 100%;
+    max-width: 100%; /* Fixes sizing issues */
     height: auto;
     display: block;
     margin: 0 auto;
-    /* Ensures PNG transparency is honored on the white card */
-    background: transparent;
+    border-radius: 12px;
 }
 
-.title-set {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.title-set h2 {
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: #111;
-    margin-bottom: 8px;
-}
-
-.subtitle {
-    font-size: 16px;
-    color: #555;
-    margin: 0;
-}
-
-/* Section Styling */
 .section-title {
     font-size: 13px;
     text-transform: uppercase;
     color: var(--factorial-coral);
     font-weight: 700;
-    margin: 35px 0 15px 0;
-    letter-spacing: 0.5px;
+    margin: 25px 0 10px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
 }
 
-.input-field { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 8px; 
-}
-
-label { 
-    font-size: 13px; 
-    font-weight: 600; 
-    color: #444;
-}
+.input-field { display: flex; flex-direction: column; gap: 5px; }
+label { font-size: 12px; font-weight: 600; }
 
 input, select {
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #e0e0e0;
-    border-radius: 12px;
+    border-radius: 10px;
     background: #fafafa;
-    font-size: 14px;
-    transition: border-color 0.2s;
+    font-family: inherit;
 }
 
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--factorial-mint);
-}
-
-/* Multiplicity Checkboxes */
 .checkbox-group {
     background: #f4fdfa;
-    padding: 22px 15px;
-    border-radius: 16px;
+    padding: 15px;
+    border-radius: 12px;
     border: 1px solid #e0f2ed;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* Action Button */
 .submit-btn {
     background: var(--factorial-coral);
     color: white;
     border: none;
-    padding: 20px;
-    border-radius: 14px;
+    padding: 18px;
+    border-radius: 12px;
     font-weight: 700;
     font-size: 16px;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 30px;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(255, 88, 93, 0.3);
-    transition: transform 0.2s, background 0.2s;
+    transition: opacity 0.2s;
 }
 
-.submit-btn:hover {
-    transform: translateY(-2px);
-    background: #ff454a;
-}
+.submit-btn:hover { opacity: 0.9; }
 
-/* PDF Template Layout */
-#pdf-template { padding: 50px; }
-.score-result-box { 
-    background: var(--factorial-mint); 
-    padding: 40px; 
-    border-radius: 24px; 
-    text-align: center; 
-    margin: 30px 0; 
-}
-.score-value { 
-    font-size: 64px; 
-    font-weight: 900; 
-    color: var(--factorial-coral); 
-}
-.methodology-content { 
-    font-size: 12px; 
-    background: #f9f9f9; 
-    padding: 25px; 
-    border-radius: 12px; 
-    line-height: 1.6; 
-}
+/* PDF Styles */
+#pdf-template { padding: 40px; }
+.score-result-box { background: var(--factorial-mint); padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0; }
+.score-value { font-size: 50px; font-weight: 900; color: var(--factorial-coral); }
+.methodology-content { font-size: 11px; background: #f9f9f9; padding: 15px; border-radius: 8px; line-height: 1.4; }
