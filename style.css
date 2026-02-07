@@ -18,27 +18,29 @@ body {
 
 .calculator-card {
     background: white;
-    max-width: 800px;
+    max-width: 700px; /* Aligned with technical brief width */
     width: 100%;
     border-radius: 24px;
-    padding: 30px;
+    padding: 40px;
     box-shadow: var(--card-shadow);
     margin-top: 20px;
 }
 
-/* Updated Header Sizing */
-.header-image-container {
+/* THE FIX: Proportional Header & Background Removal */
+.header-container {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     width: 100%;
 }
 
-.centered-frame-hero {
-    max-width: 100%; /* Fixes sizing issues */
-    height: auto;
+.brand-hero {
+    width: 100%;
+    max-height: 140px; /* Prevents "huge" appearance */
+    object-fit: contain; /* Keeps proportions perfect */
     display: block;
     margin: 0 auto;
-    border-radius: 12px;
+    /* This blend mode makes white backgrounds on the PNG transparent */
+    mix-blend-mode: multiply; 
 }
 
 .section-title {
@@ -46,8 +48,9 @@ body {
     text-transform: uppercase;
     color: var(--factorial-coral);
     font-weight: 700;
-    margin: 25px 0 10px 0;
-    border-bottom: 1px solid #eee;
+    margin: 30px 0 12px 0;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #f0f0f0;
     padding-bottom: 5px;
 }
 
@@ -57,45 +60,45 @@ body {
     gap: 15px;
 }
 
-.input-field { display: flex; flex-direction: column; gap: 5px; }
-label { font-size: 12px; font-weight: 600; }
+.input-field { display: flex; flex-direction: column; gap: 6px; }
+label { font-size: 12px; font-weight: 600; color: #555; }
 
 input, select {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #e0e0e0;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #fafafa;
     font-family: inherit;
 }
 
 .checkbox-group {
-    background: #f4fdfa;
-    padding: 15px;
-    border-radius: 12px;
+    background: #f4fdfa; /* Factorial Mint light tint */
+    padding: 20px 10px;
+    border-radius: 16px;
     border: 1px solid #e0f2ed;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .submit-btn {
     background: var(--factorial-coral);
     color: white;
     border: none;
-    padding: 18px;
-    border-radius: 12px;
+    padding: 20px;
+    border-radius: 14px;
     font-weight: 700;
     font-size: 16px;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 35px;
     cursor: pointer;
-    transition: opacity 0.2s;
+    box-shadow: 0 4px 14px rgba(255, 88, 93, 0.3);
 }
 
-.submit-btn:hover { opacity: 0.9; }
-
-/* PDF Styles */
-#pdf-template { padding: 40px; }
-.score-result-box { background: var(--factorial-mint); padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0; }
-.score-value { font-size: 50px; font-weight: 900; color: var(--factorial-coral); }
-.methodology-content { font-size: 11px; background: #f9f9f9; padding: 15px; border-radius: 8px; line-height: 1.4; }
+/* PDF Template */
+#pdf-template { padding: 40px; font-family: 'Times New Roman', serif; }
+.score-result-box { background: var(--factorial-mint); padding: 30px; border-radius: 20px; text-align: center; margin: 20px 0; }
+.score-value { font-size: 56px; font-weight: 900; color: var(--factorial-coral); }
+.methodology-content { font-size: 11px; background: #f9f9f9; padding: 20px; border-radius: 10px; line-height: 1.5; }
