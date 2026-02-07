@@ -34,8 +34,8 @@ body {
 }
 
 .brand-hero {
-    width: 70%;        /* changed from 120% to 50% to make it smaller */
-    max-width: 100%;   /* prevents it from overflowing on small screens */
+    width: 90%;        /* changed from 120% to 50% to make it smaller */
+    max-width: 200%;   /* prevents it from overflowing on small screens */
     height: auto;
     display: block;
     margin: 0 auto;
