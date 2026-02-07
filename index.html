@@ -15,11 +15,12 @@
     </div>
 
     <form id="calcForm">
-        <div class="split-layout">
+        
+        <div class="layout-row">
             
-            <div class="split-col">
+            <div class="layout-col">
                 <div class="section-title">I. Core Infrastructure</div>
-                <div class="grid-single-col">
+                <div class="grid-3-col">
                     <div class="input-field">
                         <label># Managed Devices</label>
                         <input type="number" id="devices" placeholder="e.g. 50">
@@ -35,9 +36,9 @@
                 </div>
             </div>
 
-            <div class="split-col">
+            <div class="layout-col">
                 <div class="section-title">II. Compliance & Frameworks</div>
-                <div class="grid-single-col">
+                <div class="grid-4-col">
                     <div class="input-field">
                         <label>NIS2</label>
                         <select id="nis2"><option value="0">No</option><option value="2">Yes</option></select>
@@ -47,43 +48,56 @@
                         <select id="iso"><option value="0">No</option><option value="2">Yes</option></select>
                     </div>
                     <div class="input-field">
-                        <label>SOC2</label>
-                        <select id="soc2"><option value="0">No</option><option value="2">Yes</option></select>
-                    </div>
-                    <div class="input-field">
                         <label>HIPAA</label>
                         <select id="hipaa"><option value="0">No</option><option value="2">Yes</option></select>
+                    </div>
+                    <div class="input-field">
+                        <label>SOC2</label>
+                        <select id="soc2"><option value="0">No</option><option value="2">Yes</option></select>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="section-title">III. Operations & Heterogeneity</div>
-        <div class="grid">
-            <div class="input-field">
-                <label>Remote/Hybrid</label>
-                <select id="remote"><option value="0">No</option><option value="2">Yes</option></select>
+        <div class="layout-row">
+            
+            <div class="layout-col">
+                <div class="section-title">III. Operations & Heterogeneity</div>
+                <div class="grid-2-col">
+                    <div class="input-field">
+                        <label>Remote/Hybrid</label>
+                        <select id="remote"><option value="0">No</option><option value="2">Yes</option></select>
+                    </div>
+                    <div class="input-field">
+                        <label>Ticketing System</label>
+                        <select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select>
+                    </div>
+                </div>
             </div>
-            <div class="input-field">
-                <label>Ticketing System</label>
-                <select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select>
+
+            <div class="layout-col">
+                <div class="section-title" style="color:#ff585d; opacity:0.8;">Devices & OS ecosystem</div>
+                <div class="grid-2-col">
+                    <div class="checkbox-box">
+                        <label><input type="checkbox" class="hw" value="1"> Laptop</label>
+                        <label><input type="checkbox" class="hw" value="1"> Phone</label>
+                        <label><input type="checkbox" class="hw" value="1"> iPad</label>
+                    </div>
+                    <div class="checkbox-box">
+                        <label><input type="checkbox" class="os" value="1"> Windows</label>
+                        <label><input type="checkbox" class="os" value="1"> iOS</label>
+                        <label><input type="checkbox" class="os" value="1"> Linux</label>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="grid" style="margin-top:20px;">
-            <div class="checkbox-group">
-                <label><input type="checkbox" class="hw" value="1"> Laptop</label>
-                <label><input type="checkbox" class="hw" value="1"> Phone</label>
-                <label><input type="checkbox" class="hw" value="1"> iPad</label>
-            </div>
-            <div class="checkbox-group">
-                <label><input type="checkbox" class="os" value="1"> Windows</label>
-                <label><input type="checkbox" class="os" value="1"> iOS</label>
-                <label><input type="checkbox" class="os" value="1"> Linux</label>
-            </div>
-        </div>
-
-        <button type="button" class="submit-btn" onclick="processAssessment()">Generate Strategic PDF Report</button>
+        <button type="button" class="submit-btn" onclick="processAssessment()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
     </form>
 </div>
 
@@ -100,11 +114,10 @@
     <div id="recapArea" class="pdf-recap-grid"></div>
     <h3 class="pdf-sub">Scoring Methodology Recap</h3>
     <div class="methodology-content">
-        <p><strong>I. Scalable Infrastructure Penalty:</strong> +2.0 per decile unit based on (round(n/10)) × 2.</p>
-        <p><strong>II. Compliance:</strong> +2.0 per framework (NIS2, ISO27001, SOC2, HIPAA).</p>
-        <p><strong>III. Operational Environment:</strong> +2.0 for Remote/Hybrid; +2.0 if IT Staff ≤ 2; +2.0 if OB > 12/yr.</p>
-        <p><strong>IV. Asset Heterogeneity:</strong> +2.0 if Hardware Set size > 1; +2.0 if OS Set size > 1.</p>
-        <p><strong>V. Procedural Automation:</strong> +2.0 if Ticketing is absent.</p>
+        <p><strong>I. Infrastructure:</strong> +2.0 per decile unit.</p>
+        <p><strong>II. Compliance:</strong> +2.0 per framework.</p>
+        <p><strong>III. Operations:</strong> +2.0 for Remote, IT Staff ≤ 2, or High Onboarding.</p>
+        <p><strong>IV. Heterogeneity:</strong> +2.0 if Hardware Set > 1 or OS Set > 1.</p>
     </div>
 </div>
 
