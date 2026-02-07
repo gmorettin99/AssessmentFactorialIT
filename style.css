@@ -10,7 +10,7 @@ body {
     background: linear-gradient(135deg, #74f9d4 0%, #a8ffea 100%);
     color: var(--dark-text);
     margin: 0;
-    padding: 40px 20px;
+    padding: 40px 10px;
     display: flex;
     justify-content: center;
     min-height: 100vh;
@@ -28,7 +28,7 @@ body {
 
 /* --- HEADER FIX --- */
 .header-container {
-    width: 100%;
+    width: 150%;
     display: flex;           /* Uses flexbox for easier centering */
     justify-content: center; /* Horizontal centering */
     margin-bottom: 30px;
@@ -40,7 +40,7 @@ body {
     width: 120%;              
     
     /* Responsiveness: Ensures it shrinks on mobile but stays centered */
-    max-width: 600px;        
+    max-width: 200%;        
     height: auto;            /* Maintains aspect ratio */
     display: block;
 }
