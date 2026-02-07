@@ -13,23 +13,23 @@ body {
     padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Ensures card starts at top on mobile */
+    align-items: flex-start;
     min-height: 100vh;
 }
 
 .calculator-card {
     background: white;
-    max-width: 750px;
+    max-width: 800px;
     width: 100%;
     border-radius: 24px;
     padding: 40px;
     box-shadow: var(--card-shadow);
     margin-top: 20px;
-    margin-bottom: 40px;
-    box-sizing: border-box; /* Ensures padding doesn't break width */
+    margin-bottom: 50px;
+    box-sizing: border-box; 
 }
 
-/* --- HERO IMAGE FIX --- */
+/* --- DYNAMIC HERO IMAGE FIX --- */
 .header-container {
     width: 100%;
     display: flex;
@@ -38,16 +38,17 @@ body {
 }
 
 .brand-hero {
-    /* STRICT SIZING TO PREVENT HUGE IMAGES */
-    width: 100%;
-    max-width: 400px; /* Matches the potato screenshot scale */
+    /* DYNAMIC SIZING */
+    width: 50%; /* Image will always be 50% of the card width */
+    min-width: 250px; /* Prevents it from getting too small on mobile */
+    max-width: 100%; /* Prevents it from overflowing */
     height: auto;
     display: block;
     
-    /* REMOVES WHITE BACKGROUND */
+    /* REMOVES BACKGROUND ARTIFACTS */
     mix-blend-mode: multiply; 
 }
-/* ---------------------- */
+/* ----------------------------- */
 
 .section-title {
     font-size: 13px;
@@ -86,7 +87,7 @@ input, select {
     font-size: 14px;
     color: #333;
     width: 100%;
-    box-sizing: border-box; /* Fixes input width overflow */
+    box-sizing: border-box;
 }
 
 .checkbox-group {
