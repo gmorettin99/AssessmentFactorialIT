@@ -28,17 +28,17 @@ body {
 
 /* --- HEADER FIX --- */
 .header-container {
-    width: 80%;
+    width: 100%;
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 }
 
 .brand-hero {
-    width: 70%;  /* Increased width to make it bigger */
-    min-width: 50%;
+    width: 50%;        /* changed from 120% to 50% to make it smaller */
+    max-width: 100%;   /* prevents it from overflowing on small screens */
     height: auto;
     display: block;
-    margin: 0 ;
+    margin: 0 auto;
 }
 
 /* --- LAYOUT GRID SYSTEM --- */
