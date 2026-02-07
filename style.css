@@ -24,13 +24,55 @@ body {
     box-shadow: var(--card-shadow);
 }
 
-.header {
+.header-branding {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.top-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.brand-logo { color: var(--factorial-coral); }
+
+.hero-section {
+    padding: 20px 0 40px 0;
+}
+
+.main-headline {
+    font-size: 42px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #111;
+    margin-bottom: 20px;
+}
+
+.highlight-coral { color: var(--factorial-coral); }
+.highlight-dark { color: #222; }
+
+.hero-logo-bottom {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 20px;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.title-set {
+    margin-top: 50px;
+    border-top: 1px solid #eee;
+    padding-top: 30px;
+}
+
+.title-set h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
 }
 
 .logo-dot { width: 12px; height: 12px; background: var(--factorial-coral); border-radius: 2px; }
