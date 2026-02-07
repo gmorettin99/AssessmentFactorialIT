@@ -10,7 +10,7 @@ body {
     background: linear-gradient(135deg, #74f9d4 0%, #a8ffea 100%);
     color: var(--dark-text);
     margin: 0;
-    padding: 30px 10px;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     min-height: 100vh;
@@ -20,7 +20,7 @@ body {
     background: white;
     max-width: 1100px; /* Wide format for the side-by-side layout */
     width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 40px;
     box-shadow: var(--card-shadow);
     box-sizing: border-box;
@@ -28,19 +28,19 @@ body {
 
 /* --- HEADER FIX --- */
 .header-container {
-    width: 80%;
+    width: 100%;
     display: flex;           /* Uses flexbox for easier centering */
     justify-content: center; /* Horizontal centering */
     margin-bottom: 30px;
-    padding: 0 5px;         /* Prevents touching edges on tiny screens */
+    padding: 0 10px;         /* Prevents touching edges on tiny screens */
 }
 
 .brand-hero {
     /* Resizability: Adjust the width % below to change size easily */
-    width: 150%;              
+    width: 120%;              
     
     /* Responsiveness: Ensures it shrinks on mobile but stays centered */
-    max-width: 200%;        
+    max-width: 600px;        
     height: auto;            /* Maintains aspect ratio */
     display: block;
 }
