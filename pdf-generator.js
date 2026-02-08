@@ -247,7 +247,7 @@ function generateStrategicPDF(score, data) {
 
     // PDF EXPORT SETTINGS
     const opt = {
-        margin: [10, 0, 10, 0], 
+        margin: [0, 0, 0, 0], 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpg', quality: 0.90 },
         pagebreak: { mode: ['css', 'legacy'] }, 
