@@ -1,14 +1,9 @@
 /**
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
+ * Features: Zero-margin header, "Asset Store" SVG loading.
  */
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script src="svg-assets.js"></script> 
-
-<script src="pdf-generator.js"></script>
-
-async function generateStrategicPDF(score, data) {
+function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
     // Set base container styles
@@ -17,23 +12,11 @@ async function generateStrategicPDF(score, data) {
     element.style.color = '#111';
     element.style.position = 'relative';
 
-    // 1. ATTEMPT TO FETCH THE SVG FILE
-    // Ensure the file '3pillarsENG-graph.svg' exists in the same folder.
-    // Note: This requires a local server (http://localhost...) to work. 
-    // It usually fails if you just open index.html directly (file:// protocol).
-    let svgGraphContent = '';
-    try {
-        const response = await fetch('3pillarsENG-graph.svg');
-        if (response.ok) {
-            svgGraphContent = await response.text();
-        } else {
-            // Fallback text if file not found
-            svgGraphContent = '<p style="color:#999; font-size:12px; font-style:italic;">(Graph not found: 3pillarsENG-graph.svg)</p>';
-        }
-    } catch (error) {
-        // Fallback if fetch is blocked (CORS)
-        svgGraphContent = '<p style="color:#999; font-size:12px; font-style:italic;">(Graph unavailable locally)</p>';
-    }
+    // 1. GET THE SVG FROM OUR ASSET FILE (No fetch required)
+    // We access the global variable 'STRATEGIC_GRAPHS' defined in svg-assets.js
+    const svgContent = (typeof STRATEGIC_GRAPHS !== 'undefined' && STRATEGIC_GRAPHS.pillars) 
+        ? STRATEGIC_GRAPHS.pillars 
+        : '<p style="text-align:center; color:#999; margin: 30px;">(Graph asset not found)</p>';
 
     let html = `
         <style>
@@ -41,15 +24,14 @@ async function generateStrategicPDF(score, data) {
             
             .pdf-page {
                 width: 100%;
-                /* REMOVED PADDING HERE to allow header to touch the top */
-                padding: 0; 
+                padding: 0; /* Ensures header touches the top */
                 position: relative;
                 box-sizing: border-box;
                 min-height: 1080px; 
                 background: white;
             }
 
-            /* New container for the text content to keep it consistent */
+            /* Inner content padding */
             .content-padding {
                 padding: 10px 40px 40px 40px; 
             }
@@ -57,14 +39,14 @@ async function generateStrategicPDF(score, data) {
             .header-img-container {
                 width: 100%;
                 text-align: center;
-                line-height: 0; /* Removes tiny gap under image */
+                line-height: 0;
                 margin-bottom: 25px;
             }
 
             .header-img {
                 width: 100%;
                 height: auto;
-                display: block; /* Ensures no bottom margin gap */
+                display: block;
             }
 
             .footer-notice {
@@ -92,7 +74,6 @@ async function generateStrategicPDF(score, data) {
                 justify-content: center;
             }
 
-            /* Ensure loaded SVG fits within bounds */
             .svg-container svg {
                 width: 100%;
                 height: auto;
@@ -123,7 +104,7 @@ async function generateStrategicPDF(score, data) {
                 </div>
 
                 <div class="svg-container">
-                    ${svgGraphContent}
+                    ${svgContent}
                 </div>
 
                 <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
@@ -155,14 +136,16 @@ async function generateStrategicPDF(score, data) {
             `Currently handling IT requests manually leads to lost accountability. Our self-service workflows bring structure without the complexity of traditional enterprise service desks.`);
     }
 
+    // Confidentiality Notice
     html += `
             </div> <div class="footer-notice">CONFIDENTIAL STRATEGIC AUDIT 2026</div>
         </div> `;
 
     element.innerHTML = html;
 
+    // 3. PDF EXPORT SETTINGS
     const opt = {
-        margin: 0, // Ensure no default margins from the library
+        margin: 0, 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },
