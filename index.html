@@ -15,7 +15,7 @@
             <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" 
                 crossorigin="anonymous" 
                 alt="Pillars Structure" 
-                style="width: 100%; max-width: 600px; display: block; margin: 0 auto 20px auto;">
+                class="brand-hero">
         </div>
 
         <form id="calcForm">
@@ -23,14 +23,18 @@
             <div class="layout-row">
                 <div class="layout-col">
                     <div class="section-title">I. Core Infrastructure</div>
-                    <div class="grid-3-col">
+                    <div class="grid-2-col">
+                        <div class="input-field">
+                            <label>Total Employees</label>
+                            <input type="number" id="employees" placeholder="e.g. 30">
+                        </div>
                         <div class="input-field">
                             <label># Managed Devices</label>
-                            <input type="number" id="devices" placeholder="e.g. 50">
+                            <input type="number" id="devices" placeholder="e.g. 60">
                         </div>
                         <div class="input-field">
                             <label>IT Team Size</label>
-                            <input type="number" id="it_team" placeholder="e.g. 2">
+                            <input type="number" id="it_team" placeholder="e.g. 1">
                         </div>
                         <div class="input-field">
                             <label>Annual Onboarding</label>
@@ -99,9 +103,13 @@
                     <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
+                Generate Assessment
             </button>
         </form>
-    </div> </div> <script src="pdf-generator.js"></script>
+    </div> 
+</div> 
+
+<script src="pdf-generator.js"></script>
 <script src="script.js"></script>
     
 </body>
