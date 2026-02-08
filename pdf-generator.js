@@ -12,9 +12,6 @@ function generateStrategicPDF(score, data) {
                 enterprise-grade <span style="color:#ff585d;">security</span><br>
                 connected to <span style="color:#ff585d;">HR data</span>
             </h1>
-            <div style="margin-top: 15px;">
-                <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" style="width:180px;" crossorigin="anonymous">
-            </div>
         </div>
 
         <div style="padding: 0 50px 40px 50px;">
