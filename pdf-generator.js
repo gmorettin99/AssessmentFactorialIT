@@ -25,34 +25,46 @@ function getInputRecap(data) {
 function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
-    // Core styling for the generation container
-    element.style.width = '794px'; // Standard A4 width at 96 DPI
+    // Container settings for PDF generation
+    element.style.width = '750px';
+    element.style.minHeight = '1000px'; 
+    element.style.height = 'auto'; 
     element.style.background = 'white';
+    element.style.fontFamily = "'DM Sans', sans-serif";
+    element.style.color = '#111';
+    element.style.overflow = 'hidden'; 
 
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
             
-            .pdf-page {
+            .pdf-container {
                 width: 100%;
-                height: 1120px; /* Approximate A4 height */
-                padding: 40px;
                 box-sizing: border-box;
-                position: relative;
-                page-break-after: always; /* Forces a new page in the PDF */
-                display: flex;
-                flex-direction: column;
+                background: white;
+            }
+
+            .content-padding {
+                padding: 0px 40px 40px 40px; 
+            }
+
+            .header-img-container {
+                width: 100%;
+                line-height: 0;
+                margin-bottom: 20px;
             }
 
             .header-img {
-                width: calc(100% + 80px); /* Extend to edges if needed */
-                margin: -40px -40px 20px -40px;
+                width: 100%;
+                height: auto;
+                display: block;
             }
 
             .subtitle-text {
                 font-weight: 600;
                 border-bottom: 2px solid #74f9d4;
                 padding-bottom: 15px;
+                margin-top: 0;
                 color: #444;
                 font-size: 16px; 
             }
@@ -61,94 +73,177 @@ function generateStrategicPDF(score, data) {
                 background: #f4fdfa;
                 padding: 25px;
                 border-radius: 12px;
-                margin-bottom: 25px;
+                margin-bottom: 20px;
                 border-left: 6px solid #74f9d4;
+                page-break-inside: avoid; 
             }
 
+            /* --- GRAPH IMAGE FIXES --- */
             .graph-img-container {
+                width: 100%;
+                margin-top: 30px;
+                margin-bottom: 30px;
                 text-align: center;
-                margin: 20px 0;
+                display: block;
+                page-break-inside: avoid; /* CRITICAL: Prevents image from vanishing if it hits a page break */
+                break-inside: avoid;
             }
             
             .graph-img {
                 width: 100%;
-                max-width: 620px;
+                max-width: 600px; /* Slight reduction to ensure fit */
+                height: auto;
+                display: inline-block;
             }
 
+            /* --- NEW 'PLAN FOR YOUR FUTURE' CSS --- */
             .future-plan-box {
                 background: #f9f9f9;
                 border-radius: 14px;
                 padding: 25px;
-                margin-top: auto; /* Pushes to bottom of page */
+                margin-top: 30px;
+                page-break-inside: avoid;
+                break-inside: avoid;
             }
 
-            .footer-tag {
-                text-align: right;
+            .future-plan-title {
                 color: #ff585d;
+                font-size: 16px;
+                font-weight: 700;
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
+
+            .future-plan-text {
+                font-size: 13px;
+                color: #333;
+                line-height: 1.5;
+                margin-bottom: 20px;
+            }
+
+            .future-plan-cta {
+                text-align: left;
+            }
+
+            .future-plan-cta a {
+                display: inline-block;
+                background: #ff585d;
+                color: white !important; /* Force white text */
+                text-decoration: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
                 font-weight: 600;
-                font-size: 10px;
-                margin-top: 10px;
+            }
+
+            /* Block styling */
+            .info-block {
+                margin-bottom: 15px;
+                page-break-inside: avoid; 
             }
         </style>
 
-        <div class="pdf-page">
-            <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" class="header-img" crossorigin="anonymous">
-            
-            <p class="subtitle-text">Automation in your IT Operating System - Powered by HR Data</p>
-            
-            <div style="margin: 20px 0; line-height: 1.5; font-size: 13px; color: #333;">
-                <p>Factorial IT is engineered to bridge the operational gap between People and Technology. By integrating directly with your employee data as a single source of truth, we automate the technology lifecycle of hardware and software.</p>
-            </div>
-
-            <div class="fit-score-box">
-                <h2 style="margin:0; color: #111; font-size: 20px;">Fit Score: ${score.toFixed(1)}</h2>
-                <p style="font-size: 14px; margin: 10px 0 0 0;">${getStrategicSummary(score)}</p>
-            </div>
-
-            <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; letter-spacing: 1px;">Business Case & Justification</h3>
-            
-            <div class="blocks-container">
-                ${addBlocks(data)} 
+        <div class="pdf-container">
+            <div class="header-img-container">
+                <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" class="header-img" crossorigin="anonymous">
             </div>
             
-            <div class="footer-tag">CONFIDENTIAL STRATEGIC AUDIT 2026 | PAGE 1</div>
-        </div>
-
-        <div class="pdf-page">
-            <div class="graph-img-container">
-                <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
-            </div>
-
-            <div class="future-plan-box">
-                <h3 style="color: #ff585d; margin:0 0 10px 0;">Plan for your future</h3>
-                <p style="font-size: 13px; color: #333; line-height: 1.5;">
-                    You have told us that currently you manage <strong>${getInputRecap(data)}</strong>. 
-                    Learn how you can automate, secure, and scale your operations with <strong>Factorial IT</strong>.
+            <div class="content-padding">
+                <p class="subtitle-text">
+                    Automation in your IT Operating System - Powered by HR Data
                 </p>
-                <div style="margin-top: 15px;">
-                    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" 
-                       style="background: #ff585d; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block;">
-                       Book a meeting
-                    </a>
+                
+                <div style="margin: 20px 0; line-height: 1.5; font-size: 13px; color: #333; font-weight: 400;">
+                    <p>Factorial IT is engineered to bridge the operational gap between People and Technology. 
+                    By integrating directly with your employee data as a single source of truth, we automate the technology lifecycle of hardware and software, 
+                    from procurement to offboarding.</p>
                 </div>
-            </div>
-            
-            <div class="footer-tag">CONFIDENTIAL STRATEGIC AUDIT 2026 | PAGE 2</div>
+
+                <div class="fit-score-box">
+                    <h2 style="margin-top:0; color: #111; font-size: 20px; font-weight: 600;">Fit Score: ${score.toFixed(1)}</h2>
+                    <p style="font-size: 14px; margin-bottom:0; line-height: 1.4; font-weight: 400;">${getStrategicSummary(score)}</p>
+                </div>
+
+                <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
+    `;
+
+    // --- DYNAMIC TEXT BLOCKS ---
+    if (data.devices > 50) {
+        html += addBlock("Scalable Infrastructure", 
+            `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows.`);
+    }
+
+    if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2 || data.compliance.hipaa) {
+        html += addBlock("Regulatory Frameworks", 
+            `Since you are navigating regulatory frameworks (NIS2, ISO 27001, etc.), compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes.`);
+    }
+
+    if (data.it_team > 0 && data.it_team <= 3) {
+        html += addBlock("Personnel Constraints", 
+            `With an IT team size of ${data.it_team}, ticket fatigue is a risk. By automating low-level tasks like laptop provisioning, Factorial IT acts as an extra team member, freeing up capacity.`);
+    }
+
+    if (data.ob_year > 12) {
+        html += addBlock("High Onboarding Velocity", 
+            `With ${data.ob_year} new hires per year, manual setup creates repetitive strain. Our HR-to-IT Sync ensures that when a candidate is hired, their laptop is ordered and accounts are created automatically.`);
+    }
+
+    if (data.manualTicketing) {
+        html += addBlock("Administrative Efficiency", 
+            `Currently handling IT requests manually leads to lost accountability. Our self-service workflows bring structure without the complexity of traditional enterprise service desks.`);
+    }
+
+    if (data.isRemote) {
+        html += addBlock("Remote & Hybrid Security", 
+            `Operating a remote or hybrid environment expands your security perimeter. Factorial IT unifies control regardless of physical location, ensuring compliant device states even when users are off the office network.`);
+    }
+
+    if (data.mixedHW) {
+        html += addBlock("Hardware Complexity", 
+            `Managing a diverse mix of hardware (Laptops, Phones, Tablets) manually often creates data silos. Factorial IT centralizes these varied assets into a single pane of glass for unified inventory management.`);
+    }
+
+    if (data.mixedOS) {
+        html += addBlock("Cross-OS Ecosystem", 
+            `Supporting multiple Operating Systems (Windows, iOS, Linux, etc.) often requires specialized tools for each. Factorial IT consolidates this into one MDM solution, reducing the tool-sprawl overhead.`);
+    }
+
+    // --- GRAPH IMAGE (JPG) ---
+    html += `
+                <div class="graph-img-container">
+                    <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
+                </div>
+    `;
+
+    // --- PLAN FOR YOUR FUTURE SECTION ---
+    // (Using the new helper function getInputRecap defined above)
+    const recapString = getInputRecap(data);
+
+    html += `
+                <div class="future-plan-box">
+                    <h3 class="future-plan-title">Plan for your future</h3>
+
+                    <p class="future-plan-text">
+                        You have told us that currently you manage ${recapString}.
+                        Learn how you can automate, secure, and scale your operations with
+                        <strong>Factorial IT</strong>.
+                    </p>
+
+                    <div class="future-plan-cta">
+                        <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" target="_blank">
+                            Book a meeting
+                        </a>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px;">
+                    CONFIDENTIAL STRATEGIC AUDIT 2026
+                </div>
+            </div> 
         </div>
     `;
 
     element.innerHTML = html;
-
-    const opt = {
-        margin: 0,
-        filename: `Factorial_IT_Assessment.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(element).save();
-}
 
     // PDF EXPORT SETTINGS
     const opt = {
