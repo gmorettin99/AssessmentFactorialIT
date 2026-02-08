@@ -1,8 +1,8 @@
 /**
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
  * Updates:
- * 1. FIX: Removed "overflow: hidden" so content flows to Page 2.
- * 2. FIX: Reduced header margins to remove whitespace.
+ * 1. FIX: Enables multi-page support by removing fixed height.
+ * 2. FIX: Removes header whitespace.
  * 3. FIX: Checks window.STRATEGIC_GRAPHS for the graph.
  */
 
@@ -14,38 +14,30 @@ function generateStrategicPDF(score, data) {
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.background = 'white';
-    // We set a fixed width to simulate A4 paper on screen before print
-    element.style.width = '100%'; 
+    element.style.width = '100%'; // Ensures it fills the width
 
     // 1. RETRIEVE GRAPH
-    // We use a distinctive error message to prove this new code is running
     const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
         ? window.STRATEGIC_GRAPHS.pillars 
-        : '<div style="padding:20px; text-align:center; color:red; border:2px solid red;">ERROR: Graph Data Not Found. Check svg-assets.js loading order.</div>';
+        : '<div style="padding:20px; text-align:center; color:red; border:2px solid red;">ERROR: Graph Data Not Found. Check console for details.</div>';
 
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
             
-            /* RESET PDF PAGE */
+            /* RESET PDF PAGE - REMOVED FIXED HEIGHT FOR MULTI-PAGE */
             .pdf-page {
                 width: 100%;
-                /* CRITICAL FIX: Changed from fixed height to auto so it grows */
-                height: auto; 
-                min-height: 1000px;
                 margin: 0;
                 padding: 0; 
                 position: relative;
                 box-sizing: border-box;
                 background: white;
-                /* CRITICAL FIX: Removed overflow:hidden to stop cutting off text */
-                overflow: visible; 
             }
 
             /* INNER CONTENT PADDING */
             .content-padding {
-                /* Reduced top padding from 10px to 0px to pull text up */
-                padding: 0px 40px 40px 40px; 
+                padding: 0px 40px 40px 40px; /* Top padding is 0 to kill whitespace */
             }
 
             /* HEADER IMAGE FIXES */
@@ -53,8 +45,7 @@ function generateStrategicPDF(score, data) {
                 width: 100%;
                 line-height: 0;
                 font-size: 0;
-                /* Reduced margin from 25px to 10px to reduce whitespace */
-                margin-bottom: 10px; 
+                margin-bottom: 0px; /* Reduced to 0 */
             }
 
             .header-img {
@@ -62,8 +53,11 @@ function generateStrategicPDF(score, data) {
                 height: auto;
                 display: block;
             }
+            
+            /* Title Tweaks */
+            h1 { margin-top: 15px; }
 
-            /* FOOTER - Will appear at the very end of the document */
+            /* FOOTER */
             .footer-notice {
                 margin-top: 50px;
                 padding-bottom: 30px;
@@ -108,7 +102,7 @@ function generateStrategicPDF(score, data) {
             </div>
             
             <div class="content-padding">
-                <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px; font-weight: 600; margin-top: 0;">Factorial IT Strategic Audit</h1>
+                <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px; font-weight: 600;">Factorial IT Strategic Audit</h1>
                 <p style="font-weight: 600; border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-top: 0; color: #444;">
                     The Operating System for IT, Powered by HR Data
                 </p>
@@ -169,10 +163,13 @@ function generateStrategicPDF(score, data) {
         margin: 0, 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
+        // 'enableLinks' and 'pagebreak' help with multi-page
+        enableLinks: true,
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
         html2canvas: { 
             scale: 2, 
             useCORS: true,
-            scrollY: 0 // Prevents top whitespace if you are scrolled down
+            scrollY: 0 
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
@@ -184,7 +181,7 @@ function generateStrategicPDF(score, data) {
  * HELPER FUNCTIONS
  */
 function addBlock(title, text) {
-    // page-break-inside: avoid ensures a paragraph doesn't get cut in half at the bottom of a page
+    // page-break-inside: avoid ensures a paragraph doesn't get cut in half
     return `
         <div style="margin-bottom: 15px; page-break-inside: avoid;">
             <strong style="display: block; font-size: 14px; color: #ff585d; margin-bottom: 5px; font-weight: 600;">• ${title}</strong>
