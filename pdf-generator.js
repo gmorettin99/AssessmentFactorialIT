@@ -1,116 +1,110 @@
 /**
- * FACTORIAL IT: MODULAR PDF GENERATOR
- * Logic: Checks assessment inputs and pulls specific KB blocks.
+ * FACTORIAL IT: STRATEGIC PDF GENERATOR
+ * Powered by Modular Knowledge Base Logic
  */
 
-function generatePDF(score, inputs) {
-    const { element } = preparePDFTemplate(score, inputs);
+function generateStrategicPDF(score, data) {
+    const element = document.createElement('div');
+    element.style.padding = '40px';
+    element.style.fontFamily = 'Helvetica, Arial, sans-serif';
+    element.style.color = '#111';
 
+    // 1. DEFAULT HEADER & INTRO (Section 1 of KB)
+    let html = `
+        <div style="text-align: right; color: #ff585d; font-weight: bold; font-size: 10px; margin-bottom: 20px;">
+            CONFIDENTIAL STRATEGIC AUDIT 2026
+        </div>
+        
+        <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 28px;">Factorial IT Strategic Audit</h1>
+        <p style="font-weight: bold; border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-top: 0; color: #444;">
+            The Operating System for IT, Powered by HR Data
+        </p>
+        
+        <div style="margin: 25px 0; line-height: 1.6; font-size: 13px; color: #333;">
+            <p>Factorial IT is engineered to bridge the operational gap between People (HR) and Technology (IT). 
+            By integrating directly with your employee source of truth, we automate the technology lifecycle 
+            from procurement and onboarding to security and offboarding.</p>
+        </div>
+
+        <div style="background: #f4fdfa; padding: 25px; border-radius: 12px; margin-bottom: 35px; border-left: 6px solid #74f9d4;">
+            <h2 style="margin-top:0; color: #111; font-size: 20px;">Fit Score: ${score.toFixed(1)}</h2>
+            <p style="font-size: 14px; margin-bottom:0; line-height: 1.5;">${getStrategicSummary(score)}</p>
+        </div>
+
+        <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
+    `;
+
+    // 2. MODULAR BLOCKS (Section 2 of KB: Justification Logic)
+    
+    if (data.devices > 50) {
+        html += addBlock("Scalable Infrastructure", "As your fleet grows past 50 devices, manual management creates a 'linear drag'. Factorial IT transforms linear work into scalable workflows, allowing you to push updates to your entire fleet as easily as to a single laptop.");
+    }
+
+    if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2) {
+        html += addBlock("Regulatory Frameworks (ISO/SOC2/NIS2)", "Compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes for instant, headache-free audit exports.");
+    }
+
+    if (data.compliance.hipaa) {
+        html += addBlock("Healthcare Compliance (HIPAA)", "A lost laptop containing PHI is a major reportable breach. Our Remote Wipe & Lock capability ensures that data is neutralized the moment a device is reported missing, drastically reducing liability.");
+    }
+
+    if (data.isRemote) {
+        html += addBlock("Global Logistics & Remote Ops", "Managing hardware for distributed teams is a logistical bottleneck. We handle procurement, storage, and customs for 60+ countries, delivering ready-to-use devices in under 5 business days.");
+    }
+
+    if (data.it_team > 0 && data.it_team <= 2) {
+        html += addBlock("Capacity Liberation", "Small IT teams are often buried under 'ticket fatigue'. By automating low-level provisioning tasks, Factorial IT effectively acts as a 'Third Team Member', freeing up ~30% of your weekly capacity.");
+    }
+
+    if (data.ob_year > 12) {
+        html += addBlock("High Onboarding Velocity", "Rapid growth creates repetitive strain and human error. Our HR-to-IT Sync ensures that when a candidate is hired in HR, their laptop is ordered and SaaS accounts are pre-provisioned automatically based on role.");
+    }
+
+    if (data.mixedOS) {
+        html += addBlock("Unified Security Posture (Mixed OS)", "Mixed ecosystems fracture visibility. Factorial IT provides a Single Pane of Glass to enforce consistent security policies (passwords, encryption, updates) across macOS, Windows, and Linux simultaneously.");
+    }
+
+    if (data.manualTicketing) {
+        html += addBlock("Administrative Efficiency", "Without a structured system, requests are lost in Slack or Email. Our self-service workflows bring structure and accountability without the complexity of traditional enterprise service desks.");
+    }
+
+    // 3. INPUT RECAP (Section 3: Audit Data)
+    html += `
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 11px; color: #888;">
+            <p style="margin-bottom: 10px; font-weight: bold; color: #444;">AUDIT INPUT RECAP:</p>
+            Managed Devices: ${data.devices} | IT Team: ${data.it_team} | Annual Onboarding: ${data.ob_year} | Remote: ${data.remoteText}
+        </div>
+    `;
+
+    element.innerHTML = html;
+
+    // PDF Export Settings
     const opt = {
-        margin:       [10, 10],
-        filename:     `Factorial_IT_Assessment_${new Date().getFullYear()}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        margin: 15,
+        filename: `Factorial_IT_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, logging: false, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    // Generate the PDF
+    // Execute save
     html2pdf().set(opt).from(element).save();
 }
 
-function preparePDFTemplate(score, inputs) {
-    // Create a temporary container for the PDF content
-    const container = document.createElement('div');
-    container.className = 'pdf-report-wrapper';
-
-    // 1. DEFAULT: Intro & Platform Overview
-    let htmlContent = `
-        <div style="font-family: Arial, sans-serif; padding: 20px; color: #111;">
-            <h1 style="color: #ff585d;">Factorial IT: Strategic Audit</h1>
-            <p style="font-size: 14px; font-weight: bold; border-bottom: 2px solid #74f9d4; padding-bottom: 10px;">
-                THE OPERATING SYSTEM FOR IT, POWERED BY HR DATA
-            </p>
-            
-            <section class="intro-block" style="margin-top: 20px;">
-                <p>Factorial IT is the first platform engineered to bridge the operational gap between People (HR) and Technology (IT). Unlike traditional legacy tools that operate in silos, Factorial IT integrates directly with your employee source of truth.</p>
-                <p><strong>Core Pillar: Unified Device Management (MDM)</strong> - We replace fragmented processes with a 'Three-Tier Device Control' framework: On-Demand Hardware, Cross-OS MDM, and Zero-Touch Deployment.</p>
-            </section>
-
-            <h2 style="color: #ff585d; font-size: 18px; margin-top: 30px;">Strategic Fit: ${score.toFixed(1)} Points</h2>
-            <div style="background: #f4fdfa; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
-                ${getRecommendation(score)}
-            </div>
-
-            <h3 style="border-left: 4px solid #ff585d; padding-left: 10px;">Critical Business Cases Identified:</h3>
-    `;
-
-    // 2. CONDITIONAL: Add justifying blocks based on triggers
-    
-    // Category I: Infrastructure
-    if (inputs.devices > 50) {
-        htmlContent += addKBBlock("High Volume Managed Assets", 
-            "As a fleet grows, manual setups create a 'linear drag'. Factorial IT transforms linear work into scalable workflows via Mass Policies, keeping IT headcount lean.");
-    }
-
-    // Category II: Compliance
-    if (inputs.nis2 || inputs.iso || inputs.soc2) {
-        htmlContent += addKBBlock("Active Regulatory Requirements", 
-            "Factorial IT serves as an Automated Evidence Locker. It monitors fleet health and logs every access change, turning 'Audit Panic' into a simple export.");
-    }
-    if (inputs.hipaa) {
-        htmlContent += addKBBlock("Healthcare Compliance (HIPAA)", 
-            "A lost device with PHI is a reportable breach. Our 'Remote Wipe & Lock' ensures data never falls into the wrong hands, providing immediate liability reduction.");
-    }
-
-    // Category III: Operations
-    if (inputs.remote) {
-        htmlContent += addKBBlock("Remote/Hybrid Infrastructure", 
-            "We provide Global Logistics as a Service. You manage the digital asset; we handle the procurement, storage, and shipping to over 60 countries.");
-    }
-    if (inputs.it_team <= 2) {
-        htmlContent += addKBBlock("Personnel Constraints", 
-            "Factorial IT acts as a 'Third Team Member' by automating low-level ticket noise (resetting passwords, provisioning), freeing up ~30% of team capacity.");
-    }
-    if (inputs.ob_year > 12) {
-        htmlContent += addKBBlock("High Onboarding Velocity", 
-            "Our HR-to-IT Sync ensures that when a candidate is hired, the laptop is ordered and SaaS accounts are pre-provisioned automatically based on their role.");
-    }
-
-    // Category IV: Heterogeneity
-    if (inputs.mixedOS) {
-        htmlContent += addKBBlock("Mixed OS Ecosystem", 
-            "Consolidate 'Split Stack' complexity. Manage Windows, macOS, Linux, iOS, and Android from one unified 'Single Pane of Glass' dashboard.");
-    }
-
-    // Category V: Automation
-    if (inputs.ticketing === "2") { // "No (Manual)" selected
-        htmlContent += addKBBlock("Administrative Deficit", 
-            "Move from reactive firefighting to proactive management. Our structured self-service workflows manage requests before they become a distraction.");
-    }
-
-    htmlContent += `</div>`; // Close wrapper
-    container.innerHTML = htmlContent;
-
-    return { element: container };
-}
-
-// Helper to format KB blocks in the PDF
-function addKBBlock(title, body) {
+/**
+ * HELPER FUNCTIONS
+ */
+function addBlock(title, text) {
     return `
-        <div style="margin-bottom: 20px; page-break-inside: avoid;">
-            <h4 style="margin-bottom: 5px; color: #333;">• ${title}</h4>
-            <p style="font-size: 13px; color: #555; line-height: 1.4; margin-top: 0;">${body}</p>
+        <div style="margin-bottom: 22px; page-break-inside: avoid;">
+            <strong style="display: block; font-size: 14px; color: #111; margin-bottom: 5px;">• ${title}</strong>
+            <p style="font-size: 12px; color: #555; margin-top: 0; line-height: 1.5;">${text}</p>
         </div>
     `;
 }
 
-// Helper for final Recommendation
-function getRecommendation(score) {
-    if (score > 25) {
-        return "<strong>High Strategic Fit:</strong> Your organization exhibits a 'perfect storm' for operational friction. Continuing with manual processes presents a significant risk of burnout and compliance failure.";
-    } else if (score >= 15) {
-        return "<strong>Moderate Strategic Fit:</strong> Manual processes are becoming a bottleneck. Implementing automation now will 'future-proof' your operations before technical debt accumulates.";
-    } else {
-        return "<strong>Early Maturity Phase:</strong> While full-scale automation isn't critical today, establishing a foundational system now prevents the chaos typical of crossing the 50-employee threshold.";
-    }
+function getStrategicSummary(score) {
+    if (score > 25) return "<strong>Strategic Assessment: High Fit.</strong> Your organization exhibits a 'perfect storm' of operational friction. Continuing with manual processes presents a significant risk of burnout and compliance failure. Immediate automation is recommended.";
+    if (score >= 15) return "<strong>Strategic Assessment: Moderate Fit.</strong> While current operations are stable, manual processes are becoming a bottleneck. Implementing automation now will 'future-proof' your IT operations before technical debt accumulates.";
+    return "<strong>Strategic Assessment: Early Maturity.</strong> While immediate full-scale automation may not be critical today, implementing a foundational system for Asset Management now will prevent the chaotic 'inflection point' as you scale.";
 }
