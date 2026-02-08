@@ -1,5 +1,9 @@
 /**
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
+ * Updates:
+ * 1. FIX: Removed "overflow: hidden" so content flows to Page 2.
+ * 2. FIX: Reduced header margins to remove whitespace.
+ * 3. FIX: Checks window.STRATEGIC_GRAPHS for the graph.
  */
 
 function generateStrategicPDF(score, data) {
@@ -9,36 +13,48 @@ function generateStrategicPDF(score, data) {
     element.style.padding = '0'; 
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
-    element.style.position = 'relative';
+    element.style.background = 'white';
+    // We set a fixed width to simulate A4 paper on screen before print
+    element.style.width = '100%'; 
 
-    // 1. GET THE SVG FROM OUR ASSET FILE
-    // Pointer: This looks into the global window object defined in svg-assets.js
+    // 1. RETRIEVE GRAPH
+    // We use a distinctive error message to prove this new code is running
     const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
         ? window.STRATEGIC_GRAPHS.pillars 
-        : '<p style="text-align:center; color:#999; margin: 30px;">(Graph asset not found)</p>';
+        : '<div style="padding:20px; text-align:center; color:red; border:2px solid red;">ERROR: Graph Data Not Found. Check svg-assets.js loading order.</div>';
 
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
             
+            /* RESET PDF PAGE */
             .pdf-page {
                 width: 100%;
+                /* CRITICAL FIX: Changed from fixed height to auto so it grows */
+                height: auto; 
+                min-height: 1000px;
+                margin: 0;
                 padding: 0; 
                 position: relative;
                 box-sizing: border-box;
-                min-height: 1080px; 
                 background: white;
+                /* CRITICAL FIX: Removed overflow:hidden to stop cutting off text */
+                overflow: visible; 
             }
 
+            /* INNER CONTENT PADDING */
             .content-padding {
-                padding: 10px 40px 40px 40px; 
+                /* Reduced top padding from 10px to 0px to pull text up */
+                padding: 0px 40px 40px 40px; 
             }
 
+            /* HEADER IMAGE FIXES */
             .header-img-container {
                 width: 100%;
-                text-align: center;
                 line-height: 0;
-                margin-bottom: 25px;
+                font-size: 0;
+                /* Reduced margin from 25px to 10px to reduce whitespace */
+                margin-bottom: 10px; 
             }
 
             .header-img {
@@ -47,16 +63,19 @@ function generateStrategicPDF(score, data) {
                 display: block;
             }
 
+            /* FOOTER - Will appear at the very end of the document */
             .footer-notice {
-                position: absolute;
-                bottom: 30px;
-                right: 40px;
+                margin-top: 50px;
+                padding-bottom: 30px;
+                text-align: right;
+                margin-right: 40px;
                 color: #ff585d;
                 font-weight: 600;
                 font-size: 10px;
                 text-transform: uppercase;
             }
 
+            /* SCORES */
             .fit-score-box {
                 background: #f4fdfa;
                 padding: 25px;
@@ -65,17 +84,18 @@ function generateStrategicPDF(score, data) {
                 border-left: 6px solid #74f9d4;
             }
 
-            /* SVG CONTAINER FIXED */
+            /* SVG CONTAINER */
             .svg-container {
                 width: 100%;
-                margin: 30px 0;
+                margin: 20px 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
 
+            /* FORCE SVG SIZING */
             .svg-container svg {
-                width: 90% !important; /* Force width for PDF capture */
+                width: 90% !important; 
                 height: auto;
                 max-height: 350px;
                 display: block;
@@ -111,7 +131,7 @@ function generateStrategicPDF(score, data) {
                 <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-    // 2. DYNAMIC JUSTIFICATION BLOCKS
+    // 2. DYNAMIC BLOCKS
     if (data.devices > 50) {
         html += addBlock("Scalable Infrastructure", 
             `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one.`);
@@ -137,10 +157,10 @@ function generateStrategicPDF(score, data) {
             `Currently handling IT requests manually leads to lost accountability. Our self-service workflows bring structure without the complexity of traditional enterprise service desks.`);
     }
 
-    // Confidentiality Notice
+    // Close the padding div, then add footer, then close page
     html += `
-            </div> <div class="footer-notice">CONFIDENTIAL STRATEGIC AUDIT 2026</div>
-        </div> `;
+            <div class="footer-notice">CONFIDENTIAL STRATEGIC AUDIT 2026</div>
+            </div> </div> `;
 
     element.innerHTML = html;
 
@@ -149,7 +169,11 @@ function generateStrategicPDF(score, data) {
         margin: 0, 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            scrollY: 0 // Prevents top whitespace if you are scrolled down
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
@@ -160,6 +184,7 @@ function generateStrategicPDF(score, data) {
  * HELPER FUNCTIONS
  */
 function addBlock(title, text) {
+    // page-break-inside: avoid ensures a paragraph doesn't get cut in half at the bottom of a page
     return `
         <div style="margin-bottom: 15px; page-break-inside: avoid;">
             <strong style="display: block; font-size: 14px; color: #ff585d; margin-bottom: 5px; font-weight: 600;">• ${title}</strong>
