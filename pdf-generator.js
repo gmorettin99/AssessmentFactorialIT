@@ -1,6 +1,6 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FIXED: Solves "Blank PDF" by fixing Z-Index Stacking & Preloading Images.
+ * FINAL VERSION: Multi-Page Support + Blank PDF Fix
  */
 
 // --- HELPER 1: DYNAMIC LIST FORMATTER ---
@@ -51,6 +51,7 @@ function generateStrategicPDF(score, data) {
     const activeOS = formatList(data.os, osLabels);
 
     // 3. Build HTML
+    // Note: We use 'break-inside: avoid' to ensure blocks don't get cut in half across pages.
     let html = `
         <style>
             .pdf-container { 
@@ -58,8 +59,9 @@ function generateStrategicPDF(score, data) {
                 color: #111; 
                 padding: 40px; 
                 background: white; 
-                width: 794px; /* A4 Width at 96 DPI */
+                width: 794px; /* Standard A4 width (96 DPI) */
                 box-sizing: border-box;
+                margin: 0 auto;
             }
             .header-img { width: 100%; max-width: 600px; display: block; margin-bottom: 20px; }
             .subtitle-text { border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-bottom: 20px; font-weight: 600; color: #444; font-size: 16px; }
@@ -70,15 +72,35 @@ function generateStrategicPDF(score, data) {
                 border-radius: 12px; 
                 border-left: 6px solid #74f9d4; 
                 margin-bottom: 25px; 
-                page-break-inside: avoid;
+                page-break-inside: avoid; 
+                break-inside: avoid;
             }
             
-            .info-block { margin-bottom: 15px; page-break-inside: avoid; }
+            .info-block { 
+                margin-bottom: 15px; 
+                page-break-inside: avoid; 
+                break-inside: avoid;
+            }
             .block-title { color: #ff585d; font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px; }
             .block-text { font-size: 12px; color: #444; margin: 0; line-height: 1.5; }
             
-            .graph-img { width: 100%; max-width: 550px; display: block; margin: 20px auto; page-break-inside: avoid; }
-            .future-plan-box { background: #f9f9f9; padding: 25px; border-radius: 14px; margin-top: 20px; page-break-inside: avoid; }
+            .graph-img { 
+                width: 100%; 
+                max-width: 550px; 
+                display: block; 
+                margin: 20px auto; 
+                page-break-inside: avoid; 
+                break-inside: avoid;
+            }
+            
+            .future-plan-box { 
+                background: #f9f9f9; 
+                padding: 25px; 
+                border-radius: 14px; 
+                margin-top: 20px; 
+                page-break-inside: avoid; 
+                break-inside: avoid;
+            }
             
             .cta-btn { 
                 background: #ff585d; color: white !important; padding: 10px 20px; 
@@ -153,43 +175,44 @@ function generateStrategicPDF(score, data) {
 
     element.innerHTML = html;
 
-    // --- CRITICAL VISIBILITY FIX ---
-    // 1. Position FIXED ensures it stays in viewport context.
-    // 2. Left -10000px hides it from user.
-    // 3. Z-Index 9999 ensures it sits ON TOP of the body gradient (fixing the blank pdf).
+    // --- OVERLAY FIX ---
+    // Make visible on top of everything. (z-index 10000)
     element.style.position = 'fixed';
-    element.style.left = '-10000px';
-    element.style.top = '0px';
-    element.style.zIndex = '9999'; 
+    element.style.left = '0';
+    element.style.top = '0';
+    element.style.zIndex = '10000'; 
+    element.style.background = 'white'; 
     document.body.appendChild(element);
 
     // --- WAIT FOR IMAGES ---
-    // We preload images to ensure they are rendered before the snapshot is taken.
+    // Ensures images are loaded before generating PDF
     const images = element.querySelectorAll('img');
     const promises = Array.from(images).map(img => {
         if (img.complete) return Promise.resolve();
         return new Promise(resolve => {
             img.onload = resolve;
-            img.onerror = resolve; // Proceed even if image fails
+            img.onerror = resolve; 
         });
     });
 
     Promise.all(promises).then(() => {
         const opt = {
-            margin: 0,
+            margin: 0, 
             filename: 'Factorial_IT_Assessment.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { 
                 scale: 2, 
                 useCORS: true, 
                 scrollY: 0,
-                windowWidth: 1200 // Force canvas width to ensure no clipping
+                // Force window dimensions to capture full A4 width
+                windowWidth: 1200, 
+                windowHeight: document.documentElement.scrollHeight 
             },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
-            // Clean up: remove the temporary element
+            // Remove the temporary element after saving
             if (document.body.contains(element)) {
                 document.body.removeChild(element);
             }
