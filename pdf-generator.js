@@ -19,10 +19,11 @@ function generateStrategicPDF(score, data) {
 
     // 1. RETRIEVE GRAPH FROM GLOBAL STORE
     // This looks for the variable we created in svg-assets.js
+    // Fixed code
     const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
         ? window.STRATEGIC_GRAPHS.pillars 
-        : '<div style="padding:20px; text-align:center; color:#ccc;">Graph Asset Not Loaded</div>';
-
+        : '<div style="padding:40px; text-align:center; border:1px dashed #ccc;">SVG Asset not found in window.STRATEGIC_GRAPHS</div>';
+    
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
