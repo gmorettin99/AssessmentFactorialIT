@@ -136,3 +136,41 @@ input, select {
 .score-result-box { background: var(--factorial-mint); padding: 30px; border-radius: 20px; text-align: center; margin: 20px 0; }
 .score-value { font-size: 56px; font-weight: 900; color: var(--factorial-coral); }
 .methodology-content { font-size: 11px; background: #f9f9f9; padding: 20px; border-radius: 10px; }
+
+/* ===============================
+   PDF PAGINATION RULES
+   =============================== */
+
+.pdf-page {
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+
+    /* IMPORTANT: allow pagination */
+    page-break-inside: auto;
+    break-inside: auto;
+}
+
+.page-break {
+    page-break-after: always;
+    break-after: page;
+}
+
+.page-break:last-child {
+    page-break-after: auto;
+}
+
+/* Prevent splitting of atomic content */
+.info-block,
+.score-result-box,
+.methodology-content {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Force large visuals to start on new page */
+.graph-img-container {
+    page-break-before: always;
+    break-before: page;
+}
+
