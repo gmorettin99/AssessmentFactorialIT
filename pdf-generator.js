@@ -168,45 +168,41 @@ function generateStrategicPDF(score, data) {
     `;
 
     // --- DYNAMIC TEXT BLOCKS ---
-    if (data.devices > 50) {
+    if (data.devices > 0) {
         html += addBlock("Scalable Infrastructure", 
-            `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows.`);
+            `You currently manage ${data.devices} devices for ${data.employees} employees. Factorial IT handles this ratio by automating the technology lifecycle from procurement to offboarding.`);
     }
 
-    if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2 || data.compliance.hipaa) {
+    if (data.complianceList.length > 0) {
         html += addBlock("Regulatory Frameworks", 
-            `Since you are navigating regulatory frameworks (NIS2, ISO 27001, etc.), compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes.`);
+            `Since you are navigating ${data.complianceList.join(' and ')}, compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker for these specific frameworks.`);
     }
 
-    if (data.it_team > 0 && data.it_team <= 3) {
+    if (data.it_team <= 3) {
         html += addBlock("Personnel Constraints", 
-            `With an IT team size of ${data.it_team}, ticket fatigue is a risk. By automating low-level tasks like laptop provisioning, Factorial IT acts as an extra team member, freeing up capacity.`);
+            `With an IT team of ${data.it_team}, ticket fatigue is a risk. We automate low-level tasks to act as an extra team member.`);
     }
 
-    if (data.ob_year > 12) {
-        html += addBlock("High Onboarding Velocity", 
-            `With ${data.ob_year} new hires per year, manual setup creates repetitive strain. Our HR-to-IT Sync ensures that when a candidate is hired, their laptop is ordered and accounts are created automatically.`);
+    if (data.selectedHW.length > 0) {
+        html += addBlock("Hardware Management", 
+            `Your fleet includes ${data.selectedHW.join(', ')}. Factorial IT centralizes these assets into a single pane of glass, removing data silos.`);
     }
 
-    if (data.manualTicketing) {
-        html += addBlock("Administrative Efficiency", 
-            `Currently handling IT requests manually leads to lost accountability. Our self-service workflows bring structure without the complexity of traditional enterprise service desks.`);
+    if (data.selectedOS.length > 0) {
+        html += addBlock("OS Ecosystem", 
+            `Supporting ${data.selectedOS.join(' and ')} environments usually requires multiple tools. We consolidate this into one unified MDM solution.`);
     }
 
-    if (data.isRemote) {
-        html += addBlock("Remote & Hybrid Security", 
-            `Operating a remote or hybrid environment expands your security perimeter. Factorial IT unifies control regardless of physical location, ensuring compliant device states even when users are off the office network.`);
-    }
-
-    if (data.mixedHW) {
-        html += addBlock("Hardware Complexity", 
-            `Managing a diverse mix of hardware (Laptops, Phones, Tablets) manually often creates data silos. Factorial IT centralizes these varied assets into a single pane of glass for unified inventory management.`);
-    }
-
-    if (data.mixedOS) {
-        html += addBlock("Cross-OS Ecosystem", 
-            `Supporting multiple Operating Systems (Windows, iOS, Linux, etc.) often requires specialized tools for each. Factorial IT consolidates this into one MDM solution, reducing the tool-sprawl overhead.`);
-    }
+    // --- PILLARS IMAGE FIX ---
+    // Added 'crossorigin' and forced display block to fix visibility issues
+    html += `
+        <div class="graph-img-container" style="display:block; clear:both; page-break-before: auto;">
+            <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" 
+                 class="graph-img" 
+                 crossorigin="anonymous" 
+                 style="width:100%; max-width:600px; display:block; margin: 20px auto;">
+        </div>
+    `;
 
     // --- GRAPH IMAGE (JPG) ---
     html += `
