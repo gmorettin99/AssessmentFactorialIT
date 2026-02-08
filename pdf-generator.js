@@ -1,53 +1,66 @@
 /**
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
- * Features: Centered header, Bottom-Right footer, External SVG reference.
  */
 
 async function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
-    // 1. FETCH THE EXTERNAL SVG FILE
-    // We fetch the text content of the file to inject it inline. 
-    // This ensures filters and gradients render correctly in the PDF.
-    let svgGraphContent = '';
-    try {
-        const response = await fetch('strategic-graph.svg');
-        if (response.ok) {
-            svgGraphContent = await response.text();
-        } else {
-            console.error("Failed to load strategic-graph.svg");
-            svgGraphContent = '<p style="text-align:center; color:#999;">(Graphic could not be loaded)</p>';
-        }
-    } catch (error) {
-        console.error("Error fetching SVG:", error);
-        svgGraphContent = '<p style="text-align:center; color:#999;">(Graphic unavailable)</p>';
-    }
-
-    // 2. DEFINE STYLES & HTML STRUCTURE
-    element.style.padding = '0';
+    // Set base container styles
+    element.style.padding = '0'; 
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.position = 'relative';
 
+    // 1. ATTEMPT TO FETCH THE SVG FILE
+    // Ensure the file '3pillarsENG-graph.svg' exists in the same folder.
+    // Note: This requires a local server (http://localhost...) to work. 
+    // It usually fails if you just open index.html directly (file:// protocol).
+    let svgGraphContent = '';
+    try {
+        const response = await fetch('3pillarsENG-graph.svg');
+        if (response.ok) {
+            svgGraphContent = await response.text();
+        } else {
+            // Fallback text if file not found
+            svgGraphContent = '<p style="color:#999; font-size:12px; font-style:italic;">(Graph not found: 3pillarsENG-graph.svg)</p>';
+        }
+    } catch (error) {
+        // Fallback if fetch is blocked (CORS)
+        svgGraphContent = '<p style="color:#999; font-size:12px; font-style:italic;">(Graph unavailable locally)</p>';
+    }
+
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
+            
             .pdf-page {
-                padding: 40px;
+                width: 100%;
+                /* REMOVED PADDING HERE to allow header to touch the top */
+                padding: 0; 
                 position: relative;
                 box-sizing: border-box;
                 min-height: 1080px; 
                 background: white;
             }
+
+            /* New container for the text content to keep it consistent */
+            .content-padding {
+                padding: 10px 40px 40px 40px; 
+            }
+
             .header-img-container {
                 width: 100%;
                 text-align: center;
-                margin-bottom: 20px;
+                line-height: 0; /* Removes tiny gap under image */
+                margin-bottom: 25px;
             }
+
             .header-img {
                 width: 100%;
                 height: auto;
+                display: block; /* Ensures no bottom margin gap */
             }
+
             .footer-notice {
                 position: absolute;
                 bottom: 30px;
@@ -57,6 +70,7 @@ async function generateStrategicPDF(score, data) {
                 font-size: 10px;
                 text-transform: uppercase;
             }
+
             .fit-score-box {
                 background: #f4fdfa;
                 padding: 25px;
@@ -64,17 +78,19 @@ async function generateStrategicPDF(score, data) {
                 margin-bottom: 20px;
                 border-left: 6px solid #74f9d4;
             }
+
             .svg-container {
                 width: 100%;
-                margin: 20px 0;
+                margin: 30px 0;
                 display: flex;
                 justify-content: center;
             }
-            /* Force SVG to fit container */
+
+            /* Ensure loaded SVG fits within bounds */
             .svg-container svg {
                 width: 100%;
                 height: auto;
-                max-height: 350px; /* Cap height to prevent page overflow */
+                max-height: 350px;
             }
         </style>
 
@@ -83,30 +99,31 @@ async function generateStrategicPDF(score, data) {
                 <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" class="header-img" crossorigin="anonymous">
             </div>
             
-            <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px; font-weight: 600;">Factorial IT Strategic Audit</h1>
-            <p style="font-weight: 600; border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-top: 0; color: #444;">
-                The Operating System for IT, Powered by HR Data
-            </p>
-            
-            <div style="margin: 20px 0; line-height: 1.5; font-size: 13px; color: #333; font-weight: 400;">
-                <p>Factorial IT is engineered to bridge the operational gap between People (HR) and Technology (IT). 
-                By integrating directly with your employee source of truth, we automate the technology lifecycle 
-                from procurement to offboarding.</p>
-            </div>
+            <div class="content-padding">
+                <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px; font-weight: 600; margin-top: 0;">Factorial IT Strategic Audit</h1>
+                <p style="font-weight: 600; border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-top: 0; color: #444;">
+                    The Operating System for IT, Powered by HR Data
+                </p>
+                
+                <div style="margin: 20px 0; line-height: 1.5; font-size: 13px; color: #333; font-weight: 400;">
+                    <p>Factorial IT is engineered to bridge the operational gap between People (HR) and Technology (IT). 
+                    By integrating directly with your employee source of truth, we automate the technology lifecycle 
+                    from procurement to offboarding.</p>
+                </div>
 
-            <div class="fit-score-box">
-                <h2 style="margin-top:0; color: #111; font-size: 20px; font-weight: 600;">Fit Score: ${score.toFixed(1)}</h2>
-                <p style="font-size: 14px; margin-bottom:0; line-height: 1.4; font-weight: 400;">${getStrategicSummary(score)}</p>
-            </div>
+                <div class="fit-score-box">
+                    <h2 style="margin-top:0; color: #111; font-size: 20px; font-weight: 600;">Fit Score: ${score.toFixed(1)}</h2>
+                    <p style="font-size: 14px; margin-bottom:0; line-height: 1.4; font-weight: 400;">${getStrategicSummary(score)}</p>
+                </div>
 
-            <div class="svg-container">
-                ${svgGraphContent}
-            </div>
+                <div class="svg-container">
+                    ${svgGraphContent}
+                </div>
 
-            <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
+                <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-    // 3. DYNAMIC JUSTIFICATION BLOCKS
+    // 2. DYNAMIC JUSTIFICATION BLOCKS
     if (data.devices > 50) {
         html += addBlock("Scalable Infrastructure", 
             `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one.`);
@@ -132,16 +149,14 @@ async function generateStrategicPDF(score, data) {
             `Currently handling IT requests manually leads to lost accountability. Our self-service workflows bring structure without the complexity of traditional enterprise service desks.`);
     }
 
-    // Confidentiality Notice
     html += `
-            <div class="footer-notice">CONFIDENTIAL STRATEGIC AUDIT 2026</div>
+            </div> <div class="footer-notice">CONFIDENTIAL STRATEGIC AUDIT 2026</div>
         </div> `;
 
     element.innerHTML = html;
 
-    // 4. PDF EXPORT SETTINGS
     const opt = {
-        margin: 0,
+        margin: 0, // Ensure no default margins from the library
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true },
