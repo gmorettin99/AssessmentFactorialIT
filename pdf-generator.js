@@ -1,6 +1,7 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * VERSION: SCENARIO A MATH + DYNAMIC TEXT + VISUAL FIXES
+ * FINAL VERSION
+ * Includes: Scenario A Math Display, Dynamic Text, Button Fix, and IMAGES.
  */
 
 // --- HELPER 1: DYNAMIC LIST FORMATTER ---
@@ -15,9 +16,8 @@ const formatList = (obj, labels) => {
     return active.slice(0, -1).join(", ") + " and " + active.slice(-1);
 };
 
-// --- HELPER 2: STRATEGIC SUMMARY (PERCENTAGE BASED) ---
+// --- HELPER 2: STRATEGIC SUMMARY ---
 function getStrategicSummary(score) {
-    // Scenario A (Perfect Storm) was 75%. Scenario B (Low Fit) was 26%.
     if (score >= 60) return "Strategic Assessment: High Fit. Your organization exhibits a 'perfect storm' of operational friction. Continuing with manual processes presents a significant risk of burnout and compliance failure.";
     if (score >= 35) return "Strategic Assessment: Moderate Fit. Manual processes are becoming a bottleneck. Implementing automation now will future-proof your operations before technical debt accumulates.";
     return "Strategic Assessment: Early Maturity. Implementing a foundational system now will prevent the chaotic inflection point as you scale toward the 50-employee threshold.";
@@ -30,7 +30,6 @@ function getInputRecap(data) {
     if (data.devices) points.push(`${data.devices} managed devices`);
     if (data.it_team) points.push(`an IT team of ${data.it_team}`);
     
-    // Use the dynamic counts for recap
     const hwCount = Object.values(data.hardware || {}).filter(v => v).length;
     if (hwCount > 1) points.push(`a mixed hardware environment`);
     
@@ -42,7 +41,6 @@ function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     element.id = "temp-pdf-container";
     
-    // Dynamic Labels
     const complianceLabels = { nis2: "NIS2", iso: "ISO 27001", hipaa: "HIPAA", soc2: "SOC2" };
     const hwLabels = { laptop: "Laptops", phone: "Phones", ipad: "iPads" };
     const osLabels = { windows: "Windows", ios: "iOS", linux: "Linux" };
@@ -63,7 +61,9 @@ function generateStrategicPDF(score, data) {
                 width: 100%;
                 box-sizing: border-box;
             }
+            /* HEADER IMAGE STYLE */
             .header-img { width: 100%; max-width: 600px; display: block; margin-bottom: 20px; }
+            
             .subtitle-text { border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-bottom: 20px; font-weight: 600; color: #444; }
             
             .fit-score-box { 
@@ -79,7 +79,9 @@ function generateStrategicPDF(score, data) {
             .block-title { color: #ff585d; font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px; }
             .block-text { font-size: 12px; color: #444; margin: 0; line-height: 1.5; }
             
+            /* PILLARS GRAPH STYLE */
             .graph-img { width: 100%; max-width: 550px; display: block; margin: 20px auto; page-break-inside: avoid; }
+            
             .future-plan-box { background: #f9f9f9; padding: 25px; border-radius: 14px; margin-top: 20px; page-break-inside: avoid; }
             
             .cta-btn { 
@@ -141,7 +143,7 @@ function generateStrategicPDF(score, data) {
         html += `<div class="info-block"><span class="block-title">• Cross-OS Ecosystem</span><p class="block-text">Supporting ${activeOS} often requires specialized tools. Factorial IT consolidates this into one MDM solution.</p></div>`;
     }
 
-    // --- FOOTER ---
+    // --- IMAGES & FOOTER ---
     html += `
             <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
 
@@ -157,7 +159,7 @@ function generateStrategicPDF(score, data) {
 
     element.innerHTML = html;
 
-    // --- BUTTON FIX (APPEND TO BODY) ---
+    // --- BUTTON FIX ---
     element.style.position = 'absolute';
     element.style.left = '-9999px';
     element.style.top = '0px';
