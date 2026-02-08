@@ -1,6 +1,6 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FINAL CORPORATE VERSION: NO LOGO, 10PX MARGIN, SAVINGS HIGHLIGHT, CALENDAR BUTTON
+ * REBRANDED PILLARS & PAGINATION FIX
  */
 
 function generateStrategicPDF(score, data) {
@@ -12,15 +12,15 @@ function generateStrategicPDF(score, data) {
     element.style.color = '#111';
 
     let html = `
-        <div style="text-align:center; padding: 10px 40px 10px 40px; margin: 0;">
-            <h1 style="font-size: 38px; font-weight: 800; line-height: 1.1; margin: 0; color: #111;">
+        <div style="text-align:center; padding: 1px 40px 10px 40px; margin: 0;">
+            <h1 style="font-size: 38px; font-weight: 800; line-height: 1.1; margin: 0 0 15px 0; padding-top: 10px; color: #111;">
                 IT operations in <span style="color:#ff585d;">autopilot</span> &<br>
                 enterprise-grade <span style="color:#ff585d;">security</span><br>
                 connected to <span style="color:#ff585d;">HR data</span>
             </h1>
         </div>
 
-        <div style="padding: 20px 50px 40px 50px;">
+        <div style="padding: 0 50px 40px 50px;">
             <p style="font-weight: 700; color: #444; border-bottom: 2px solid #74f9d4; padding-bottom: 12px; margin-bottom: 25px; font-size: 16px;">
                 Automation in your IT Operating System – Powered by HR Data
             </p>
@@ -29,42 +29,51 @@ function generateStrategicPDF(score, data) {
                 Factorial IT is engineered to bridge the operational gap between People and Technology. By integrating directly with your employee data as a single source of truth, we automate the technology lifecycle.
             </p>
 
-            <div style="background: #f4fdfa; padding: 30px; border-radius: 12px; border-left: 8px solid #74f9d4; margin-bottom: 40px; page-break-inside: avoid;">
+            <div style="background: #f4fdfa; padding: 30px; border-radius: 12px; border-left: 8px solid #74f9d4; margin-bottom: 35px; page-break-inside: avoid;">
                 <h2 style="margin: 0 0 10px 0; font-size: 26px; font-weight: 800;">${score.toFixed(1)}%</h2>
                 <p style="margin: 0; font-size: 15px; line-height: 1.5; font-weight: 500; color: #333;">
                     ${getStrategicSummary(score)}
                 </p>
             </div>
+
+            <h3 style="color: #ff585d; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 20px;">
+                Business Case & Justification
+            </h3>
     `;
 
-    // --- REBRANDED CORPORATE TECH PILLARS ---
+    // --- REBRANDED PILLARS ---
     if (data.n > 0) {
         html += addBlock("Asset Density & Scalability", 
-            `Your infrastructure supports ${data.n} endpoints across ${data.m} seats. Factorial IT decouples asset growth from administrative headcount, preventing linear scaling of operational debt.`);
+            `Your infrastructure supports ${data.n} endpoints across ${data.m} seats[cite: 23, 26]. Factorial IT decouples asset growth from administrative headcount, preventing linear scaling of operational debt[cite: 37, 61].`);
     }
 
     if (data.activeCompliance.length > 0) {
         html += addBlock("Automated Compliance Evidence", 
-            `With ${data.activeCompliance.join(' and ')} requirements, audit readiness is critical. Factorial IT serves as a real-time evidence locker, automating logs required for regulatory framework adherence.`);
+            `With ${data.activeCompliance.join(' and ')} requirements, audit readiness is critical[cite: 14]. Factorial IT serves as a real-time evidence locker, automating the logs required for regulatory framework adherence[cite: 5, 79].`);
     }
 
     if (data.it_team <= 2 || data.ob_year > 12) {
         html += addBlock("Resource Optimization", 
-            `Operating with ${data.it_team <= 2 ? 'minimal IT personnel' : ''} during high-velocity growth cycles creates high risk. We act as an autonomous team member, absorbing repetitive tasks.`);
+            `Operating with ${data.it_team <= 2 ? 'minimal IT personnel' : ''} during ${data.ob_year > 12 ? 'high-velocity onboarding' : ''} creates high risk[cite: 15]. We act as an autonomous team member, absorbing low-level repetitive cycles[cite: 6, 82].`);
     }
 
     if (data.selectedHW.length > 1 || data.selectedOS.length > 1) {
         html += addBlock("Heterogeneous Asset Management", 
-            `A fleet consisting of ${data.selectedHW.join('/')} running ${data.selectedOS.join('/')} manually creates data silos. We unify this heterogeneity into a single pane of glass.`);
+            `A fleet of ${data.selectedHW.join('/')} running ${data.selectedOS.join('/')} creates data silos[cite: 15]. We unify this heterogeneity into a centralized, single pane of glass for unified control[cite: 93].`);
+    }
+
+    if (data.isRemote) {
+        html += addBlock("Perimeter-Less Security", 
+            `Decentralized hybrid operations expand your threat surface[cite: 14]. Factorial IT maintains zero-trust device posture and encryption status regardless of location[cite: 90].`);
     }
 
     if (data.manualTicketing) {
         html += addBlock("Operational Excellence", 
-            `Manual ticketing workflows represent a significant administrative deficit. Transitioning to ticket-based automation restores full accountability to your operations.`);
+            `Manual ticketing workflows represent a significant administrative deficit[cite: 16]. Transitioning to HR-triggered automation restores full accountability to the technology lifecycle[cite: 87].`);
     }
 
     html += `
-            <div style="page-break-before: always; margin: 40px 0; text-align: center; page-break-inside: avoid; clear: both; display: block;">
+            <div style="margin: 40px 0; text-align: center; page-break-inside: avoid; clear: both; display: block;">
                 <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" 
                      style="width: 100%; max-width: 650px; display: inline-block;" 
                      crossorigin="anonymous">
@@ -73,32 +82,18 @@ function generateStrategicPDF(score, data) {
             <div style="background: #fafafa; padding: 30px; border-radius: 14px; border: 1px solid #eee; margin-top: 20px; page-break-inside: avoid;">
                 <h4 style="color: #ff585d; margin-top: 0; font-size: 18px; font-weight: 800;">Plan for your future</h4>
                 <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">
-                    Your organizational profile currently maintains ${data.n} assets. This organizational profile demonstrates a <strong>${score.toFixed(0)}% requirement</strong> for automated lifecycle management.
+                    <strong>Scenario Recap:</strong> Your organizational profile currently maintains ${data.n} assets, exhibiting a ${score.toFixed(0)}% fit for automated IT operations[cite: 62].
                     <br><br>
-                    <strong>Strategic Savings Spotlight:</strong> Based on your architecture, the highest impact is in <strong>${data.bestOutcome.label}</strong>, projecting a reclamation of <strong>${data.bestOutcome.hours.toFixed(0)} technical hours</strong> annually through ${data.bestOutcome.desc}.
+                    <strong>The Solution:</strong> Factorial IT isolates accounts where "Administrative Deficit" and "Asset Intensity" are highest, providing the greatest mitigation of management overhead[cite: 6, 62].
                 </p>
                 <div style="text-align: left;">
-                    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="display: inline-block; background: #ff585d; color: white; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 15px;">
+                    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="display: inline-block; background: #ff585d; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 15px;">
                         Book Strategic Consultation
                     </a>
                 </div>
             </div>
-
-            <div style="text-align: center; margin-top: 30px; page-break-inside: avoid;">
-                <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="text-decoration: none;">
-                    <div style="display: inline-flex; align-items: center; background: #ffffff; border: 2px solid #ff585d; border-radius: 50%; width: 60px; height: 60px; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M16 2V6" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 2V6" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M3 10H21" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <p style="color: #ff585d; font-size: 12px; font-weight: 700; margin-top: 8px;">SCHEDULE MEETING</p>
-                </a>
-            </div>
             
-            <div style="margin-top: 40px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px; letter-spacing: 1px;">
+            <div style="margin-top: 50px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px; letter-spacing: 1px;">
                 CONFIDENTIAL STRATEGIC AUDIT 2026
             </div>
         </div>
@@ -133,7 +128,7 @@ function addBlock(title, text) {
 }
 
 function getStrategicSummary(score) {
-    if (score > 60) return "Strategic Assessment: High Fit. Your organization exhibits significant operational friction. Manual processes present a critical risk to scalability.";
-    if (score >= 30) return "Strategic Assessment: Moderate Fit. Manual processes are becoming a bottleneck. Implementing automation now prevents technical debt.";
-    return "Strategic Assessment: Early Maturity. Foundations established now prevent chaotic scale-up friction.";
+    if (score > 60) return "Strategic Assessment: High Fit. Your organization exhibits a 'perfect storm' of operational friction[cite: 71]. Manual processes present a critical risk to scalability and compliance adherence[cite: 72].";
+    if (score >= 30) return "Strategic Assessment: Moderate Fit. Manual processes are becoming a bottleneck. Implementing automation now prevents the accumulation of technical debt.";
+    return "Strategic Assessment: Early Maturity. Foundations established now prevent chaotic scale-up friction as your headcount increases[cite: 62].";
 }
