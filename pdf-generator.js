@@ -1,6 +1,6 @@
 /**
- * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * Powered by Modular Knowledge Base Logic
+ * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
+ * Re-formatted for clean, dynamic data reporting.
  */
 
 function generateStrategicPDF(score, data) {
@@ -9,21 +9,21 @@ function generateStrategicPDF(score, data) {
     element.style.fontFamily = 'Helvetica, Arial, sans-serif';
     element.style.color = '#111';
 
-    // 1. DEFAULT HEADER & INTRO (Section 1 of KB)
+    // 1. HEADER & PRODUCT OVERVIEW
     let html = `
         <div style="text-align: right; color: #ff585d; font-weight: bold; font-size: 10px; margin-bottom: 20px;">
             CONFIDENTIAL STRATEGIC AUDIT 2026
         </div>
         
-        <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 28px;">Factorial IT Strategic Audit</h1>
+        <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px;">Factorial IT Strategic Audit</h1>
         <p style="font-weight: bold; border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-top: 0; color: #444;">
             The Operating System for IT, Powered by HR Data
         </p>
         
         <div style="margin: 25px 0; line-height: 1.6; font-size: 13px; color: #333;">
-            <p>Factorial IT is engineered to bridge the operational gap between People (HR) and Technology (IT). 
+            <p>Factorial IT is engineered to bridge the operational gap between People (HR) and Technology (IT)[cite: 4]. 
             By integrating directly with your employee source of truth, we automate the technology lifecycle 
-            from procurement and onboarding to security and offboarding.</p>
+            from procurement and onboarding to security and offboarding[cite: 5].</p>
         </div>
 
         <div style="background: #f4fdfa; padding: 25px; border-radius: 12px; margin-bottom: 35px; border-left: 6px solid #74f9d4;">
@@ -34,59 +34,49 @@ function generateStrategicPDF(score, data) {
         <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-
-    // --- MODULAR BLOCKS WITH EXACT DATA INJECTION ---
-
-    // Category I: Infrastructure
+    // 2. DYNAMIC JUSTIFICATION BLOCKS (Reporting Exact Figures)
+    
+    // Infrastructure
     if (data.devices > 50) {
         html += addBlock("Scalable Infrastructure", 
-            `You currently manage **${data.devices} devices**.  As a fleet grows, the administrative overhead typically increases linearly.  Managing a fleet of this size via spreadsheets creates a chaotic support burden.  Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all **${data.devices}** assets as easily as to one. [cite: 12]`);
+            `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly[cite: 11]. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one[cite: 12].`);
     }
 
-    // Category II: Compliance
+    // Compliance
     if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2) {
         html += addBlock("Regulatory Frameworks", 
-            `Since you are currently navigating regulatory frameworks, the 'Evidence Trap' is a significant risk. [cite: 13, 14] Instead of manually collecting screenshots, Factorial IT serves as an Automated Evidence Locker, continuously logging the security state of your fleet for instant audit exports. [cite: 14]`);
+            `Since you are navigating regulatory frameworks like NIS2 or ISO 27001, compliance requires auditable proof of control[cite: 13]. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes for instant, headache-free audit exports[cite: 14].`);
     }
 
-    // Category III: Operations
-    if (data.it_team > 0 && data.it_team <= 3) { // Updated to match your screenshot threshold
+    // Operations (IT Team)
+    if (data.it_team > 0 && data.it_team <= 3) {
         html += addBlock("Personnel Constraints", 
-            `With an IT team size of **${data.it_team}**, 'Ticket Fatigue' is inevitable. [cite: 7, 8] By automating low-level tasks like laptop provisioning, Factorial IT effectively acts as your 'Third Team Member,' freeing up roughly 30% of your current capacity for high-value projects.`);
+            `With an IT team size of ${data.it_team} people, ticket fatigue is a significant risk. By automating low-level tasks like laptop provisioning, Factorial IT effectively acts as your third team member, freeing up roughly 30% of your current capacity for high-value projects.`);
     }
 
+    // Operations (Onboarding)
     if (data.ob_year > 12) {
         html += addBlock("High Onboarding Velocity", 
-            `With **${data.ob_year} new hires per year**, manual setup is a repetitive strain. [cite: 15, 16] Our HR-to-IT Sync ensures that when a candidate is hired in HR, their laptop is ordered and accounts are created automatically.  This standardizes the 'Day 1' experience for all **${data.ob_year}** annual joiners. `);
+            `With ${data.ob_year} new hires per year, manual setup creates repetitive strain and human error[cite: 15, 16]. Our HR-to-IT Sync ensures that when a candidate is hired, their laptop is ordered and accounts are created automatically, standardizing the experience for all ${data.ob_year} annual joiners[cite: 16].`);
     }
 
-    // Category V: Automation
+    // Automation Gap
     if (data.manualTicketing) {
         html += addBlock("Administrative Efficiency", 
-            `Currently handling IT requests **manually** leads to 'Shadow Work' and lost accountability. [cite: 17, 18] We bring structure via self-service workflows, ensuring every request is tracked and resolved without the noise of Slack DMs or emails. [cite: 19]`);
+            `Currently handling IT requests manually leads to lost accountability and shadow work[cite: 17, 18]. Our self-service workflows bring structure and accountability without the complexity of traditional enterprise service desks[cite: 19].`);
     }
-
-    
-    // 3. INPUT RECAP (Section 3: Audit Data)
-    html += `
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 11px; color: #888;">
-            <p style="margin-bottom: 10px; font-weight: bold; color: #444;">AUDIT INPUT RECAP:</p>
-            Managed Devices: ${data.devices} | IT Team: ${data.it_team} | Annual Onboarding: ${data.ob_year} | Remote: ${data.remoteText}
-        </div>
-    `;
 
     element.innerHTML = html;
 
-    // PDF Export Settings
+    // 3. PDF EXPORT SETTINGS
     const opt = {
         margin: 15,
-        filename: `Factorial_IT_Report_${new Date().toISOString().slice(0,10)}.pdf`,
+        filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, logging: false, useCORS: true },
+        html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
-    // Execute save
     html2pdf().set(opt).from(element).save();
 }
 
@@ -96,14 +86,14 @@ function generateStrategicPDF(score, data) {
 function addBlock(title, text) {
     return `
         <div style="margin-bottom: 22px; page-break-inside: avoid;">
-            <strong style="display: block; font-size: 14px; color: #111; margin-bottom: 5px;">• ${title}</strong>
-            <p style="font-size: 12px; color: #555; margin-top: 0; line-height: 1.5;">${text}</p>
+            <strong style="display: block; font-size: 14px; color: #ff585d; margin-bottom: 5px;">• ${title}</strong>
+            <p style="font-size: 12px; color: #444; margin-top: 0; line-height: 1.6;">${text}</p>
         </div>
     `;
 }
 
 function getStrategicSummary(score) {
-    if (score > 25) return "<strong>Strategic Assessment: High Fit.</strong> Your organization exhibits a 'perfect storm' of operational friction. Continuing with manual processes presents a significant risk of burnout and compliance failure. Immediate automation is recommended.";
-    if (score >= 15) return "<strong>Strategic Assessment: Moderate Fit.</strong> While current operations are stable, manual processes are becoming a bottleneck. Implementing automation now will 'future-proof' your IT operations before technical debt accumulates.";
-    return "<strong>Strategic Assessment: Early Maturity.</strong> While immediate full-scale automation may not be critical today, implementing a foundational system for Asset Management now will prevent the chaotic 'inflection point' as you scale.";
+    if (score > 25) return "Strategic Assessment: High Fit[cite: 7]. Your organization exhibits a 'perfect storm' of operational friction[cite: 7]. Continuing with manual processes presents a significant risk of burnout and compliance failure[cite: 8].";
+    if (score >= 15) return "Strategic Assessment: Moderate Fit. Manual processes are becoming a bottleneck. Implementing automation now will future-proof your operations before technical debt accumulates.";
+    return "Strategic Assessment: Early Maturity. Implementing a foundational system now will prevent the chaotic inflection point as you scale toward the 50-employee threshold.";
 }
