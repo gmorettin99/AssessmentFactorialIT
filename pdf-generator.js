@@ -24,7 +24,7 @@ function generateStrategicPDF(score, data) {
             </p>
 
             <div style="background: #f4fdfa; padding: 30px; border-radius: 12px; border-left: 8px solid #74f9d4; margin-bottom: 35px;">
-                <h2 style="margin: 0 0 15px 0; font-size: 24px; font-weight: 800;">Fit Score: ${score.toFixed(1)}</h2>
+                <h2 style="margin: 0 0 15px 0; font-size: 24px; font-weight: 800;"> ${score.toFixed(1)}%</h2>
                 <p style="margin: 0; font-size: 15px; line-height: 1.5; font-weight: 500; color: #333;">
                     ${getStrategicSummary(score)}
                 </p>
