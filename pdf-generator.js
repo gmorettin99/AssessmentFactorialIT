@@ -6,7 +6,7 @@ function generateStrategicPDF(score, data) {
     element.style.color = '#111';
 
     let html = `
-        <div style="text-align:center; padding: 40px 40px 20px 40px;">
+        <div style="text-align:center; padding: 10px 40px 20px 40px;">
             <h1 style="font-size: 36px; font-weight: 800; line-height: 1.1; margin-bottom: 10px;">
                 IT operations in <span style="color:#ff585d;">autopilot</span> &<br>
                 enterprise-grade <span style="color:#ff585d;">security</span><br>
