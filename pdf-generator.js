@@ -87,7 +87,7 @@ function generateStrategicPDF(score, data) {
             }
         </style>
 
-        <div class="pdf-page">
+        <div class="pdf-page page-break">
             <div class="header-img-container">
                 <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" class="header-img" crossorigin="anonymous">
             </div>
