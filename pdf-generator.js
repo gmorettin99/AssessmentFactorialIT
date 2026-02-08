@@ -1,6 +1,6 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FINAL CORPORATE VERSION: NO LOGO, 10PX MARGIN, ROI SPOTLIGHT
+ * FINAL CORPORATE VERSION: NO LOGO, 10PX MARGIN, SAVINGS HIGHLIGHT, CALENDAR BUTTON
  */
 
 function generateStrategicPDF(score, data) {
@@ -37,7 +37,7 @@ function generateStrategicPDF(score, data) {
             </div>
     `;
 
-    // --- REBRANDED CORPORATE TECH PILLARS (NO TITLES) ---
+    // --- REBRANDED CORPORATE TECH PILLARS ---
     if (data.n > 0) {
         html += addBlock("Asset Density & Scalability", 
             `Your infrastructure supports ${data.n} endpoints across ${data.m} seats. Factorial IT decouples asset growth from administrative headcount, preventing linear scaling of operational debt.`);
@@ -50,25 +50,19 @@ function generateStrategicPDF(score, data) {
 
     if (data.it_team <= 2 || data.ob_year > 12) {
         html += addBlock("Resource Optimization", 
-            `Operating with ${data.it_team <= 2 ? 'minimal IT personnel' : ''} during high-velocity growth creates high risk. We act as an autonomous team member, absorbing repetitive tasks.`);
+            `Operating with ${data.it_team <= 2 ? 'minimal IT personnel' : ''} during high-velocity growth cycles creates high risk. We act as an autonomous team member, absorbing repetitive tasks.`);
     }
 
     if (data.selectedHW.length > 1 || data.selectedOS.length > 1) {
         html += addBlock("Heterogeneous Asset Management", 
-            `A fleet consisting of ${data.selectedHW.join('/')} running ${data.selectedOS.join('/')} environments manually creates data silos. We unify this heterogeneity into a single pane of glass.`);
-    }
-
-    if (data.isRemote) {
-        html += addBlock("Perimeter-Less Security", 
-            `Decentralized hybrid operations expand your threat surface. Factorial IT maintains zero-trust device posture regardless of physical location.`);
+            `A fleet consisting of ${data.selectedHW.join('/')} running ${data.selectedOS.join('/')} manually creates data silos. We unify this heterogeneity into a single pane of glass.`);
     }
 
     if (data.manualTicketing) {
         html += addBlock("Operational Excellence", 
-            `Manual ticketing workflows represent a significant administrative deficit. Transitioning to HR-triggered automation restores full accountability to your operations.`);
+            `Manual ticketing workflows represent a significant administrative deficit. Transitioning to ticket-based automation restores full accountability to your operations.`);
     }
 
-    // Pillars Graphic
     html += `
             <div style="page-break-before: always; margin: 40px 0; text-align: center; page-break-inside: avoid; clear: both; display: block;">
                 <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" 
@@ -79,18 +73,32 @@ function generateStrategicPDF(score, data) {
             <div style="background: #fafafa; padding: 30px; border-radius: 14px; border: 1px solid #eee; margin-top: 20px; page-break-inside: avoid;">
                 <h4 style="color: #ff585d; margin-top: 0; font-size: 18px; font-weight: 800;">Plan for your future</h4>
                 <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">
-                    <strong>Scenario Recap:</strong> Your organizational profile exhibits a <strong>${score.toFixed(0)}% requirement</strong> for automated IT operations.
+                    Your organizational profile currently maintains ${data.n} assets. This organizational profile demonstrates a <strong>${score.toFixed(0)}% requirement</strong> for automated lifecycle management.
                     <br><br>
-                    <strong>Strategic Savings Spotlight:</strong> Based on your current architecture, the highest impact is in <strong>${data.bestOutcome.label}</strong>, where we project a reclamation of <strong>${data.bestOutcome.hours.toFixed(0)} technical hours</strong> annually through ${data.bestOutcome.desc}.
+                    <strong>Strategic Savings Spotlight:</strong> Based on your architecture, the highest impact is in <strong>${data.bestOutcome.label}</strong>, projecting a reclamation of <strong>${data.bestOutcome.hours.toFixed(0)} technical hours</strong> annually through ${data.bestOutcome.desc}.
                 </p>
                 <div style="text-align: left;">
-                    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="display: inline-block; background: #ff585d; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 15px;">
+                    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="display: inline-block; background: #ff585d; color: white; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 15px;">
                         Book Strategic Consultation
                     </a>
                 </div>
             </div>
+
+            <div style="text-align: center; margin-top: 30px; page-break-inside: avoid;">
+                <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="text-decoration: none;">
+                    <div style="display: inline-flex; align-items: center; background: #ffffff; border: 2px solid #ff585d; border-radius: 50%; width: 60px; height: 60px; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 2V6" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 2V6" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 10H21" stroke="#ff585d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <p style="color: #ff585d; font-size: 12px; font-weight: 700; margin-top: 8px;">SCHEDULE MEETING</p>
+                </a>
+            </div>
             
-            <div style="margin-top: 50px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px; letter-spacing: 1px;">
+            <div style="margin-top: 40px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px; letter-spacing: 1px;">
                 CONFIDENTIAL STRATEGIC AUDIT 2026
             </div>
         </div>
