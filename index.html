@@ -10,99 +10,95 @@
 <body>
 
 <div class="calculator-card">
-    <div class="header-container">
-        <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" alt="Factorial IT Hero" class="brand-hero">
-    </div>
-
-    <form id="calcForm">
-        
-        <div class="layout-row">
-            
-            <div class="layout-col">
-                <div class="section-title">I. Core Infrastructure</div>
-                <div class="grid-3-col">
-                    <div class="input-field">
-                        <label># Managed Devices</label>
-                        <input type="number" id="devices" placeholder="e.g. 50">
-                    </div>
-                    <div class="input-field">
-                        <label>IT Team Size</label>
-                        <input type="number" id="it_team" placeholder="e.g. 2">
-                    </div>
-                    <div class="input-field">
-                        <label>Annual Onboarding</label>
-                        <input type="number" id="ob_year" placeholder="e.g. 15">
-                    </div>
-                </div>
-            </div>
-
-            <div class="layout-col">
-                <div class="section-title">II. Compliance & Frameworks</div>
-                <div class="grid-4-col">
-                    <div class="input-field">
-                        <label>NIS2</label>
-                        <select id="nis2"><option value="0">No</option><option value="2">Yes</option></select>
-                    </div>
-                    <div class="input-field">
-                        <label>ISO 27001</label>
-                        <select id="iso"><option value="0">No</option><option value="2">Yes</option></select>
-                    </div>
-                    <div class="input-field">
-                        <label>HIPAA</label>
-                        <select id="hipaa"><option value="0">No</option><option value="2">Yes</option></select>
-                    </div>
-                    <div class="input-field">
-                        <label>SOC2</label>
-                        <select id="soc2"><option value="0">No</option><option value="2">Yes</option></select>
-                    </div>
-                </div>
-            </div>
+    <div id="pdf-template">
+        <div class="header-container">
+            <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" alt="Factorial IT Hero" class="brand-hero">
         </div>
 
-        <div class="layout-row">
+        <form id="calcForm">
             
-            <div class="layout-col">
-                <div class="section-title">III. Operations & Heterogeneity</div>
-                <div class="grid-2-col">
-                    <div class="input-field">
-                        <label>Remote/Hybrid</label>
-                        <select id="remote"><option value="0">No</option><option value="2">Yes</option></select>
+            <div class="layout-row">
+                <div class="layout-col">
+                    <div class="section-title">I. Core Infrastructure</div>
+                    <div class="grid-3-col">
+                        <div class="input-field">
+                            <label># Managed Devices</label>
+                            <input type="number" id="devices" placeholder="e.g. 50">
+                        </div>
+                        <div class="input-field">
+                            <label>IT Team Size</label>
+                            <input type="number" id="it_team" placeholder="e.g. 2">
+                        </div>
+                        <div class="input-field">
+                            <label>Annual Onboarding</label>
+                            <input type="number" id="ob_year" placeholder="e.g. 15">
+                        </div>
                     </div>
-                    <div class="input-field">
-                        <label>Ticketing System</label>
-                        <select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select>
+                </div>
+
+                <div class="layout-col">
+                    <div class="section-title">II. Compliance & Frameworks</div>
+                    <div class="grid-4-col">
+                        <div class="input-field">
+                            <label>NIS2</label>
+                            <select id="nis2"><option value="0">No</option><option value="2">Yes</option></select>
+                        </div>
+                        <div class="input-field">
+                            <label>ISO 27001</label>
+                            <select id="iso"><option value="0">No</option><option value="2">Yes</option></select>
+                        </div>
+                        <div class="input-field">
+                            <label>HIPAA</label>
+                            <select id="hipaa"><option value="0">No</option><option value="2">Yes</option></select>
+                        </div>
+                        <div class="input-field">
+                            <label>SOC2</label>
+                            <select id="soc2"><option value="0">No</option><option value="2">Yes</option></select>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="layout-col">
-                <div class="section-title" style="color:#ff585d; opacity:0.8;">Devices & OS ecosystem</div>
-                <div class="grid-2-col">
-                    <div class="checkbox-box">
-                        <label><input type="checkbox" class="hw" value="1"> Laptop</label>
-                        <label><input type="checkbox" class="hw" value="1"> Phone</label>
-                        <label><input type="checkbox" class="hw" value="1"> iPad</label>
+            <div class="layout-row">
+                <div class="layout-col">
+                    <div class="section-title">III. Operations & Heterogeneity</div>
+                    <div class="grid-2-col">
+                        <div class="input-field">
+                            <label>Remote/Hybrid</label>
+                            <select id="remote"><option value="0">No</option><option value="2">Yes</option></select>
+                        </div>
+                        <div class="input-field">
+                            <label>Ticketing System</label>
+                            <select id="ticketing"><option value="2">No (Manual)</option><option value="0">Yes (Automated)</option></select>
+                        </div>
                     </div>
-                    <div class="checkbox-box">
-                        <label><input type="checkbox" class="os" value="1"> Windows</label>
-                        <label><input type="checkbox" class="os" value="1"> iOS</label>
-                        <label><input type="checkbox" class="os" value="1"> Linux</label>
+                </div>
+
+                <div class="layout-col">
+                    <div class="section-title" style="color:#ff585d; opacity:0.8;">Devices & OS ecosystem</div>
+                    <div class="grid-2-col">
+                        <div class="checkbox-box">
+                            <label><input type="checkbox" class="hw" value="1"> Laptop</label>
+                            <label><input type="checkbox" class="hw" value="1"> Phone</label>
+                            <label><input type="checkbox" class="hw" value="1"> iPad</label>
+                        </div>
+                        <div class="checkbox-box">
+                            <label><input type="checkbox" class="os" value="1"> Windows</label>
+                            <label><input type="checkbox" class="os" value="1"> iOS</label>
+                            <label><input type="checkbox" class="os" value="1"> Linux</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <button type="button" class="submit-btn" onclick="processAssessment()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-    </form>
-</div>
-
-<script src="pdf-generator.js"></script>
-
+            <button type="button" class="submit-btn" onclick="processAssessment()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 2L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </form>
+    </div> </div> <script src="pdf-generator.js"></script>
 <script src="script.js"></script>
     
 </body>
