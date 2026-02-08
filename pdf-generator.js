@@ -172,7 +172,7 @@ function generateStrategicPDF(score, data) {
     const opt = {
         margin: [0, 0, 0, 0], 
         filename: `Factorial_IT_Assessment.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 1 },
         pagebreak: { mode: ['css', 'legacy'] }, 
         html2canvas: { 
             scale: 4, 
@@ -195,7 +195,7 @@ function addBlock(title, text) {
 }
 
 function getStrategicSummary(score) {
-    if (score > 25) return "Strategic Assessment: High Fit. Your organization exhibits a 'perfect storm' of operational friction. Continuing with manual processes presents a significant risk of burnout and compliance failure.";
+    if (score > 25) return "Strategic Assessment: High Fit. Your organization exhibits operational friction. Continuing with manual processes presents a significant risk for scalability of your operations and a likely compliance failure.";
     if (score >= 15) return "Strategic Assessment: Moderate Fit. Manual processes are becoming a bottleneck. Implementing automation now will future-proof your operations before technical debt accumulates.";
-    return "Strategic Assessment: Early Maturity. Implementing a foundational system now will prevent the chaotic inflection point as you scale toward the 50-employee threshold.";
+    return "Strategic Assessment: Early Maturity. Implementing a foundational system now will prevent the chaotic inflection point as you scale your organisation.";
 }
