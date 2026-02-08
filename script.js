@@ -1,54 +1,86 @@
 function processAssessment() {
-    let score = 0;
-    
-    // Core Data Inputs
+    // 1. Core Data Inputs
+    const employees = parseInt(document.getElementById('employees').value) || 1; // Default to 1 to avoid div/0
     const devices = parseInt(document.getElementById('devices').value) || 0;
     const it_team = parseInt(document.getElementById('it_team').value) || 0;
     const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
     
-    // I. Scalable Infrastructure Logic (+2.0 per 10 devices)
-    score += Math.round(devices / 10) * 2;
-
-    // II. Compliance Logic (+2.0 per framework)
-    // We capture specific booleans to trigger specific KB text blocks later
+    // 2. Capture Granular Data (Required for PDF Text)
     const compliance = {
         nis2: document.getElementById('nis2').value === "2",
         iso: document.getElementById('iso').value === "2",
         soc2: document.getElementById('soc2').value === "2",
         hipaa: document.getElementById('hipaa').value === "2"
     };
-    
-    Object.values(compliance).forEach(val => { if(val) score += 2; });
 
-    // III. Operational triggers
     const isRemote = document.getElementById('remote').value === "2";
-    if (isRemote) score += 2;
-    if (it_team > 0 && it_team <= 2) score += 2; 
-    if (ob_year > 12) score += 2; 
-
-    // IV. Heterogeneity multiplicity
-    const mixedHW = document.querySelectorAll('.hw:checked').length > 1;
-    const mixedOS = document.querySelectorAll('.os:checked').length > 1;
-    if (mixedHW) score += 2;
-    if (mixedOS) score += 2;
-
-    // V. Automation gap
     const manualTicketing = document.getElementById('ticketing').value === "2";
-    if (manualTicketing) score += 2;
 
-    // Package the "Logic Map" for the PDF Generator
+    const hwCheckboxes = document.querySelectorAll('.hw'); 
+    const hardware = {
+        laptop: hwCheckboxes[0].checked,
+        phone: hwCheckboxes[1].checked,
+        ipad: hwCheckboxes[2].checked
+    };
+    const mixedHW = Object.values(hardware).filter(v => v).length > 1;
+
+    const osCheckboxes = document.querySelectorAll('.os');
+    const os = {
+        windows: osCheckboxes[0].checked,
+        ios: osCheckboxes[1].checked,
+        linux: osCheckboxes[2].checked
+    };
+    const mixedOS = Object.values(os).filter(v => v).length > 1;
+
+    // --- 3. SCENARIO A MATH IMPLEMENTATION ---
+    
+    // A. Qualitative Normalization (P_qual)
+    // Risk Factors (Binary Indicators):
+    // 1. Certification Frameworks (Any present)
+    const riskCompliance = Object.values(compliance).some(v => v) ? 1 : 0;
+    // 2. Operational Perimeter (Remote/Hybrid)
+    const riskRemote = isRemote ? 1 : 0;
+    // 3. Personnel Ratio (IT <= 2 OR High Onboarding)
+    const riskPersonnel = (it_team <= 2 || ob_year > 12) ? 1 : 0;
+    // 4. Asset Heterogeneity (Mixed HW OR Mixed OS)
+    const riskHeterogeneity = (mixedHW || mixedOS) ? 1 : 0;
+    // 5. Administrative Deficit (Manual Ticketing)
+    const riskAdmin = manualTicketing ? 1 : 0;
+
+    const totalRisks = riskCompliance + riskRemote + riskPersonnel + riskHeterogeneity + riskAdmin;
+    
+    // P_qual = 10 * x (where x is risk count)
+    const p_qual = totalRisks * 10; 
+
+    // B. Infrastructure Normalization (P_infra)
+    // P_infra = (50 * n) / m 
+    // where n = devices, m = employees
+    let p_infra = (50 * devices) / employees;
+    if (p_infra > 100) p_infra = 100; // Cap at 100% saturation
+
+    // C. Integrated Final Score (Phi)
+    // Phi = (P_qual + P_infra) / 2
+    const score = (p_qual + p_infra) / 2;
+
+    // --- 4. Package Data ---
     const assessmentData = {
+        employees,
         devices,
         it_team,
         ob_year,
-        compliance, // contains nis2, iso, soc2, hipaa booleans
+        compliance,
+        hardware,
+        os,
         isRemote,
         mixedHW,
         mixedOS,
-        manualTicketing,
-        remoteText: document.getElementById('remote').options[document.getElementById('remote').selectedIndex].text
+        manualTicketing
     };
 
-    // Final call to your PDF generator
-    generateStrategicPDF(score, assessmentData);
+    // --- 5. Generate PDF ---
+    if (typeof generateStrategicPDF === "function") {
+        generateStrategicPDF(score, assessmentData);
+    } else {
+        alert("PDF Generator script is not loaded.");
+    }
 }
