@@ -170,8 +170,11 @@ input, select {
 
 /* Force large visuals to start on new page */
 .graph-img-container {
-    page-break-before: always;
-    break-before: page;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    display: block !important;
+    min-height: 200px; /* Ensures space is reserved */
+    margin: 40px 0;
 }
 
 .graph-img {
@@ -191,12 +194,4 @@ input, select {
 .input-field input, .input-field select {
     height: 38px;
     box-sizing: border-box;
-}
-
-.graph-img-container {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    display: block !important;
-    min-height: 200px; /* Ensures space is reserved */
-    margin: 40px 0;
 }
