@@ -174,3 +174,10 @@ input, select {
     break-before: page;
 }
 
+.graph-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+
