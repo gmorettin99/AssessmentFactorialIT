@@ -180,3 +180,15 @@ input, select {
     height: auto;
 }
 
+/* New 2x2 Grid Layouts for Infrastructure and Compliance */
+.grid-2-col-infra, .grid-2-col-compliance {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Maintain consistent height for form elements */
+.input-field input, .input-field select {
+    height: 38px;
+    box-sizing: border-box;
+}
