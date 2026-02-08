@@ -1,9 +1,5 @@
 /**
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
- * Updates: 
- * 1. References external SVG variable (window.STRATEGIC_GRAPHS)
- * 2. Zero margins for flush header.
- * 3. Block-level image display to remove gaps.
  */
 
 function generateStrategicPDF(score, data) {
@@ -11,57 +7,46 @@ function generateStrategicPDF(score, data) {
     
     // Set base container styles
     element.style.padding = '0'; 
-    element.style.margin = '0';
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.position = 'relative';
-    element.style.background = 'white';
 
-    // 1. RETRIEVE GRAPH FROM GLOBAL STORE
-    // This looks for the variable we created in svg-assets.js
-    // Fixed code
+    // 1. GET THE SVG FROM OUR ASSET FILE
+    // Pointer: This looks into the global window object defined in svg-assets.js
     const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
         ? window.STRATEGIC_GRAPHS.pillars 
-        : '<div style="padding:40px; text-align:center; border:1px dashed #ccc;">SVG Asset not found in window.STRATEGIC_GRAPHS</div>';
-    
+        : '<p style="text-align:center; color:#999; margin: 30px;">(Graph asset not found)</p>';
+
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
             
-            /* RESET PDF PAGE */
             .pdf-page {
                 width: 100%;
-                margin: 0;
-                padding: 0; /* Zero padding ensures header hits the top edge */
+                padding: 0; 
                 position: relative;
                 box-sizing: border-box;
-                min-height: 1123px; /* Standard A4 Height at 96 DPI approx */
+                min-height: 1080px; 
                 background: white;
-                overflow: hidden;
             }
 
-            /* INNER CONTENT PADDING */
-            /* We apply padding here so the text doesn't touch the edges, 
-               but the header image stays outside this to touch the top/sides */
             .content-padding {
                 padding: 10px 40px 40px 40px; 
             }
 
-            /* HEADER IMAGE FIXES */
             .header-img-container {
                 width: 100%;
-                line-height: 0;      /* Kills line-height gap */
-                font-size: 0;        /* Kills font-size gap */
-                margin-bottom: 25px; /* Space between header and title */
+                text-align: center;
+                line-height: 0;
+                margin-bottom: 25px;
             }
 
             .header-img {
                 width: 100%;
                 height: auto;
-                display: block;      /* Forces block to remove inline spacing issues */
+                display: block;
             }
 
-            /* FOOTER */
             .footer-notice {
                 position: absolute;
                 bottom: 30px;
@@ -72,7 +57,6 @@ function generateStrategicPDF(score, data) {
                 text-transform: uppercase;
             }
 
-            /* SCORES */
             .fit-score-box {
                 background: #f4fdfa;
                 padding: 25px;
@@ -81,26 +65,26 @@ function generateStrategicPDF(score, data) {
                 border-left: 6px solid #74f9d4;
             }
 
-            /* SVG CONTAINER */
+            /* SVG CONTAINER FIXED */
             .svg-container {
                 width: 100%;
                 margin: 30px 0;
                 display: flex;
                 justify-content: center;
+                align-items: center;
             }
 
-            /* FORCE SVG SIZING */
             .svg-container svg {
-                width: 100%;
+                width: 90% !important; /* Force width for PDF capture */
                 height: auto;
                 max-height: 350px;
-                display: block; /* Removes inline spacing gaps */
+                display: block;
             }
         </style>
 
         <div class="pdf-page">
             <div class="header-img-container">
-                <img src="Framewhite.png" class="header-img">
+                <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" class="header-img" crossorigin="anonymous">
             </div>
             
             <div class="content-padding">
@@ -127,7 +111,7 @@ function generateStrategicPDF(score, data) {
                 <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-    // 2. DYNAMIC BLOCKS
+    // 2. DYNAMIC JUSTIFICATION BLOCKS
     if (data.devices > 50) {
         html += addBlock("Scalable Infrastructure", 
             `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one.`);
@@ -160,16 +144,12 @@ function generateStrategicPDF(score, data) {
 
     element.innerHTML = html;
 
-    // 3. PDF EXPORT SETTINGS (CRITICAL FOR MARGINS)
+    // 3. PDF EXPORT SETTINGS
     const opt = {
-        margin: 0, // Forces zero margin on the PDF document itself
+        margin: 0, 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2, 
-            useCORS: true,
-            scrollY: 0 
-        },
+        html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
