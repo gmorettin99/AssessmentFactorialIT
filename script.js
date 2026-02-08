@@ -2,7 +2,8 @@ function processAssessment() {
     const btn = document.querySelector('.submit-btn');
     const originalContent = btn.innerHTML;
     
-    btn.innerHTML = '<span class="spinner"></span> Analyzing Efficiency Gains...';
+    // Loading State UX
+    btn.innerHTML = '<span class="spinner"></span> Generating Strategic Audit...';
     btn.style.opacity = '0.7';
     btn.style.pointerEvents = 'none';
 
@@ -12,7 +13,7 @@ function processAssessment() {
         const it_team = parseInt(document.getElementById('it_team').value) || 0;
         const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
 
-        // 1. Scoring Logic (phi = (Pqual + Pinfra) / 2)
+        // Formula: P_infra = 50n / m
         let p_infra = (50 * n) / m;
         if (p_infra > 100) p_infra = 100; 
 
@@ -37,24 +38,12 @@ function processAssessment() {
         let p_qual = x * 20; 
         const finalScore = (p_qual + p_infra) / 2;
 
-        // 2. Savings Scenario Engine (Annual Hours)
-        const savings = [
-            { id: 'OB', label: 'Onboarding Operations', hours: ob_year * 3.5, desc: 'automated provisioning & account creation' },
-            { id: 'DEVICE', label: 'Device Lifecycle MGMT', hours: n * 1.5, desc: 'zero-touch deployment & inventory tracking' },
-            { id: 'LICENSE', label: 'SaaS License Optimization', hours: m * 0.8, desc: 'automated shadow IT detection & seat reclamation' },
-            { id: 'AUDIT', label: 'Compliance Audit Readiness', hours: activeCompliance.length * 45, desc: 'automated evidence collection' }
-        ];
-
-        // Find the best outcome scenario
-        const bestOutcome = savings.reduce((prev, current) => (prev.hours > current.hours) ? prev : current);
-
         const assessmentData = {
             n, m, it_team, ob_year,
             activeCompliance,
             selectedHW,
             selectedOS,
             riskFactorCount: x,
-            bestOutcome,
             isRemote: document.getElementById('remote').value === "2",
             manualTicketing: document.getElementById('ticketing').value === "2"
         };
@@ -62,13 +51,13 @@ function processAssessment() {
         generateStrategicPDF(finalScore, assessmentData);
 
     } catch (error) {
-        console.error("Audit Error:", error);
-        alert("Calculation error. Please verify input fields.");
+        console.error("Audit Generation Error:", error);
+        alert("Error generating PDF. Please verify your inputs.");
     } finally {
         setTimeout(() => {
             btn.innerHTML = originalContent;
             btn.style.opacity = '1';
             btn.style.pointerEvents = 'auto';
-        }, 2000);
+        }, 2500);
     }
 }
