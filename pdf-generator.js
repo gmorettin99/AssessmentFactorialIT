@@ -249,10 +249,10 @@ function generateStrategicPDF(score, data) {
     const opt = {
         margin: [10, 0, 10, 0], 
         filename: `Factorial_IT_Assessment.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpg', quality: 0.90 },
         pagebreak: { mode: ['css', 'legacy'] }, 
         html2canvas: { 
-            scale: 2, 
+            scale: 4, 
             useCORS: true, // IMPORTANT: Allows the image to be downloaded from GitHub
             scrollY: 0,
             letterRendering: true
