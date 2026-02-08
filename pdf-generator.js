@@ -1,10 +1,11 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FINAL CORPORATE VERSION: NO LOGO, 10PX MARGIN, ROI SPOTLIGHT
+ * FINAL CORPORATE VERSION - NO LOGO, NO SECTION TITLES, 10PX TOP MARGIN
  */
 
 function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
+    // Ensure height auto for multi-page flow
     element.style.width = '750px';
     element.style.height = 'auto'; 
     element.style.background = '#ffffff';
@@ -13,14 +14,14 @@ function generateStrategicPDF(score, data) {
 
     let html = `
         <div style="text-align:center; padding: 10px 40px 10px 40px; margin: 0;">
-            <h1 style="font-size: 38px; font-weight: 800; line-height: 1.1; margin: 0; color: #111;">
+            <h1 style="font-size: 38px; font-weight: 800; line-height: 1.1; margin: 0 0 15px 0; color: #111;">
                 IT operations in <span style="color:#ff585d;">autopilot</span> &<br>
                 enterprise-grade <span style="color:#ff585d;">security</span><br>
                 connected to <span style="color:#ff585d;">HR data</span>
             </h1>
         </div>
 
-        <div style="padding: 20px 50px 40px 50px;">
+        <div style="padding: 0 50px 40px 50px;">
             <p style="font-weight: 700; color: #444; border-bottom: 2px solid #74f9d4; padding-bottom: 12px; margin-bottom: 25px; font-size: 16px;">
                 Automation in your IT Operating System – Powered by HR Data
             </p>
@@ -35,9 +36,10 @@ function generateStrategicPDF(score, data) {
                     ${getStrategicSummary(score)}
                 </p>
             </div>
-    `;
 
-    // --- REBRANDED CORPORATE TECH PILLARS (NO TITLES) ---
+            `;
+
+    // --- CORPORATE TECH REBRANDED PILLARS ---
     if (data.n > 0) {
         html += addBlock("Asset Density & Scalability", 
             `Your infrastructure supports ${data.n} endpoints across ${data.m} seats. Factorial IT decouples asset growth from administrative headcount, preventing linear scaling of operational debt.`);
@@ -50,7 +52,7 @@ function generateStrategicPDF(score, data) {
 
     if (data.it_team <= 2 || data.ob_year > 12) {
         html += addBlock("Resource Optimization", 
-            `Operating with ${data.it_team <= 2 ? 'minimal IT personnel' : ''} during high-velocity growth creates high risk. We act as an autonomous team member, absorbing repetitive tasks.`);
+            `Operating with ${data.it_team <= 2 ? 'minimal IT personnel' : ''} during high-velocity onboarding cycles creates high risk. We act as an autonomous team member, absorbing repetitive tasks.`);
     }
 
     if (data.selectedHW.length > 1 || data.selectedOS.length > 1) {
@@ -68,7 +70,7 @@ function generateStrategicPDF(score, data) {
             `Manual ticketing workflows represent a significant administrative deficit. Transitioning to HR-triggered automation restores full accountability to your operations.`);
     }
 
-    // Pillars Graphic
+    // Pillars Image: Forced page-break-before to prevent "Black Bar" artifact
     html += `
             <div style="page-break-before: always; margin: 40px 0; text-align: center; page-break-inside: avoid; clear: both; display: block;">
                 <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" 
@@ -79,9 +81,9 @@ function generateStrategicPDF(score, data) {
             <div style="background: #fafafa; padding: 30px; border-radius: 14px; border: 1px solid #eee; margin-top: 20px; page-break-inside: avoid;">
                 <h4 style="color: #ff585d; margin-top: 0; font-size: 18px; font-weight: 800;">Plan for your future</h4>
                 <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">
-                    <strong>Scenario Recap:</strong> Your organizational profile exhibits a <strong>${score.toFixed(0)}% requirement</strong> for automated IT operations.
+                    <strong>Scenario Recap:</strong> Your organizational profile currently maintains ${data.n} assets. This indicates a <strong>${score.toFixed(0)}% requirement</strong> for automated IT operations.
                     <br><br>
-                    <strong>Strategic Savings Spotlight:</strong> Based on your current architecture, the highest impact is in <strong>${data.bestOutcome.label}</strong>, where we project a reclamation of <strong>${data.bestOutcome.hours.toFixed(0)} technical hours</strong> annually through ${data.bestOutcome.desc}.
+                    <strong>Strategic ROI:</strong> Based on your current growth velocity, Factorial IT is projected to reclaim <strong>${data.projectedHoursSaved} hours</strong> of technical capacity annually by automating repetitive lifecycle events.
                 </p>
                 <div style="text-align: left;">
                     <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="display: inline-block; background: #ff585d; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 15px;">
@@ -103,7 +105,7 @@ function generateStrategicPDF(score, data) {
         filename: 'Factorial_IT_Audit_Report.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-            scale: 2, 
+            scale: 2, // Scale 2 prevents memory artifacts and black bars on multi-page exports
             useCORS: true, 
             letterRendering: true,
             scrollX: 0,
