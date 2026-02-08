@@ -1,6 +1,6 @@
 function processAssessment() {
     // 1. Core Data Inputs
-    const employees = parseInt(document.getElementById('employees').value) || 1; // Default to 1 to avoid div/0
+    const employees = parseInt(document.getElementById('employees').value) || 1; // Default 1 to avoid div/0
     const devices = parseInt(document.getElementById('devices').value) || 0;
     const it_team = parseInt(document.getElementById('it_team').value) || 0;
     const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
@@ -16,6 +16,7 @@ function processAssessment() {
     const isRemote = document.getElementById('remote').value === "2";
     const manualTicketing = document.getElementById('ticketing').value === "2";
 
+    // Hardware Checkboxes
     const hwCheckboxes = document.querySelectorAll('.hw'); 
     const hardware = {
         laptop: hwCheckboxes[0].checked,
@@ -24,6 +25,7 @@ function processAssessment() {
     };
     const mixedHW = Object.values(hardware).filter(v => v).length > 1;
 
+    // OS Checkboxes
     const osCheckboxes = document.querySelectorAll('.os');
     const os = {
         windows: osCheckboxes[0].checked,
@@ -49,14 +51,13 @@ function processAssessment() {
 
     const totalRisks = riskCompliance + riskRemote + riskPersonnel + riskHeterogeneity + riskAdmin;
     
-    // P_qual = 10 * x (where x is risk count)
+    // P_qual = 10 * x (where x is risk count). Max 50%.
     const p_qual = totalRisks * 10; 
 
     // B. Infrastructure Normalization (P_infra)
     // P_infra = (50 * n) / m 
-    // where n = devices, m = employees
     let p_infra = (50 * devices) / employees;
-    if (p_infra > 100) p_infra = 100; // Cap at 100% saturation
+    if (p_infra > 100) p_infra = 100; // Cap saturation at 100%
 
     // C. Integrated Final Score (Phi)
     // Phi = (P_qual + P_infra) / 2
