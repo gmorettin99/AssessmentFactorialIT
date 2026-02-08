@@ -14,7 +14,7 @@ function generateStrategicPDF(score, data) {
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.background = 'white';
-    element.style.width = '100%';
+    element.style.width = '750px';
     element.style.height = 'auto'; 
 
     let html = `
@@ -99,8 +99,8 @@ function generateStrategicPDF(score, data) {
                 </p>
                 
                 <div style="margin: 20px 0; line-height: 1.5; font-size: 13px; color: #333; font-weight: 400;">
-                    <p>Factorial IT is engineered to bridge the operational gap between People (HR) and Technology (IT). 
-                    By integrating directly with your employee source of truth, we automate the technology lifecycle 
+                    <p>Factorial IT is engineered to bridge the operational gap between People and Technology. 
+                    By integrating directly with your employee data as a single source of truth, we automate the technology lifecycle of hardware and software, 
                     from procurement to offboarding.</p>
                 </div>
 
@@ -173,10 +173,9 @@ function generateStrategicPDF(score, data) {
         margin: [0, 0, 0, 0], 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        // FIX: Removed 'avoid-all' to allow proper multi-page splitting
         pagebreak: { mode: ['css', 'legacy'] }, 
         html2canvas: { 
-            scale: 2, 
+            scale: 4, 
             useCORS: true,
             scrollY: 0 
         },
