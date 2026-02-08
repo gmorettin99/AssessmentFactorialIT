@@ -2,6 +2,12 @@
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
  */
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script src="svg-assets.js"></script> 
+
+<script src="pdf-generator.js"></script>
+
 async function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
