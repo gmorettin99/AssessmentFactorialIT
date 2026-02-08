@@ -81,16 +81,29 @@ function generateStrategicPDF(score, data) {
             <div style="background: #fafafa; padding: 30px; border-radius: 14px; border: 1px solid #eee; margin-top: 20px; page-break-inside: avoid;">
                 <h4 style="color: #ff585d; margin-top: 0; font-size: 18px; font-weight: 800;">Plan for your future</h4>
                 <p style="font-size: 14px; line-height: 1.6; color: #333; margin-bottom: 20px;">
-                    <strong>Scenario Recap:</strong> Your organizational profile currently maintains ${data.n} assets. This indicates a <strong>${score.toFixed(0)}% requirement</strong> for automated IT operations.
-                    <br><br>
-                    <strong>Strategic ROI:</strong> Based on your current growth velocity, Factorial IT is projected to reclaim <strong>${data.projectedHoursSaved} hours</strong> of technical capacity annually by automating repetitive lifecycle events.
+                    Your organizational profile currently maintains ${data.n} assets. This indicates a <strong>${score.toFixed(0)}% requirement</strong> for automated IT operations.
                 </p>
-                <div style="text-align: left;">
-                    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial" style="display: inline-block; background: #ff585d; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 800; font-size: 15px;">
-                        Book Strategic Consultation
-                    </a>
-                </div>
             </div>
+
+            <div style="margin-top: 30px; text-align: center; page-break-inside: avoid;">
+    <a href="https://meetings-eu1.hubspot.com/giorgia-morettin/itfactorial"
+       style="
+           display: inline-flex;
+           align-items: center;
+           gap: 10px;
+           background: #ff585d;
+           color: #ffffff;
+           padding: 16px 34px;
+           text-decoration: none;
+           border-radius: 10px;
+           font-weight: 800;
+           font-size: 15px;
+       ">
+        <span style="font-size: 18px;">📅</span>
+        Book Strategic Consultation
+    </a>
+</div>
+
             
             <div style="margin-top: 50px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px; letter-spacing: 1px;">
                 CONFIDENTIAL STRATEGIC AUDIT 2026
