@@ -34,40 +34,52 @@ function generateStrategicPDF(score, data) {
         <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-    // 2. MODULAR BLOCKS (Section 2 of KB: Justification Logic)
-    
+    // --- MODULAR BLOCKS WITH DATA INJECTION ---
+
+    // Category I: Infrastructure
     if (data.devices > 50) {
-        html += addBlock("Scalable Infrastructure", "As your fleet grows past 50 devices, manual management creates a 'linear drag'. Factorial IT transforms linear work into scalable workflows, allowing you to push updates to your entire fleet as easily as to a single laptop.");
+        html += addBlock("Scalable Infrastructure", 
+            `You currently manage **${data.devices} devices**. As a fleet grows, the administrative overhead typically increases linearly. Managing a fleet of this size via spreadsheets creates a chaotic support burden. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one.`);
     }
 
+    // Category II: Compliance
     if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2) {
-        html += addBlock("Regulatory Frameworks (ISO/SOC2/NIS2)", "Compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes for instant, headache-free audit exports.");
+        html += addBlock("Regulatory Frameworks", 
+            `Since you are currently navigating frameworks like **ISO 27001/SOC2/NIS2**, the "Evidence Trap" is a significant risk. Instead of manually collecting screenshots, Factorial IT serves as an Automated Evidence Locker, continuously logging the security state of your fleet for instant audit exports.`);
     }
 
     if (data.compliance.hipaa) {
-        html += addBlock("Healthcare Compliance (HIPAA)", "A lost laptop containing PHI is a major reportable breach. Our Remote Wipe & Lock capability ensures that data is neutralized the moment a device is reported missing, drastically reducing liability.");
+        html += addBlock("Healthcare Compliance (HIPAA)", 
+            `With HIPAA requirements in place, a lost device is a massive liability. Factorial IT provides a "Kill Switch" for your hardware; if a device is lost, you can wipe all sensitive data remotely, ensuring you remain compliant even in a theft scenario.`);
     }
 
+    // Category III: Operations
     if (data.isRemote) {
-        html += addBlock("Global Logistics & Remote Ops", "Managing hardware for distributed teams is a logistical bottleneck. We handle procurement, storage, and customs for 60+ countries, delivering ready-to-use devices in under 5 business days.");
+        html += addBlock("Remote/Hybrid Operations", 
+            `Operating as a **${data.remoteText}** organization creates massive logistical friction. Shipping and retrieving hardware across borders is a time-sink. Factorial IT manages the physical "box" for you—handling procurement and shipping to 60+ countries so your team stays focused on IT, not shipping labels.`);
     }
 
     if (data.it_team > 0 && data.it_team <= 2) {
-        html += addBlock("Capacity Liberation", "Small IT teams are often buried under 'ticket fatigue'. By automating low-level provisioning tasks, Factorial IT effectively acts as a 'Third Team Member', freeing up ~30% of your weekly capacity.");
+        html += addBlock("Personnel Constraints", 
+            `With an IT team size of **${data.it_team}**, "Ticket Fatigue" is inevitable. By automating low-level tasks like laptop provisioning, Factorial IT effectively acts as your 'Third Team Member,' freeing up roughly 30% of your current capacity for high-value projects.`);
     }
 
     if (data.ob_year > 12) {
-        html += addBlock("High Onboarding Velocity", "Rapid growth creates repetitive strain and human error. Our HR-to-IT Sync ensures that when a candidate is hired in HR, their laptop is ordered and SaaS accounts are pre-provisioned automatically based on role.");
+        html += addBlock("High Onboarding Velocity", 
+            `With **${data.ob_year} new hires per year**, manual setup is a repetitive strain. Our HR-to-IT Sync ensures that the moment a candidate is hired, their laptop is ordered and accounts are created. This standardizes the "Day 1" experience for all ${data.ob_year} annual joiners.`);
     }
 
+    // Category IV: Heterogeneity
     if (data.mixedOS) {
-        html += addBlock("Unified Security Posture (Mixed OS)", "Mixed ecosystems fracture visibility. Factorial IT provides a Single Pane of Glass to enforce consistent security policies (passwords, encryption, updates) across macOS, Windows, and Linux simultaneously.");
+        html += addBlock("Unified Security Posture", 
+            `Managing a **mixed OS environment** (Windows, Mac, Linux) usually requires multiple tools and doubled costs. Factorial IT provides a 'Single Pane of Glass' to enforce consistent security standards across your entire diverse fleet simultaneously.`);
     }
 
+    // Category V: Automation
     if (data.manualTicketing) {
-        html += addBlock("Administrative Efficiency", "Without a structured system, requests are lost in Slack or Email. Our self-service workflows bring structure and accountability without the complexity of traditional enterprise service desks.");
+        html += addBlock("Administrative Efficiency", 
+            `Currently handling IT requests **manually** leads to "Shadow Work" and lost accountability. We bring structure via self-service workflows, ensuring every request is tracked and resolved without the noise of Slack DMs or emails.`);
     }
-
     // 3. INPUT RECAP (Section 3: Audit Data)
     html += `
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 11px; color: #888;">
