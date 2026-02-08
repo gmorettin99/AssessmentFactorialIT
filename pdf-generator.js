@@ -1,6 +1,6 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FIXED: Solves "Blank PDF" issue by ensuring images load & element is visible to renderer.
+ * FIXED: Z-Index Issue causing blank PDF resolved.
  */
 
 // --- HELPER 1: DYNAMIC LIST FORMATTER ---
@@ -58,7 +58,7 @@ function generateStrategicPDF(score, data) {
                 color: #111; 
                 padding: 40px; 
                 background: white; 
-                width: 750px; /* Fixed width for A4 consistency */
+                width: 794px; /* Exact A4 width at 96DPI */
                 box-sizing: border-box;
             }
             .header-img { width: 100%; max-width: 600px; display: block; margin-bottom: 20px; }
@@ -154,12 +154,13 @@ function generateStrategicPDF(score, data) {
     element.innerHTML = html;
 
     // --- CRITICAL VISIBILITY FIX ---
-    // Instead of positioning it -9999px (which might clip it), we put it at top:0 left:0
-    // but put it BEHIND everything else using z-index.
-    element.style.position = 'fixed';
-    element.style.left = '0px';
+    // We position it OFF-SCREEN (left -9999px) but REMOVE negative z-index.
+    // This ensures it is "painted" by the browser but not seen by the user.
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
     element.style.top = '0px';
-    element.style.zIndex = '-9999'; 
+    // element.style.zIndex = '-9999';  <-- THIS WAS THE BUG. REMOVED.
+    
     document.body.appendChild(element);
 
     // --- WAIT FOR IMAGES HELPER ---
@@ -186,7 +187,6 @@ function generateStrategicPDF(score, data) {
             document.body.removeChild(element);
         }, (err) => {
             console.error("PDF Generation Error:", err);
-            // Even on error, remove the element so it doesn't block the screen
             document.body.removeChild(element);
         });
     });
