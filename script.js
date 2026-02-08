@@ -1,54 +1,62 @@
 function processAssessment() {
-    let score = 0;
-    
-    // Core Data Inputs
-    const devices = parseInt(document.getElementById('devices').value) || 0;
+    // 1. Raw Data Collection
+    const n = parseInt(document.getElementById('devices').value) || 0; 
+    const m = parseInt(document.getElementById('employees').value) || 1; // Avoid division by zero
     const it_team = parseInt(document.getElementById('it_team').value) || 0;
     const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
-    
-    // I. Scalable Infrastructure Logic (+2.0 per 10 devices)
-    score += Math.round(devices / 10) * 2;
 
-    // II. Compliance Logic (+2.0 per framework)
-    // We capture specific booleans to trigger specific KB text blocks later
-    const compliance = {
-        nis2: document.getElementById('nis2').value === "2",
-        iso: document.getElementById('iso').value === "2",
-        soc2: document.getElementById('soc2').value === "2",
-        hipaa: document.getElementById('hipaa').value === "2"
-    };
-    
-    Object.values(compliance).forEach(val => { if(val) score += 2; });
+    // 2. Infrastructure Normalization (P_infra) [cite: 26]
+    // Formula: (50 * devices) / employees
+    let p_infra = (50 * n) / m;
+    if (p_infra > 100) p_infra = 100; // Cap at 100% saturation [cite: 24]
 
-    // III. Operational triggers
-    const isRemote = document.getElementById('remote').value === "2";
-    if (isRemote) score += 2;
-    if (it_team > 0 && it_team <= 2) score += 2; 
-    if (ob_year > 12) score += 2; 
+    // 3. Qualitative Normalization (P_qual) [cite: 13, 17]
+    let x = 0; // The sum of binary indicators (max 5)
 
-    // IV. Heterogeneity multiplicity
+    // Factor 1: Certification Frameworks [cite: 14]
+    if (document.getElementById('nis2').value === "1" || 
+        document.getElementById('iso').value === "1" || 
+        document.getElementById('hipaa').value === "1" || 
+        document.getElementById('soc2').value === "1") x++;
+
+    // Factor 2: Personnel Ratio and Scale (IT <= 2 or high onboarding) [cite: 15]
+    if (it_team <= 2 || ob_year > 12) x++;
+
+    // Factor 3: Asset Heterogeneity (Mixed HW or Mixed OS) [cite: 15]
     const mixedHW = document.querySelectorAll('.hw:checked').length > 1;
     const mixedOS = document.querySelectorAll('.os:checked').length > 1;
-    if (mixedHW) score += 2;
-    if (mixedOS) score += 2;
+    if (mixedHW || mixedOS) x++;
 
-    // V. Automation gap
-    const manualTicketing = document.getElementById('ticketing').value === "2";
-    if (manualTicketing) score += 2;
+    // Factor 4: Operational Perimeter (Remote/Hybrid) [cite: 14]
+    if (document.getElementById('remote').value === "2") x++;
 
-    // Package the "Logic Map" for the PDF Generator
+    // Factor 5: Administrative Deficit (Manual Ticketing) [cite: 16]
+    if (document.getElementById('ticketing').value === "2") x++;
+
+    // Rescale linearly: P_qual = 20 * x (Based on the 0-100 scale requirement) [cite: 11, 20]
+    let p_qual = x * 20;
+
+    // 4. Integrated Final Score (phi) [cite: 33]
+    const finalScore = (p_qual + p_infra) / 2;
+
+    // Package data for PDF
     const assessmentData = {
-        devices,
+        devices: n,
+        employees: m,
         it_team,
         ob_year,
-        compliance, // contains nis2, iso, soc2, hipaa booleans
-        isRemote,
+        compliance: {
+            nis2: document.getElementById('nis2').value === "1",
+            iso: document.getElementById('iso').value === "1",
+            soc2: document.getElementById('soc2').value === "1",
+            hipaa: document.getElementById('hipaa').value === "1"
+        },
+        isRemote: document.getElementById('remote').value === "2",
         mixedHW,
         mixedOS,
-        manualTicketing,
-        remoteText: document.getElementById('remote').options[document.getElementById('remote').selectedIndex].text
+        manualTicketing: document.getElementById('ticketing').value === "2"
     };
 
-    // Final call to your PDF generator
-    generateStrategicPDF(score, assessmentData);
+    // Trigger PDF generation with the normalized score
+    generateStrategicPDF(finalScore, assessmentData);
 }
