@@ -12,8 +12,8 @@ function processAssessment() {
         const it_team = parseInt(document.getElementById('it_team').value) || 0;
         const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
 
-        // 1. Scoring Logic (phi = (Pqual + Pinfra) / 2)
-        let p_infra = (50 * n) / m;
+        // 1. Integrated Scoring Logic (phi = (Pqual + Pinfra) / 2)
+        let p_infra = (50 * n) / m; [cite: 26]
         if (p_infra > 100) p_infra = 100; 
 
         const selectedHW = Array.from(document.querySelectorAll('.hw:checked')).map(el => el.parentElement.textContent.trim());
@@ -34,18 +34,17 @@ function processAssessment() {
         if (selectedHW.length > 1 || selectedOS.length > 1) x++; 
         if (document.getElementById('ticketing').value === "2") x++; 
 
-        let p_qual = x * 20; 
-        const finalScore = (p_qual + p_infra) / 2;
+        let p_qual = x * 20; [cite: 18]
+        const finalScore = (p_qual + p_infra) / 2; [cite: 33]
 
-        // 2. Savings Scenario Engine (Annual Hours)
+        // 2. Savings Scenario Engine (Annual Hours Saved)
         const savings = [
             { id: 'OB', label: 'Onboarding Operations', hours: ob_year * 3.5, desc: 'automated provisioning & account creation' },
-            { id: 'DEVICE', label: 'Device Lifecycle MGMT', hours: n * 1.5, desc: 'zero-touch deployment & inventory tracking' },
-            { id: 'LICENSE', label: 'SaaS License Optimization', hours: m * 0.8, desc: 'automated shadow IT detection & seat reclamation' },
+            { id: 'DEVICE', label: 'Device Lifecycle Management', hours: n * 1.5, desc: 'automated inventory tracking' },
+            { id: 'LICENSE', label: 'License Optimization', hours: m * 0.8, desc: 'seat reclamation' },
             { id: 'AUDIT', label: 'Compliance Audit Readiness', hours: activeCompliance.length * 45, desc: 'automated evidence collection' }
         ];
 
-        // Find the best outcome scenario
         const bestOutcome = savings.reduce((prev, current) => (prev.hours > current.hours) ? prev : current);
 
         const assessmentData = {
