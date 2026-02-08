@@ -1,15 +1,15 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * Updates:
- * 1. LAYOUT: Moved Pillars graph to the bottom (after text).
- * 2. CONTENT: Removed Main Title, updated Subtitle.
- * 3. FORMAT: Multi-page enabled (height: auto).
+ * FINAL VERSION
+ * - Multi-page fixed (Removed 'avoid-all' constraint).
+ * - All data blocks included.
+ * - Graph moved to bottom.
  */
 
 function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
-    // Base container settings for multi-page support
+    // Base styles
     element.style.padding = '0'; 
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
@@ -27,7 +27,6 @@ function generateStrategicPDF(score, data) {
                 position: relative;
                 box-sizing: border-box;
                 background: white;
-                /* Allow content to flow to next page */
                 height: auto; 
                 overflow: visible;
             }
@@ -48,7 +47,6 @@ function generateStrategicPDF(score, data) {
                 display: block;
             }
 
-            /* Subtitle Styling */
             .subtitle-text {
                 font-weight: 600;
                 border-bottom: 2px solid #74f9d4;
@@ -64,27 +62,28 @@ function generateStrategicPDF(score, data) {
                 border-radius: 12px;
                 margin-bottom: 20px;
                 border-left: 6px solid #74f9d4;
+                page-break-inside: avoid; /* Prevents box splitting */
             }
 
-            /* GRAPH IMAGE STYLES */
             .graph-img-container {
                 width: 100%;
-                margin-top: 30px; /* Space above graph */
+                margin-top: 40px;
                 margin-bottom: 30px;
                 text-align: center;
-                page-break-inside: avoid; /* Try to keep graph whole */
+                page-break-inside: avoid; /* Keeps graph together */
             }
             
             .graph-img {
                 width: 100%;
-                max-width: 650px; 
+                max-width: 700px; 
                 height: auto;
                 display: inline-block;
             }
 
-            .no-break {
-                page-break-inside: avoid;
+            /* Block styling */
+            .info-block {
                 margin-bottom: 15px;
+                page-break-inside: avoid; /* Prevents text block splitting */
             }
         </style>
 
@@ -94,6 +93,7 @@ function generateStrategicPDF(score, data) {
             </div>
             
             <div class="content-padding">
+                
                 <p class="subtitle-text">
                     Automation in your IT Operating System - Powered by HR Data
                 </p>
@@ -154,7 +154,7 @@ function generateStrategicPDF(score, data) {
             `Supporting multiple Operating Systems (Windows, iOS, Linux, etc.) often requires specialized tools for each. Factorial IT consolidates this into one MDM solution, reducing the tool-sprawl overhead.`);
     }
 
-    // --- 3. MOVED PILLARS GRAPH TO THE BOTTOM ---
+    // --- GRAPH IMAGE (JPG) ---
     html += `
                 <div class="graph-img-container">
                     <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
@@ -173,8 +173,8 @@ function generateStrategicPDF(score, data) {
         margin: [0, 0, 0, 0], 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        // Enables auto-paging
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }, 
+        // FIX: Removed 'avoid-all' to allow proper multi-page splitting
+        pagebreak: { mode: ['css', 'legacy'] }, 
         html2canvas: { 
             scale: 2, 
             useCORS: true,
@@ -188,7 +188,7 @@ function generateStrategicPDF(score, data) {
 
 function addBlock(title, text) {
     return `
-        <div class="no-break">
+        <div class="info-block">
             <strong style="display: block; font-size: 14px; color: #ff585d; margin-bottom: 5px; font-weight: 600;">• ${title}</strong>
             <p style="font-size: 12px; color: #444; margin-top: 0; line-height: 1.5; font-weight: 400;">${text}</p>
         </div>
