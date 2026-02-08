@@ -35,10 +35,11 @@ body {
 }
 
 .brand-hero {
-    width: 90%;           /* Responsive: fills space on small mobile screens */
-    max-width: 100%;      /* CAP THE SIZE: Never wider than 400px on desktop */
-    height: auto;          /* Maintains aspect ratio */
+    width: 100%;        /* Use full available space */
+    max-width: 600px;   /* Cap width so it doesn't get huge */
+    height: auto;       /* Keep aspect ratio */
     display: block;
+    margin: 0 auto;     /* CRITICAL: This centers the image */
 }
 
 /* --- LAYOUT GRID SYSTEM --- */
@@ -132,10 +133,14 @@ input, select {
 .submit-btn:hover { transform: scale(1.02); }
 
 /* PDF Styles */
-#pdf-template { padding: 40px; font-family: sans-serif; }
-.score-result-box { background: var(--factorial-mint); padding: 30px; border-radius: 20px; text-align: center; margin: 20px 0; }
-.score-value { font-size: 56px; font-weight: 900; color: var(--factorial-coral); }
-.methodology-content { font-size: 11px; background: #f9f9f9; padding: 20px; border-radius: 10px; }
+#pdf-template { 
+    width: 100%;
+    max-width: 800px;   /* Fits A4 perfectly to prevent shrinking */
+    margin: 0 auto;     /* Centers the content horizontally */
+    padding: 0 40px;    /* 0px Top padding (removes gap), 40px side padding */
+    font-family: sans-serif; 
+    background: white; 
+}
 
 /* ===============================
    PDF PAGINATION RULES
