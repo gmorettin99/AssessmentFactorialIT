@@ -1,41 +1,46 @@
 function processAssessment() {
+    // 1. Inputs
     const n = parseInt(document.getElementById('devices').value) || 0; 
     const m = parseInt(document.getElementById('employees').value) || 1; 
     const it_team = parseInt(document.getElementById('it_team').value) || 0;
     const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
 
+    // 2. Quantitative Component (P_infra)
+    // Formula: (50 * n) / m [cite: 26]
     let p_infra = (50 * n) / m;
-    if (p_infra > 100) p_infra = 100;
+    if (p_infra > 100) p_infra = 100; 
 
-    // Capture specific Hardware and OS names
+    // 3. Qualitative Component (P_qual)
+    // Capture specific strings for the PDF
     const selectedHW = Array.from(document.querySelectorAll('.hw:checked')).map(el => el.parentElement.textContent.trim());
     const selectedOS = Array.from(document.querySelectorAll('.os:checked')).map(el => el.parentElement.textContent.trim());
+    
+    const complianceMap = {
+        nis2: document.getElementById('nis2').value === "1",
+        iso: document.getElementById('iso').value === "1",
+        hipaa: document.getElementById('hipaa').value === "1",
+        soc2: document.getElementById('soc2').value === "1"
+    };
+    const activeCompliance = Object.keys(complianceMap).filter(k => complianceMap[k]).map(k => k.toUpperCase().replace('ISO', 'ISO 27001'));
 
-    // Capture specific Compliance names
-    const complianceList = [];
-    if (document.getElementById('nis2').value === "1") complianceList.push("NIS2");
-    if (document.getElementById('iso').value === "1") complianceList.push("ISO 27001");
-    if (document.getElementById('hipaa').value === "1") complianceList.push("HIPAA");
-    if (document.getElementById('soc2').value === "1") complianceList.push("SOC2");
+    let riskFactorCount = 0;
+    if (activeCompliance.length > 0) riskFactorCount++; // [cite: 14]
+    if (document.getElementById('remote').value === "2") riskFactorCount++; // [cite: 14]
+    if (it_team <= 2 || ob_year > 12) riskFactorCount++; // [cite: 15]
+    if (selectedHW.length > 1 || selectedOS.length > 1) riskFactorCount++; // [cite: 15]
+    if (document.getElementById('ticketing').value === "2") riskFactorCount++; // [cite: 16]
 
-    let x = 0;
-    if (complianceList.length > 0) x++;
-    if (it_team <= 2 || ob_year > 12) x++;
-    if (selectedHW.length > 1 || selectedOS.length > 1) x++;
-    if (document.getElementById('remote').value === "2") x++;
-    if (document.getElementById('ticketing').value === "2") x++;
+    // P_qual = 20 points per risk factor (5 factors max) [cite: 18, 44]
+    let p_qual = riskFactorCount * 20;
 
-    let p_qual = x * 20;
+    // 4. Final Integrated Score (phi) [cite: 33]
     const finalScore = (p_qual + p_infra) / 2;
 
     const assessmentData = {
-        devices: n,
-        employees: m,
-        it_team,
-        ob_year,
-        complianceList, // New array of strings
-        selectedHW,     // New array of strings
-        selectedOS,     // New array of strings
+        n, m, it_team, ob_year,
+        activeCompliance,
+        selectedHW,
+        selectedOS,
         isRemote: document.getElementById('remote').value === "2",
         manualTicketing: document.getElementById('ticketing').value === "2"
     };
