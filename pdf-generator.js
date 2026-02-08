@@ -1,7 +1,6 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FINAL VERSION
- * Includes: Scenario A Math Display, Dynamic Text, Button Fix, and IMAGES.
+ * FIXED: Solves "Blank PDF" issue by ensuring images load & element is visible to renderer.
  */
 
 // --- HELPER 1: DYNAMIC LIST FORMATTER ---
@@ -38,9 +37,11 @@ function getInputRecap(data) {
 
 // --- MAIN GENERATOR FUNCTION ---
 function generateStrategicPDF(score, data) {
+    // 1. Create the container
     const element = document.createElement('div');
     element.id = "temp-pdf-container";
     
+    // 2. Prepare Dynamic Labels
     const complianceLabels = { nis2: "NIS2", iso: "ISO 27001", hipaa: "HIPAA", soc2: "SOC2" };
     const hwLabels = { laptop: "Laptops", phone: "Phones", ipad: "iPads" };
     const osLabels = { windows: "Windows", ios: "iOS", linux: "Linux" };
@@ -49,22 +50,19 @@ function generateStrategicPDF(score, data) {
     const activeHW = formatList(data.hardware, hwLabels);
     const activeOS = formatList(data.os, osLabels);
 
+    // 3. Build HTML
     let html = `
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
-            
             .pdf-container { 
-                font-family: 'DM Sans', sans-serif; 
+                font-family: 'Helvetica', 'Arial', sans-serif; 
                 color: #111; 
                 padding: 40px; 
                 background: white; 
-                width: 100%;
+                width: 750px; /* Fixed width for A4 consistency */
                 box-sizing: border-box;
             }
-            /* HEADER IMAGE STYLE */
             .header-img { width: 100%; max-width: 600px; display: block; margin-bottom: 20px; }
-            
-            .subtitle-text { border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-bottom: 20px; font-weight: 600; color: #444; }
+            .subtitle-text { border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-bottom: 20px; font-weight: 600; color: #444; font-size: 16px; }
             
             .fit-score-box { 
                 background: #f4fdfa; 
@@ -79,9 +77,7 @@ function generateStrategicPDF(score, data) {
             .block-title { color: #ff585d; font-weight: 600; font-size: 14px; display: block; margin-bottom: 4px; }
             .block-text { font-size: 12px; color: #444; margin: 0; line-height: 1.5; }
             
-            /* PILLARS GRAPH STYLE */
             .graph-img { width: 100%; max-width: 550px; display: block; margin: 20px auto; page-break-inside: avoid; }
-            
             .future-plan-box { background: #f9f9f9; padding: 25px; border-radius: 14px; margin-top: 20px; page-break-inside: avoid; }
             
             .cta-btn { 
@@ -110,7 +106,6 @@ function generateStrategicPDF(score, data) {
     `;
 
     // --- DYNAMIC BLOCKS ---
-
     if (data.devices > 50) {
         html += `<div class="info-block"><span class="block-title">• Scalable Infrastructure</span><p class="block-text">You currently manage ${data.devices} devices. As a fleet grows, overhead increases linearly. Factorial IT transforms this into scalable workflows.</p></div>`;
     }
@@ -143,7 +138,6 @@ function generateStrategicPDF(score, data) {
         html += `<div class="info-block"><span class="block-title">• Cross-OS Ecosystem</span><p class="block-text">Supporting ${activeOS} often requires specialized tools. Factorial IT consolidates this into one MDM solution.</p></div>`;
     }
 
-    // --- IMAGES & FOOTER ---
     html += `
             <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
 
@@ -159,25 +153,41 @@ function generateStrategicPDF(score, data) {
 
     element.innerHTML = html;
 
-    // --- BUTTON FIX ---
-    element.style.position = 'absolute';
-    element.style.left = '-9999px';
+    // --- CRITICAL VISIBILITY FIX ---
+    // Instead of positioning it -9999px (which might clip it), we put it at top:0 left:0
+    // but put it BEHIND everything else using z-index.
+    element.style.position = 'fixed';
+    element.style.left = '0px';
     element.style.top = '0px';
-    element.style.width = '750px';
+    element.style.zIndex = '-9999'; 
     document.body.appendChild(element);
 
-    const opt = {
-        margin: 0,
-        filename: 'Factorial_IT_Assessment.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
+    // --- WAIT FOR IMAGES HELPER ---
+    // This ensures the header and pillars are loaded before taking the snapshot
+    const images = element.querySelectorAll('img');
+    const promises = Array.from(images).map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+            img.onload = resolve;
+            img.onerror = resolve; // Continue even if error
+        });
+    });
 
-    html2pdf().set(opt).from(element).save().then(() => {
-        document.body.removeChild(element);
-    }, (err) => {
-        console.error("PDF Generation Error:", err);
-        document.body.removeChild(element);
+    Promise.all(promises).then(() => {
+        const opt = {
+            margin: 0,
+            filename: 'Factorial_IT_Assessment.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.body.removeChild(element);
+        }, (err) => {
+            console.error("PDF Generation Error:", err);
+            // Even on error, remove the element so it doesn't block the screen
+            document.body.removeChild(element);
+        });
     });
 }
