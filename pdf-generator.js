@@ -9,12 +9,13 @@
 function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
-    // Set base container styles
+    // Set base container styles - height MUST be auto for multi-page
     element.style.padding = '0'; 
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.background = 'white';
-    element.style.width = '100%'; // Ensures it fills the width
+    element.style.width = '100%';
+    element.style.height = 'auto'; // CRITICAL FOR MULTI-PAGE
 
     // 1. RETRIEVE GRAPH
     const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
