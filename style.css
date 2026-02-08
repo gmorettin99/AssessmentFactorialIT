@@ -195,3 +195,16 @@ input, select {
     height: 38px;
     box-sizing: border-box;
 }
+
+/* Add this to ensure the PDF render area is clean */
+.pdf-render-container {
+    box-shadow: none !important;
+    border: none !important;
+    overflow: visible !important;
+}
+
+.graph-container img {
+    /* Critical to prevent the overlay glitch */
+    mix-blend-mode: multiply; 
+    filter: contrast(1.05);
+}
