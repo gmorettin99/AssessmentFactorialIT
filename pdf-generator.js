@@ -12,15 +12,12 @@ function generateStrategicPDF(score, data) {
     element.style.color = '#111';
 
     let html = `
-        <div style="text-align:center; padding: 0px 40px 10px 40px; margin: 0;">
+        <div style="text-align:center; padding: 1px 40px 10px 40px; margin: 0;">
             <h1 style="font-size: 38px; font-weight: 800; line-height: 1.1; margin: 0 0 15px 0; padding-top: 10px; color: #111;">
                 IT operations in <span style="color:#ff585d;">autopilot</span> &<br>
                 enterprise-grade <span style="color:#ff585d;">security</span><br>
                 connected to <span style="color:#ff585d;">HR data</span>
             </h1>
-            <div style="margin-top: 5px;">
-                <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" style="width:160px;" crossorigin="anonymous">
-            </div>
         </div>
 
         <div style="padding: 0 50px 40px 50px;">
