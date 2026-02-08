@@ -5,18 +5,23 @@ function processAssessment() {
     const it_team = parseInt(document.getElementById('it_team').value) || 0;
     const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
     
-    // 2. Capture Granular Data
-    const compliance = {
-        nis2: document.getElementById('nis2') ? document.getElementById('nis2').value === "2" : false,
-        iso: document.getElementById('iso') ? document.getElementById('iso').value === "2" : false,
-        soc2: document.getElementById('soc2') ? document.getElementById('soc2').value === "2" : false,
-        hipaa: document.getElementById('hipaa') ? document.getElementById('hipaa').value === "2" : false
+    // 2. Capture Granular Data (Safe Selection)
+    const getVal = (id) => {
+        const el = document.getElementById(id);
+        return el ? el.value === "2" : false;
     };
 
-    const isRemote = document.getElementById('remote') ? document.getElementById('remote').value === "2" : false;
-    const manualTicketing = document.getElementById('ticketing') ? document.getElementById('ticketing').value === "2" : false;
+    const compliance = {
+        nis2: getVal('nis2'),
+        iso: getVal('iso'),
+        soc2: getVal('soc2'),
+        hipaa: getVal('hipaa')
+    };
 
-    // Hardware Checkboxes (Safety Check)
+    const isRemote = getVal('remote');
+    const manualTicketing = getVal('ticketing');
+
+    // Hardware Checkboxes
     const hwCheckboxes = document.querySelectorAll('.hw'); 
     const hardware = {
         laptop: hwCheckboxes[0] ? hwCheckboxes[0].checked : false,
@@ -25,7 +30,7 @@ function processAssessment() {
     };
     const mixedHW = Object.values(hardware).filter(v => v).length > 1;
 
-    // OS Checkboxes (Safety Check)
+    // OS Checkboxes
     const osCheckboxes = document.querySelectorAll('.os');
     const os = {
         windows: osCheckboxes[0] ? osCheckboxes[0].checked : false,
@@ -42,11 +47,14 @@ function processAssessment() {
     const riskAdmin = manualTicketing ? 1 : 0;
 
     const totalRisks = riskCompliance + riskRemote + riskPersonnel + riskHeterogeneity + riskAdmin;
+    // P_qual = 10 * x. Max 50%.
     const p_qual = totalRisks * 10; 
 
+    // P_infra = (50 * n) / m 
     let p_infra = (50 * devices) / employees;
     if (p_infra > 100) p_infra = 100;
 
+    // Integrated Score
     const score = (p_qual + p_infra) / 2;
 
     // --- 4. Package Data ---
@@ -68,6 +76,7 @@ function processAssessment() {
     if (typeof generateStrategicPDF === "function") {
         generateStrategicPDF(score, assessmentData);
     } else {
-        alert("PDF Generator script is not loaded.");
+        console.error("PDF Generator script is not loaded.");
+        alert("Error: PDF Generator not loaded.");
     }
 }
