@@ -5,7 +5,7 @@ function processAssessment() {
     const it_team = parseInt(document.getElementById('it_team').value) || 0;
     const ob_year = parseInt(document.getElementById('ob_year').value) || 0;
     
-    // 2. Capture Granular Data (Safe Selection)
+    // 2. Capture Granular Data (Safety Wrapper)
     const getVal = (id) => {
         const el = document.getElementById(id);
         return el ? el.value === "2" : false;
@@ -76,7 +76,6 @@ function processAssessment() {
     if (typeof generateStrategicPDF === "function") {
         generateStrategicPDF(score, assessmentData);
     } else {
-        console.error("PDF Generator script is not loaded.");
-        alert("Error: PDF Generator not loaded.");
+        alert("PDF Generator script is not loaded.");
     }
 }
