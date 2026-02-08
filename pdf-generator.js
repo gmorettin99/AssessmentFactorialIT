@@ -1,52 +1,40 @@
 /**
- * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
+ * FACTORIAL IT: STRATEGIC PDF GENERATOR
  * Updates:
- * 1. FIX: Enables multi-page support by removing fixed height.
- * 2. FIX: Removes header whitespace.
- * 3. FIX: Checks window.STRATEGIC_GRAPHS for the graph.
+ * 1. GRAPH: Switched to PNG/JPG image ('pillars.jpg') to resolve rendering issues.
+ * 2. CONTENT: Added missing blocks for Remote Work, OS Mix, and Hardware Mix.
+ * 3. LAYOUT: Kept multi-page support.
  */
 
 function generateStrategicPDF(score, data) {
     const element = document.createElement('div');
     
-    // Set base container styles - height MUST be auto for multi-page
     element.style.padding = '0'; 
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.background = 'white';
     element.style.width = '100%';
-    element.style.height = 'auto'; // CRITICAL FOR MULTI-PAGE
-
-    // 1. RETRIEVE GRAPH
-    const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
-        ? window.STRATEGIC_GRAPHS.pillars 
-        : '<div style="padding:20px; text-align:center; color:red; border:2px solid red;">ERROR: Graph Data Not Found. Check console for details.</div>';
+    element.style.height = 'auto'; 
 
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
             
-            /* RESET PDF PAGE - REMOVED FIXED HEIGHT FOR MULTI-PAGE */
             .pdf-page {
                 width: 100%;
-                margin: 0;
-                padding: 0; 
                 position: relative;
                 box-sizing: border-box;
                 background: white;
             }
 
-            /* INNER CONTENT PADDING */
             .content-padding {
-                padding: 0px 40px 40px 40px; /* Top padding is 0 to kill whitespace */
+                padding: 0px 40px 40px 40px; 
             }
 
-            /* HEADER IMAGE FIXES */
             .header-img-container {
                 width: 100%;
                 line-height: 0;
-                font-size: 0;
-                margin-bottom: 0px; /* Reduced to 0 */
+                margin-bottom: 0px;
             }
 
             .header-img {
@@ -55,22 +43,8 @@ function generateStrategicPDF(score, data) {
                 display: block;
             }
             
-            /* Title Tweaks */
             h1 { margin-top: 15px; }
 
-            /* FOOTER */
-            .footer-notice {
-                margin-top: 50px;
-                padding-bottom: 30px;
-                text-align: right;
-                margin-right: 40px;
-                color: #ff585d;
-                font-weight: 600;
-                font-size: 10px;
-                text-transform: uppercase;
-            }
-
-            /* SCORES */
             .fit-score-box {
                 background: #f4fdfa;
                 padding: 25px;
@@ -79,21 +53,23 @@ function generateStrategicPDF(score, data) {
                 border-left: 6px solid #74f9d4;
             }
 
-            /* SVG CONTAINER */
-            .svg-container {
+            /* GRAPH IMAGE STYLES */
+            .graph-img-container {
                 width: 100%;
                 margin: 20px 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                text-align: center;
+            }
+            
+            .graph-img {
+                width: 100%;
+                max-width: 600px; /* Limits size so it fits nicely */
+                height: auto;
+                display: inline-block;
             }
 
-            /* FORCE SVG SIZING */
-            .svg-container svg {
-                width: 90% !important; 
-                height: auto;
-                max-height: 350px;
-                display: block;
+            .no-break {
+                page-break-inside: avoid;
+                margin-bottom: 15px;
             }
         </style>
 
@@ -103,7 +79,7 @@ function generateStrategicPDF(score, data) {
             </div>
             
             <div class="content-padding">
-                <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px; font-weight: 600;">Factorial IT Strategic Audit</h1>
+                <h1 style="color: #ff585d; margin-bottom: 5px; font-size: 26px; font-weight: 600; margin-top: 15px;">Factorial IT Strategic Audit</h1>
                 <p style="font-weight: 600; border-bottom: 2px solid #74f9d4; padding-bottom: 15px; margin-top: 0; color: #444;">
                     The Operating System for IT, Powered by HR Data
                 </p>
@@ -119,54 +95,81 @@ function generateStrategicPDF(score, data) {
                     <p style="font-size: 14px; margin-bottom:0; line-height: 1.4; font-weight: 400;">${getStrategicSummary(score)}</p>
                 </div>
 
-                <div class="svg-container">
-                    ${svgContent}
+                <div class="graph-img-container">
+                    <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
                 </div>
 
                 <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-    // 2. DYNAMIC BLOCKS
+    // --- DYNAMIC BLOCKS ---
+
+    // 1. Devices
     if (data.devices > 50) {
         html += addBlock("Scalable Infrastructure", 
-            `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one.`);
+            `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows.`);
     }
 
-    if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2) {
+    // 2. Compliance
+    if (data.compliance.iso || data.compliance.soc2 || data.compliance.nis2 || data.compliance.hipaa) {
         html += addBlock("Regulatory Frameworks", 
-            `Since you are navigating regulatory frameworks like NIS2 or ISO 27001, compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes for instant audit exports.`);
+            `Since you are navigating regulatory frameworks (NIS2, ISO 27001, etc.), compliance requires auditable proof of control. Factorial IT acts as an Automated Evidence Locker, continuously logging encryption status and access changes.`);
     }
 
+    // 3. Team Size
     if (data.it_team > 0 && data.it_team <= 3) {
         html += addBlock("Personnel Constraints", 
-            `With an IT team size of ${data.it_team} people, ticket fatigue is a significant risk. By automating low-level tasks like laptop provisioning, Factorial IT effectively acts as your third team member, freeing up roughly 30% of your current capacity.`);
+            `With an IT team size of ${data.it_team}, ticket fatigue is a risk. By automating low-level tasks like laptop provisioning, Factorial IT acts as an extra team member, freeing up capacity.`);
     }
 
+    // 4. Onboarding
     if (data.ob_year > 12) {
         html += addBlock("High Onboarding Velocity", 
-            `With ${data.ob_year} new hires per year, manual setup creates repetitive strain. Our HR-to-IT Sync ensures that when a candidate is hired, their laptop is ordered and accounts are created automatically for all ${data.ob_year} annual joiners.`);
+            `With ${data.ob_year} new hires per year, manual setup creates repetitive strain. Our HR-to-IT Sync ensures that when a candidate is hired, their laptop is ordered and accounts are created automatically.`);
     }
 
+    // 5. Ticketing
     if (data.manualTicketing) {
         html += addBlock("Administrative Efficiency", 
             `Currently handling IT requests manually leads to lost accountability. Our self-service workflows bring structure without the complexity of traditional enterprise service desks.`);
     }
 
-    // Close the padding div, then add footer, then close page
+    // --- NEW MISSING BLOCKS ADDED HERE ---
+
+    // 6. Remote Work
+    if (data.isRemote) {
+        html += addBlock("Remote & Hybrid Security", 
+            `Operating a remote or hybrid environment expands your security perimeter. Factorial IT unifies control regardless of physical location, ensuring compliant device states even when users are off the office network.`);
+    }
+
+    // 7. Hardware Heterogeneity
+    if (data.mixedHW) {
+        html += addBlock("Hardware Complexity", 
+            `Managing a diverse mix of hardware (Laptops, Phones, Tablets) manually often creates data silos. Factorial IT centralizes these varied assets into a single pane of glass for unified inventory management.`);
+    }
+
+    // 8. OS Heterogeneity
+    if (data.mixedOS) {
+        html += addBlock("Cross-OS Ecosystem", 
+            `Supporting multiple Operating Systems (Windows, iOS, Linux, etc.) often requires specialized tools for each. Factorial IT consolidates this into one MDM solution, reducing the tool-sprawl overhead.`);
+    }
+
+    // End Content
     html += `
-            <div class="footer-notice">CONFIDENTIAL STRATEGIC AUDIT 2026</div>
-            </div> </div> `;
+            <div style="margin-top: 40px; text-align: right; color: #ff585d; font-weight: 600; font-size: 10px;">
+                CONFIDENTIAL STRATEGIC AUDIT 2026
+            </div>
+            </div> </div>
+    `;
 
     element.innerHTML = html;
 
     // 3. PDF EXPORT SETTINGS
     const opt = {
-        margin: 0, 
+        margin: [0, 0, 0, 0], 
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        // 'enableLinks' and 'pagebreak' help with multi-page
-        enableLinks: true,
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }, 
         html2canvas: { 
             scale: 2, 
             useCORS: true,
@@ -178,13 +181,9 @@ function generateStrategicPDF(score, data) {
     html2pdf().set(opt).from(element).save();
 }
 
-/**
- * HELPER FUNCTIONS
- */
 function addBlock(title, text) {
-    // page-break-inside: avoid ensures a paragraph doesn't get cut in half
     return `
-        <div style="margin-bottom: 15px; page-break-inside: avoid;">
+        <div class="no-break">
             <strong style="display: block; font-size: 14px; color: #ff585d; margin-bottom: 5px; font-weight: 600;">• ${title}</strong>
             <p style="font-size: 12px; color: #444; margin-top: 0; line-height: 1.5; font-weight: 400;">${text}</p>
         </div>
