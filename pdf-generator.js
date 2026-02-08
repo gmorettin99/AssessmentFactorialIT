@@ -156,7 +156,7 @@ function generateStrategicPDF(score, data) {
 
     // --- GRAPH IMAGE (JPG) ---
     html += `
-                <div class="graph-img-container">
+                <div class="graph-img-container page-break">
                     <img src="https://gmorettin99.github.io/AssessmentFactorialIT/pillars.jpg" class="graph-img" crossorigin="anonymous">
                 </div>
 
