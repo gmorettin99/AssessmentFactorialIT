@@ -1,6 +1,6 @@
 /**
  * FACTORIAL IT: STRATEGIC PDF GENERATOR
- * FIXED: Z-Index Issue causing blank PDF resolved.
+ * FIXED: Solves "Blank PDF" by fixing Z-Index Stacking & Preloading Images.
  */
 
 // --- HELPER 1: DYNAMIC LIST FORMATTER ---
@@ -58,7 +58,7 @@ function generateStrategicPDF(score, data) {
                 color: #111; 
                 padding: 40px; 
                 background: white; 
-                width: 794px; /* Exact A4 width at 96DPI */
+                width: 794px; /* A4 Width at 96 DPI */
                 box-sizing: border-box;
             }
             .header-img { width: 100%; max-width: 600px; display: block; margin-bottom: 20px; }
@@ -154,23 +154,23 @@ function generateStrategicPDF(score, data) {
     element.innerHTML = html;
 
     // --- CRITICAL VISIBILITY FIX ---
-    // We position it OFF-SCREEN (left -9999px) but REMOVE negative z-index.
-    // This ensures it is "painted" by the browser but not seen by the user.
-    element.style.position = 'absolute';
-    element.style.left = '-9999px';
+    // 1. Position FIXED ensures it stays in viewport context.
+    // 2. Left -10000px hides it from user.
+    // 3. Z-Index 9999 ensures it sits ON TOP of the body gradient (fixing the blank pdf).
+    element.style.position = 'fixed';
+    element.style.left = '-10000px';
     element.style.top = '0px';
-    // element.style.zIndex = '-9999';  <-- THIS WAS THE BUG. REMOVED.
-    
+    element.style.zIndex = '9999'; 
     document.body.appendChild(element);
 
-    // --- WAIT FOR IMAGES HELPER ---
-    // This ensures the header and pillars are loaded before taking the snapshot
+    // --- WAIT FOR IMAGES ---
+    // We preload images to ensure they are rendered before the snapshot is taken.
     const images = element.querySelectorAll('img');
     const promises = Array.from(images).map(img => {
         if (img.complete) return Promise.resolve();
         return new Promise(resolve => {
             img.onload = resolve;
-            img.onerror = resolve; // Continue even if error
+            img.onerror = resolve; // Proceed even if image fails
         });
     });
 
@@ -179,15 +179,25 @@ function generateStrategicPDF(score, data) {
             margin: 0,
             filename: 'Factorial_IT_Assessment.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                scrollY: 0,
+                windowWidth: 1200 // Force canvas width to ensure no clipping
+            },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
-            document.body.removeChild(element);
+            // Clean up: remove the temporary element
+            if (document.body.contains(element)) {
+                document.body.removeChild(element);
+            }
         }, (err) => {
             console.error("PDF Generation Error:", err);
-            document.body.removeChild(element);
+            if (document.body.contains(element)) {
+                document.body.removeChild(element);
+            }
         });
     });
 }
