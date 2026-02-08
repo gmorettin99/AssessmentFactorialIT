@@ -1,6 +1,9 @@
 /**
  * FACTORIAL IT: BESPOKE STRATEGIC PDF GENERATOR
- * Features: Zero-margin header, "Asset Store" SVG loading.
+ * Updates: 
+ * 1. References external SVG variable (window.STRATEGIC_GRAPHS)
+ * 2. Zero margins for flush header.
+ * 3. Block-level image display to remove gaps.
  */
 
 function generateStrategicPDF(score, data) {
@@ -8,47 +11,56 @@ function generateStrategicPDF(score, data) {
     
     // Set base container styles
     element.style.padding = '0'; 
+    element.style.margin = '0';
     element.style.fontFamily = "'DM Sans', sans-serif";
     element.style.color = '#111';
     element.style.position = 'relative';
+    element.style.background = 'white';
 
-    // 1. GET THE SVG FROM OUR ASSET FILE (No fetch required)
-    // We access the global variable 'STRATEGIC_GRAPHS' defined in svg-assets.js
-    const svgContent = (typeof STRATEGIC_GRAPHS !== 'undefined' && STRATEGIC_GRAPHS.pillars) 
-        ? STRATEGIC_GRAPHS.pillars 
-        : '<p style="text-align:center; color:#999; margin: 30px;">(Graph asset not found)</p>';
+    // 1. RETRIEVE GRAPH FROM GLOBAL STORE
+    // This looks for the variable we created in svg-assets.js
+    const svgContent = (window.STRATEGIC_GRAPHS && window.STRATEGIC_GRAPHS.pillars) 
+        ? window.STRATEGIC_GRAPHS.pillars 
+        : '<div style="padding:20px; text-align:center; color:#ccc;">Graph Asset Not Loaded</div>';
 
     let html = `
         <style>
             @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
             
+            /* RESET PDF PAGE */
             .pdf-page {
                 width: 100%;
-                padding: 0; /* Ensures header touches the top */
+                margin: 0;
+                padding: 0; /* Zero padding ensures header hits the top edge */
                 position: relative;
                 box-sizing: border-box;
-                min-height: 1080px; 
+                min-height: 1123px; /* Standard A4 Height at 96 DPI approx */
                 background: white;
+                overflow: hidden;
             }
 
-            /* Inner content padding */
+            /* INNER CONTENT PADDING */
+            /* We apply padding here so the text doesn't touch the edges, 
+               but the header image stays outside this to touch the top/sides */
             .content-padding {
                 padding: 10px 40px 40px 40px; 
             }
 
+            /* HEADER IMAGE FIXES */
             .header-img-container {
                 width: 100%;
-                text-align: center;
-                line-height: 0;
-                margin-bottom: 25px;
+                line-height: 0;      /* Kills line-height gap */
+                font-size: 0;        /* Kills font-size gap */
+                margin-bottom: 25px; /* Space between header and title */
             }
 
             .header-img {
                 width: 100%;
                 height: auto;
-                display: block;
+                display: block;      /* Forces block to remove inline spacing issues */
             }
 
+            /* FOOTER */
             .footer-notice {
                 position: absolute;
                 bottom: 30px;
@@ -59,6 +71,7 @@ function generateStrategicPDF(score, data) {
                 text-transform: uppercase;
             }
 
+            /* SCORES */
             .fit-score-box {
                 background: #f4fdfa;
                 padding: 25px;
@@ -67,6 +80,7 @@ function generateStrategicPDF(score, data) {
                 border-left: 6px solid #74f9d4;
             }
 
+            /* SVG CONTAINER */
             .svg-container {
                 width: 100%;
                 margin: 30px 0;
@@ -74,16 +88,18 @@ function generateStrategicPDF(score, data) {
                 justify-content: center;
             }
 
+            /* FORCE SVG SIZING */
             .svg-container svg {
                 width: 100%;
                 height: auto;
                 max-height: 350px;
+                display: block; /* Removes inline spacing gaps */
             }
         </style>
 
         <div class="pdf-page">
             <div class="header-img-container">
-                <img src="https://gmorettin99.github.io/AssessmentFactorialIT/Framewhite.png" class="header-img" crossorigin="anonymous">
+                <img src="Framewhite.png" class="header-img">
             </div>
             
             <div class="content-padding">
@@ -110,7 +126,7 @@ function generateStrategicPDF(score, data) {
                 <h3 style="color: #ff585d; text-transform: uppercase; font-size: 14px; font-weight: 600; letter-spacing: 1px; margin-bottom: 20px;">Business Case & Justification</h3>
     `;
 
-    // 2. DYNAMIC JUSTIFICATION BLOCKS
+    // 2. DYNAMIC BLOCKS
     if (data.devices > 50) {
         html += addBlock("Scalable Infrastructure", 
             `You currently manage ${data.devices} devices. As a fleet grows, the administrative overhead typically increases linearly. Factorial IT transforms this linear work into scalable workflows, allowing you to push security updates to all ${data.devices} assets as easily as to one.`);
@@ -143,12 +159,16 @@ function generateStrategicPDF(score, data) {
 
     element.innerHTML = html;
 
-    // 3. PDF EXPORT SETTINGS
+    // 3. PDF EXPORT SETTINGS (CRITICAL FOR MARGINS)
     const opt = {
-        margin: 0, 
+        margin: 0, // Forces zero margin on the PDF document itself
         filename: `Factorial_IT_Assessment.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: { 
+            scale: 2, 
+            useCORS: true,
+            scrollY: 0 
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
