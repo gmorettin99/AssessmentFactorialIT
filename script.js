@@ -41,7 +41,7 @@ function processAssessment() {
         const savings = [
             { id: 'OB', label: 'Onboarding Operations', hours: ob_year * 3.5, desc: 'automated provisioning & account creation' },
             { id: 'DEVICE', label: 'Device Lifecycle Management', hours: n * 1.5, desc: 'automated inventory tracking' },
-            { id: 'LICENSE', label: 'License Optimization', hours: m * 0.8, desc: 'seat reclamation' },
+            { id: 'LICENSE', label: 'License Visibility & Optimization', hours: m * 0.8, desc: 'seat reclamation' },
             { id: 'AUDIT', label: 'Compliance Audit Readiness', hours: activeCompliance.length * 45, desc: 'automated evidence collection' }
         ];
 
